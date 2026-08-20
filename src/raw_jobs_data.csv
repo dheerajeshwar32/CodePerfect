@@ -1,0 +1,21 @@
+preferredLabel,description,skills
+Frontend Web Developer,Builds responsive user interfaces and web applications,JavaScript | React | HTML | CSS | Angular
+Backend Engineer,Develops server-side logic and scalable RESTful APIs,Node.js | Python | Java | SQL | Spring Boot
+Full Stack Developer,Handles both client-side and server-side architecture,React | Node.js | TypeScript | MongoDB | SQL
+Cloud Solutions Architect,Designs and deploys scalable cloud infrastructure,AWS | Azure | Docker | Kubernetes | Architecture
+Machine Learning Engineer,Trains and deploys predictive AI models,Python | TensorFlow | PyTorch | Pandas | Scikit-learn
+Data Analyst,Cleans data and builds business intelligence dashboards,SQL | Excel | Tableau | PowerBI | Statistics
+Embedded Systems Engineer,Programs microcontrollers and hardware interfaces,C | C++ | RTOS | Microcontrollers | Firmware
+Database Administrator,Maintains and optimizes large-scale database systems,SQL | PostgreSQL | Oracle | MongoDB | Redis
+Cybersecurity Analyst,Monitors networks for security breaches and vulnerabilities,Network Security | Linux | Penetration Testing | CISSP
+DevOps Engineer,Automates software deployment and testing pipelines,Jenkins | Docker | Kubernetes | AWS | Linux
+Mobile App Developer,Creates native applications for iOS and Android,Swift | Kotlin | React Native | Flutter | Mobile UI
+UI/UX Designer,Designs user experiences and creates wireframes,Figma | Sketch | Wireframing | Prototyping | CSS
+Game Developer,Programs gameplay mechanics and graphics rendering,C++ | C# | Unity | Unreal Engine | 3D Math
+Blockchain Developer,Writes smart contracts and decentralized applications,Solidity | Web3 | Ethereum | Cryptography | Smart Contracts
+Systems Administrator,Manages corporate IT infrastructure and servers,Windows Server | Linux | Active Directory | Networking
+QA Test Engineer,Writes automated tests for software quality assurance,Selenium | Cypress | Java | Automation | Testing
+Technical Writer,Creates documentation and API guides for developers,Documentation | Markdown | API | Technical Communication
+Data Engineer,Builds robust data pipelines and ETL processes,Python | Spark | Hadoop | SQL | Airflow
+Hardware Design Engineer,Creates schematics for PCBs and electronic devices,Circuit Design | PCB Layout | Altium | VHDL | Testing
+Product Manager,Oversees software development lifecycle and feature roadmaps,Agile | Scrum | Jira | Product Strategy | Leadership
