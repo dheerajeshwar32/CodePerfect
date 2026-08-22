@@ -1,16 +1,32 @@
-# React + Vite
+# ⚡ KYC | Know Your Career 
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+> **An Edge-AI powered career compass and skill-matching engine.** 
+> Built for INNOHACK 2.0
 
-Currently, two official plugins are available:
+![KYC Preview](https://via.placeholder.com/800x400.png?text=KYC+|+Know+Your+Career) *(Note: Replace this link with a screenshot of your actual app later!)*
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## 🚀 Overview
+Traditional job matching relies on rigid, outdated keyword filters, causing highly qualified candidates to slip through the cracks due to formatting differences. **KYC (Know Your Career)** solves this by utilizing semantic vector embeddings to understand the *actual meaning* behind a candidate's skills. 
 
-## React Compiler
+By running NLP models entirely in the browser via Edge AI, KYC provides instantaneous, highly accurate job matching with zero server latency and absolute data privacy.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## ✨ Key Features
+* **🧠 Edge AI Semantic Matching:** Uses `multilingual-e5-small` via Transformers.js in a Web Worker to calculate cosine similarity between user skills and job requirements.
+* **🔒 Privacy-First Architecture:** Resume parsing and vector mathematics happen 100% offline on the user's local device.
+* **🤖 Generative AI Career Coach:** Integrates Google Gemini (1.5 Flash/Pro) to dynamically generate personalized, 3-step actionable roadmaps for missing skills.
+* **⚡ Progressive Offline Mode:** Includes a robust Guest Mode allowing users to bypass authentication and utilize the core matching engine without an internet connection.
+* **🔐 Seamless Authentication:** Frictionless Google Sign-In powered by Firebase.
 
-## Expanding the Oxlint configuration
+## 🛠️ Tech Stack
+* **Frontend:** React.js, Vite, Tailwind CSS (Glassmorphism UI)
+* **Edge ML Engine:** Hugging Face Transformers.js (Web Workers)
+* **Generative AI:** Google Gemini API
+* **Backend/Auth:** Firebase (Authentication, Firestore)
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+## 💻 Local Setup
+Want to run KYC locally? Follow these steps:
+
+1. **Clone the repository:**
+   ```bash
+   git clone [https://github.com/your-username/CodePerfect.git](https://github.com/your-username/CodePerfect.git)
+   cd CodePerfect
