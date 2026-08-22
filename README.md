@@ -28,3 +28,6 @@ Want to run KYC locally? Follow these steps:
    ```bash
    git clone [https://github.com/your-username/CodePerfect.git](https://github.com/your-username/CodePerfect.git)
    cd CodePerfect
+## 👥 The Team
+N. Dheeraj Eshwar
+G. Surya Prakash
