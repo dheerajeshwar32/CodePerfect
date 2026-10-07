@@ -1,4 +1,4 @@
-[
+export const jobsData = [
   {
     "title": "Delivery Driver",
     "skills": [
@@ -20192,4 +20192,4 @@
       0.07442712783813477
     ]
   }
-]
+];
