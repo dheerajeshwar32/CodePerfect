@@ -111,35 +111,32 @@ function App() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 font-sans text-slate-900 flex flex-col selection:bg-blue-200 selection:text-blue-900 relative overflow-hidden">
+    <div className="min-h-screen bg-[#F8FAFC] font-sans text-slate-900 flex flex-col selection:bg-slate-200 selection:text-slate-900">
       
-      <div className="absolute top-[-10%] left-[-10%] w-[50vw] h-[50vw] bg-blue-400/20 rounded-full mix-blend-multiply filter blur-[100px] opacity-70 pointer-events-none z-0"></div>
-      <div className="absolute bottom-[-10%] right-[-10%] w-[50vw] h-[50vw] bg-purple-400/20 rounded-full mix-blend-multiply filter blur-[100px] opacity-70 pointer-events-none z-0"></div>
-
-      <header className="sticky top-0 z-50 bg-white/70 backdrop-blur-2xl border-b border-white/80 shadow-[0_4px_30px_rgb(0,0,0,0.05)] px-4 sm:px-8 py-4 flex items-center justify-between transition-all">
+      <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-xl border-b border-slate-200/60 px-4 sm:px-8 py-4 flex items-center justify-between">
         <div className="flex items-center gap-4">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-600 to-indigo-600 flex items-center justify-center shadow-lg shadow-blue-500/30 shrink-0">
-            <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+          <div className="w-9 h-9 rounded-[10px] bg-slate-900 flex items-center justify-center shadow-sm shrink-0">
+            <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
           </div>
           
-          <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3">
-            <h1 className="text-xl sm:text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-slate-900 via-blue-900 to-slate-900 tracking-tight">
-              KYC <span className="font-medium text-slate-500">| Know Your Career</span>
+          <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3">
+            <h1 className="text-xl font-bold text-slate-900 tracking-tight">
+              CodePerfect KYC
             </h1>
-            <span className="bg-gradient-to-r from-blue-50 to-indigo-50 text-blue-700 text-[10px] uppercase tracking-widest font-extrabold px-2.5 py-1 rounded-md border border-blue-200/50 shadow-sm w-fit">
+            <span className="hidden sm:flex bg-slate-100 text-slate-600 text-[10px] uppercase tracking-wider font-semibold px-2 py-0.5 rounded-md border border-slate-200">
               AI Skill Matcher
             </span>
           </div>
         </div>
         
-        <div className="hidden sm:flex items-center gap-4">
+        <div className="hidden sm:flex items-center gap-5">
           {(user || isGuest) && (
-            <div className="flex items-center gap-3 mr-4 border-r border-slate-200 pr-4">
+            <div className="flex items-center gap-3 pr-5 border-r border-slate-200">
               {user ? (
                 <img 
                   src={user.photoURL} 
                   alt="Profile" 
-                  className="w-8 h-8 rounded-full border border-slate-200 shadow-sm" 
+                  className="w-7 h-7 rounded-full border border-slate-200" 
                 />
               ) : (
                 <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center border border-slate-200 shadow-sm">
@@ -163,13 +160,10 @@ function App() {
             </div>
           )}
           
-          <div className={`flex items-center gap-3 border px-4 py-2 rounded-xl shadow-sm backdrop-blur-sm ${isModelReady ? 'bg-emerald-50/80 border-emerald-100' : 'bg-amber-50/80 border-amber-100'}`}>
-            <span className="relative flex h-3 w-3">
-              <span className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${isModelReady ? 'bg-emerald-400' : 'bg-amber-400'}`}></span>
-              <span className={`relative inline-flex rounded-full h-3 w-3 ${isModelReady ? 'bg-emerald-500' : 'bg-amber-500'}`}></span>
-            </span>
-            <span className={`text-xs font-extrabold uppercase tracking-widest ${isModelReady ? 'text-emerald-700' : 'text-amber-700'}`}>
-              {isModelReady ? 'AI Engine Ready' : 'Loading Model...'}
+          <div className="flex items-center gap-2">
+            <span className={`w-2 h-2 rounded-full ${isModelReady ? 'bg-emerald-500' : 'bg-amber-500 animate-pulse'}`}></span>
+            <span className="text-xs font-medium text-slate-600">
+              {isModelReady ? 'Engine Ready' : 'Initializing...'}
             </span>
           </div>
         </div>

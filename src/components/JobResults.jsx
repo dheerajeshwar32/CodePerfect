@@ -71,26 +71,21 @@ export default function JobResults({ matches, userSkills, onStartOver }) {
   }, [matches, userSkills]);
 
   return (
-    <div className="relative min-h-[calc(100vh-80px)] w-full overflow-hidden bg-slate-50 py-10 px-4 sm:px-8 font-sans">
-      
-      {/* Ambient Background Gradients */}
-      <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-blue-300/30 rounded-full mix-blend-multiply filter blur-[128px] opacity-60 pointer-events-none"></div>
-      <div className="absolute bottom-0 right-1/4 w-[600px] h-[600px] bg-purple-300/30 rounded-full mix-blend-multiply filter blur-[128px] opacity-60 pointer-events-none"></div>
-
+    <div className="relative min-h-[calc(100vh-80px)] w-full overflow-hidden bg-[#F8FAFC] py-12 px-4 sm:px-8 font-sans">
       <div className="relative z-10 max-w-6xl mx-auto">
         
         {/* Header Section */}
         <div className="flex flex-col md:flex-row justify-between items-center mb-12 gap-6">
-          <h2 className="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-slate-900 to-slate-600 tracking-tight">
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
             {t("title")}
           </h2>
 
-          <div className="flex items-center gap-2 bg-white/70 backdrop-blur-md border border-white/80 px-4 py-2 rounded-xl shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
-            <svg className="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"></path></svg>
+          <div className="flex items-center gap-3 bg-white border border-slate-200 px-4 py-2 rounded-xl shadow-sm hover:shadow-md transition-shadow">
+            <svg className="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"></path></svg>
             <select 
               value={language} 
               onChange={handleLanguageChange}
-              className="bg-transparent text-sm font-bold text-slate-700 outline-none cursor-pointer"
+              className="bg-transparent text-sm font-semibold text-slate-700 outline-none cursor-pointer"
             >
               <option value="English">English</option>
               <option value="Telugu">తెలుగు (Telugu)</option>
@@ -104,24 +99,24 @@ export default function JobResults({ matches, userSkills, onStartOver }) {
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {sortedJobs.map((job, index) => {
             return (
-              <div key={index} className="bg-white/60 backdrop-blur-xl rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-white/80 p-8 flex flex-col transition-all duration-300 hover:shadow-[0_20px_40px_rgb(0,0,0,0.08)] hover:-translate-y-1">
+              <div key={index} className="bg-white rounded-2xl shadow-[0_4px_20px_rgb(0,0,0,0.03)] border border-slate-200 p-8 flex flex-col transition-all duration-300 hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] hover:-translate-y-1">
                 
-                <div className="flex flex-col items-start mb-6 gap-2">
-                  <span className="bg-gradient-to-r from-blue-100 to-indigo-100 text-blue-800 text-[10px] uppercase tracking-widest font-extrabold px-3 py-1.5 rounded-lg shrink-0 border border-blue-200/50 shadow-sm inline-block">
+                <div className="flex flex-col items-start mb-6 gap-3">
+                  <span className="bg-slate-100 text-slate-700 text-[10px] uppercase tracking-widest font-bold px-3 py-1.5 rounded-md border border-slate-200">
                     {job.finalMatchScore}% {t("match")}
                   </span>
-                  <h3 className="text-xl font-extrabold text-slate-800 leading-tight break-words">
+                  <h3 className="text-xl font-bold text-slate-900 leading-tight break-words">
                     {getTranslatedTitle(job.title)}
                   </h3>
                 </div>
 
-                <div className="mb-6 bg-slate-50/50 p-4 rounded-2xl border border-slate-100">
-                  <div className="flex justify-between text-xs mb-2">
-                    <span className="font-bold text-slate-500 uppercase tracking-wider">{t("reqs")}</span>
-                    <span className="font-extrabold text-slate-900">{job.matchPercentage}%</span>
+                <div className="mb-6">
+                  <div className="flex justify-between items-center text-xs mb-2 gap-4 flex-wrap">
+                    <span className="font-semibold text-slate-500 uppercase tracking-wider">{t("reqs")}</span>
+                    <span className="font-bold text-slate-900">{job.matchPercentage}%</span>
                   </div>
-                  <div className="w-full bg-slate-200/70 rounded-full h-2.5 overflow-hidden">
-                    <div className="bg-gradient-to-r from-blue-500 to-indigo-500 h-2.5 rounded-full transition-all duration-1000 ease-out" style={{ width: `${job.matchPercentage}%` }}></div>
+                  <div className="w-full bg-slate-100 rounded-full h-2 overflow-hidden">
+                    <div className="bg-slate-900 h-2 rounded-full transition-all duration-1000 ease-out" style={{ width: `${job.matchPercentage}%` }}></div>
                   </div>
                 </div>
 
@@ -132,17 +127,17 @@ export default function JobResults({ matches, userSkills, onStartOver }) {
                       <span 
                         key={i} 
                         onClick={() => !found && generateRoadmap(skill, job.title)}
-                        className={`text-xs font-bold px-3 py-1.5 rounded-xl border flex items-center gap-1.5 transition-all duration-200 ${
+                        className={`text-xs font-medium px-3 py-1.5 rounded-lg border flex items-center gap-1.5 transition-all duration-200 ${
                           found 
-                            ? 'bg-emerald-50 text-emerald-700 border-emerald-200 cursor-default shadow-sm' 
-                            : 'bg-rose-50/80 text-rose-600 border-rose-200 cursor-pointer hover:bg-rose-100 hover:border-rose-300 hover:shadow-md hover:-translate-y-0.5'
+                            ? 'bg-emerald-50 text-emerald-700 border-emerald-200 cursor-default' 
+                            : 'bg-white text-slate-600 border-slate-200 cursor-pointer hover:bg-slate-50 hover:border-slate-300 hover:text-slate-900'
                         }`}
                         title={!found ? "Click to generate AI learning roadmap" : ""}
                       >
                         {found ? (
-                          <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M5 13l4 4L19 7"></path></svg>
+                          <svg className="w-3.5 h-3.5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M5 13l4 4L19 7"></path></svg>
                         ) : (
-                          <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M6 18L18 6M6 6l12 12"></path></svg>
+                          <svg className="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
                         )}
                         {skill}
                       </span>
@@ -155,55 +150,53 @@ export default function JobResults({ matches, userSkills, onStartOver }) {
         </div>
 
         {/* Action Button */}
-        <div className="mt-12 text-center">
+        <div className="mt-16 text-center">
           <button 
             onClick={onStartOver} 
-            className="px-8 py-4 bg-slate-900 text-white font-extrabold text-lg rounded-2xl shadow-[0_10px_20px_rgb(0,0,0,0.1)] hover:shadow-[0_15px_30px_rgb(0,0,0,0.2)] hover:bg-black hover:-translate-y-1 transition-all duration-300 active:scale-[0.98]"
+            className="px-8 py-3.5 bg-white text-slate-900 border border-slate-200 font-semibold text-sm rounded-xl shadow-sm hover:bg-slate-50 hover:shadow-md transition-all duration-200"
           >
             {t("button")}
           </button>
         </div>
 
-        {/* Glassmorphic AI Roadmap Modal */}
+        {/* Minimal AI Roadmap Modal */}
         {roadmap && (
-          <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-md flex items-center justify-center p-4 z-50">
-            <div className="bg-white/90 backdrop-blur-xl rounded-[2.5rem] shadow-[0_20px_50px_rgb(0,0,0,0.2)] border border-white max-w-lg w-full p-8 sm:p-10 relative transform transition-all animate-fade-in-up">
+          <div className="fixed inset-0 bg-slate-900/30 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+            <div className="bg-white rounded-2xl shadow-2xl max-w-lg w-full p-8 sm:p-10 relative transform transition-all animate-fade-in-up">
               
               <button 
                 onClick={() => setRoadmap(null)}
-                className="absolute top-6 right-6 text-slate-400 hover:text-slate-900 bg-slate-100 hover:bg-slate-200 p-2 rounded-full transition-colors"
+                className="absolute top-6 right-6 text-slate-400 hover:text-slate-900 transition-colors"
               >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path></svg>
               </button>
               
-              <div className="mb-6">
-                <span className="inline-block px-3 py-1 bg-blue-100 text-blue-800 text-xs font-bold uppercase tracking-wider rounded-lg mb-3">AI Coach</span>
-                <h3 className="text-3xl font-extrabold text-slate-900 flex items-center gap-2">
+              <div className="mb-8">
+                <span className="inline-block px-2.5 py-1 bg-slate-100 text-slate-600 text-[10px] font-bold uppercase tracking-wider rounded-md mb-4 border border-slate-200">AI Coach</span>
+                <h3 className="text-2xl font-bold text-slate-900 leading-tight">
                   Mastering {roadmap.skill}
                 </h3>
               </div>
               
               {roadmap.loading ? (
                 <div className="flex flex-col items-center justify-center py-12">
-                  <div className="w-10 h-10 border-4 border-blue-100 border-t-blue-600 rounded-full animate-spin mb-4 shadow-sm"></div>
-                  <p className="text-blue-600 font-bold tracking-wide animate-pulse">Generating your custom roadmap...</p>
+                  <div className="w-8 h-8 border-2 border-slate-200 border-t-slate-900 rounded-full animate-spin mb-4"></div>
+                  <p className="text-slate-500 text-sm font-medium">Generating roadmap...</p>
                 </div>
               ) : roadmap.error ? (
-                <div className="prose prose-blue prose-sm sm:prose-base max-w-none mt-2 text-slate-700 leading-relaxed font-medium">
-                  <div className="whitespace-pre-wrap bg-red-50 text-red-600 border border-red-100 p-6 rounded-2xl shadow-inner">
-                    {roadmap.error}
-                  </div>
+                <div className="bg-red-50 text-red-600 border border-red-100 p-4 rounded-xl text-sm mt-4">
+                  {roadmap.error}
                 </div>
               ) : roadmap.steps && (
-                <div className="mt-4 flex flex-col gap-4">
+                <div className="mt-4 flex flex-col gap-3">
                   {roadmap.steps.map((step, idx) => (
-                    <div key={idx} className="flex gap-4 items-start bg-slate-50 border border-slate-100 p-4 rounded-2xl shadow-sm">
-                      <div className="flex-shrink-0 w-8 h-8 rounded-full bg-blue-100 text-blue-700 font-black flex items-center justify-center border border-blue-200">
+                    <div key={idx} className="flex gap-4 items-start p-4 rounded-xl hover:bg-slate-50 transition-colors border border-transparent hover:border-slate-100">
+                      <div className="flex-shrink-0 w-6 h-6 rounded-full bg-slate-100 text-slate-600 text-xs font-bold flex items-center justify-center mt-0.5">
                         {idx + 1}
                       </div>
                       <div>
-                        <h4 className="font-extrabold text-slate-800 text-lg mb-1">{step.title}</h4>
-                        <p className="text-slate-600 text-sm leading-relaxed">{step.description}</p>
+                        <h4 className="font-bold text-slate-900 text-sm mb-1">{step.title}</h4>
+                        <p className="text-slate-500 text-sm leading-relaxed">{step.description}</p>
                       </div>
                     </div>
                   ))}
