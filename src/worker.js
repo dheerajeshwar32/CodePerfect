@@ -20,7 +20,14 @@ self.addEventListener('message', async (event) => {
     }
 
     if (type === 'EMBED') {
-        const output = await extractor(text, { pooling: 'mean', normalize: true });
-        self.postMessage({ status: 'SUCCESS', text, embedding: Array.from(output.data) });
+        try {
+            if (!extractor) {
+                throw new Error("AI Engine not initialized yet.");
+            }
+            const output = await extractor(text, { pooling: 'mean', normalize: true });
+            self.postMessage({ status: 'SUCCESS', text, embedding: Array.from(output.data) });
+        } catch (error) {
+            self.postMessage({ status: 'ERROR', error: error.message });
+        }
     }
 });

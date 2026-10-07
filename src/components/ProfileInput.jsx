@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { extractTextFromPDF } from '../pdfParser.js';
 
-export default function ProfileInput({ onNext }) {
+export default function ProfileInput({ onNext, isModelReady }) {
   const [skills, setSkills] = useState('');
   const [isExtracting, setIsExtracting] = useState(false);
   const [uploadedFileName, setUploadedFileName] = useState('');
@@ -16,9 +16,12 @@ export default function ProfileInput({ onNext }) {
 
     try {
       const text = await extractTextFromPDF(file);
+      if (text.trim().length < 50) {
+        throw new Error("No readable text found in this PDF (might be a scanned image).");
+      }
       setSkills(text); 
     } catch (error) {
-      alert("Could not read PDF. Please try copying and pasting your skills.");
+      alert("Could not read enough text from the PDF. Please try copying and pasting your skills manually.");
       setUploadedFileName(''); 
     }
     setIsExtracting(false);
@@ -132,11 +135,11 @@ export default function ProfileInput({ onNext }) {
 
         <button 
           onClick={() => onNext(skills)}
-          disabled={!skills.trim() || isExtracting}
+          disabled={!skills.trim() || isExtracting || !isModelReady}
           className="w-full relative overflow-hidden bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-extrabold text-lg py-5 rounded-2xl shadow-[0_10px_20px_rgb(79,70,229,0.2)] hover:shadow-[0_15px_30px_rgb(79,70,229,0.3)] hover:-translate-y-1 transition-all duration-300 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:transform-none disabled:hover:shadow-none disabled:bg-none disabled:bg-slate-300"
         >
           <span className="relative z-10 flex items-center justify-center gap-3 tracking-wide">
-            Analyze My Profile
+            {isModelReady ? "Analyze My Profile" : "Loading AI Engine..."}
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
           </span>
         </button>

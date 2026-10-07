@@ -1,83 +1,18 @@
-import { useState } from 'react';
-import { GoogleGenerativeAI } from '@google/generative-ai'; 
+import { useState, useMemo } from 'react';
+
+import { useTranslation } from 'react-i18next';
 
 export default function JobResults({ matches, userSkills, onStartOver }) {
   const [roadmap, setRoadmap] = useState(null); 
-  const [language, setLanguage] = useState('English'); 
+  const { t, i18n } = useTranslation();
+  const language = i18n.language;
 
-  const uiText = {
-    English: {
-      title: "Your Top Job Matches",
-      match: "Overall Match",
-      reqs: "Requirements Met",
-      button: "Start New Search"
-    },
-    Telugu: {
-      title: "మీ ఉత్తమ ఉద్యోగ సరిపోలికలు",
-      match: "మొత్తం సరిపోలిక",
-      reqs: "అవసరాలు తీర్చబడ్డాయి",
-      button: "కొత్త శోధనను ప్రారంభించండి"
-    },
-    Tamil: {
-      title: "உங்கள் சிறந்த வேலை பொருத்தங்கள்",
-      match: "ஒட்டுமொத்த பொருத்தம்",
-      reqs: "தேவைகள் பூர்த்தி",
-      button: "புதிய தேடலைத் தொடங்கவும்"
-    },
-    Hindi: {
-      title: "आपके शीर्ष नौकरी मैच",
-      match: "कुल मिलान",
-      reqs: "आवश्यकताएं पूरी हुईं",
-      button: "नई खोज शुरू करें"
-    }
+  const handleLanguageChange = (e) => {
+    i18n.changeLanguage(e.target.value);
   };
 
-  const jobTitlesDict = {
-    "Frontend React Developer": {
-      Telugu: "ఫ్రంటెండ్ రియాక్ట్ డెవలపర్",
-      Tamil: "முன்பக்க ரியாக்ட் டெவலப்பர்",
-      Hindi: "फ्रंटएंड रिएक्ट डेवलपर"
-    },
-    "Backend Node.js Engineer": {
-      Telugu: "బ్యాకెండ్ నోడ్.జెఎస్ ఇంజనీర్",
-      Tamil: "பின்கள நோட்.ஜெஎஸ் பொறியாளர்",
-      Hindi: "बैकएंड नोड.जेएस इंजीनियर"
-    },
-    "Full Stack Software Engineer": {
-      Telugu: "ఫుల్ స్టాక్ సాఫ్ట్‌వేర్ ఇంజనీర్",
-      Tamil: "முழு அடுக்கு மென்பொருள் பொறியாளர்",
-      Hindi: "फुल स्टैक सॉफ्टवेयर इंजीनियर"
-    },
-    "Quality Assurance (QA) Engineer": {
-      Telugu: "క్వాలిటీ అస్యూరెన్స్ (QA) ఇంజనీర్",
-      Tamil: "தர உத்தரவாத (QA) பொறியாளர்",
-      Hindi: "क्वालिटी एश्योरेंस (QA) इंजीनियर"
-    },
-    "Machine Learning Engineer": {
-      Telugu: "మెషిన్ లెర్నింగ్ ఇంజనీర్",
-      Tamil: "இயந்திர கற்றல் பொறியாளர்",
-      Hindi: "मशीन लर्निंग इंजीनियर"
-    },
-    "Mobile App Developer": {
-      Telugu: "మొబైల్ యాప్ డెవలపర్",
-      Tamil: "மொபைல் ஆப் டெவலப்பர்",
-      Hindi: "मोबाइल ऐप डेवलपर"
-    },
-    "Game Developer": {
-      Telugu: "గేమ్ డెవలపర్",
-      Tamil: "விளையாட்டு டெவலப்பர்",
-      Hindi: "गेम डेवलपर"
-    },
-    "Graphic Designer": {
-      Telugu: "గ్రాఫిక్ డిజైనర్",
-      Tamil: "கிராஃபிக் டிசைனர்",
-      Hindi: "ग्राफिक डिजाइनर"
-    }
-  };
-
-  const getTranslatedTitle = (title, currentLanguage) => {
-    if (currentLanguage === 'English') return title;
-    return jobTitlesDict[title]?.[currentLanguage] || title;
+  const getTranslatedTitle = (title) => {
+    return t(`jobs.${title}`, { defaultValue: title });
   };
 
   const hasSkill = (skill, text) => {
@@ -85,58 +20,55 @@ export default function JobResults({ matches, userSkills, onStartOver }) {
     const rawText = text.toLowerCase();
     const targetSkill = skill.toLowerCase();
 
-    if (rawText.includes(targetSkill)) return true;
+    // Escape regex characters
+    const escapeRegExp = (string) => string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    
+    // Strict word boundary check to prevent false positives (e.g., 'java' matching 'javascript')
+    const skillRegex = new RegExp(`\\b${escapeRegExp(targetSkill)}\\b`, 'i');
+    if (skillRegex.test(rawText)) return true;
 
-    const cleanText = rawText.replace(/[^a-z0-9]/g, '');
-    const cleanSkill = targetSkill.replace(/[^a-z0-9]/g, '');
-    if (cleanText.includes(cleanSkill)) return true;
-
-    if (targetSkill === 'tailwind css' && (rawText.includes('tailwind') || rawText.includes('css'))) return true;
-    if (targetSkill === 'node.js' && rawText.includes('node')) return true;
-    if (targetSkill === 'ui/ux' && (rawText.includes('ui') || rawText.includes('ux'))) return true;
+    // Special cases for common shorthand
+    if (targetSkill === 'tailwind css' && /\btailwind\b/i.test(rawText)) return true;
+    if (targetSkill === 'node.js' && /\bnode\b/i.test(rawText)) return true;
+    if (targetSkill === 'ui/ux' && (/\bui\b/i.test(rawText) || /\bux\b/i.test(rawText))) return true;
 
     return false;
   };
 
   const generateRoadmap = async (skill, jobTitle) => {
-    setRoadmap({ skill, steps: '', loading: true });
+    setRoadmap({ skill, steps: null, error: null, loading: true });
     
     try {
-      const rawApiKey = import.meta.env.VITE_GEMINI_API_KEY;
-      if (!rawApiKey) throw new Error("Missing VITE_GEMINI_API_KEY in .env file.");
-      const cleanApiKey = rawApiKey.replace(/['"]/g, '').trim();
+      const response = await fetch('/api/roadmap', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ skill, jobTitle, language })
+      });
 
-      const genAI = new GoogleGenerativeAI(cleanApiKey);
-      const prompt = `You are an expert career coach. A user wants to land a ${jobTitle} job but is missing the skill: ${skill}. Provide a highly concise, 3-step actionable roadmap to learn this skill. Format as a simple numbered list without any extra conversational text. Write the entire response strictly in ${language}.`;
-
-      let steps = "";
-
-      try {
-        const primaryModel = genAI.getGenerativeModel({ model: "gemini-3.6-flash" });
-        const primaryResult = await primaryModel.generateContent(prompt);
-        steps = primaryResult.response.text();
-      } catch (primaryError) {
-        console.warn("Gemini 3.6 Flash endpoint failed. Attempting fallback to 3.1 Pro Preview...", primaryError);
-        const fallbackModel = genAI.getGenerativeModel({ model: "gemini-3.1-pro-preview" });
-        const fallbackResult = await fallbackModel.generateContent(prompt);
-        steps = fallbackResult.response.text();
+      if (!response.ok) {
+        throw new Error(`Server returned ${response.status}`);
       }
 
-      setRoadmap({ skill, steps, loading: false });
+      const data = await response.json();
+      setRoadmap({ skill, steps: data.steps, error: null, loading: false });
       
     } catch (error) {
       console.error("Roadmap generation failed completely:", error);
-      setRoadmap({ skill, steps: 'Failed to connect to AI Coach. Check your API key and connection.', loading: false });
+      setRoadmap({ skill, steps: null, error: 'Failed to connect to AI Coach. Check your connection to the backend server.', loading: false });
     }
   };
 
-  const sortedJobs = [...matches].map(job => {
-    const matchedSkills = job.skills.filter(s => hasSkill(s, userSkills));
-    const matchPercentage = job.skills.length > 0 ? Math.round((matchedSkills.length / job.skills.length) * 100) : 0;
-    const finalMatchScore = Math.round(((job.score * 100) * 0.4) + (matchPercentage * 0.6));
-    
-    return { ...job, matchPercentage, finalMatchScore };
-  }).sort((a, b) => b.finalMatchScore - a.finalMatchScore);
+  const sortedJobs = useMemo(() => {
+    return [...matches].map(job => {
+      const matchedSkills = job.skills.filter(s => hasSkill(s, userSkills));
+      const matchPercentage = job.skills.length > 0 ? Math.round((matchedSkills.length / job.skills.length) * 100) : 0;
+      const finalMatchScore = Math.round(((job.score * 100) * 0.4) + (matchPercentage * 0.6));
+      
+      return { ...job, matchPercentage, finalMatchScore };
+    }).sort((a, b) => b.finalMatchScore - a.finalMatchScore);
+  }, [matches, userSkills]);
 
   return (
     <div className="relative min-h-[calc(100vh-80px)] w-full overflow-hidden bg-slate-50 py-10 px-4 sm:px-8 font-sans">
@@ -150,14 +82,14 @@ export default function JobResults({ matches, userSkills, onStartOver }) {
         {/* Header Section */}
         <div className="flex flex-col md:flex-row justify-between items-center mb-12 gap-6">
           <h2 className="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-slate-900 to-slate-600 tracking-tight">
-            {uiText[language].title}
+            {t("title")}
           </h2>
 
           <div className="flex items-center gap-2 bg-white/70 backdrop-blur-md border border-white/80 px-4 py-2 rounded-xl shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
             <svg className="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"></path></svg>
             <select 
               value={language} 
-              onChange={(e) => setLanguage(e.target.value)}
+              onChange={handleLanguageChange}
               className="bg-transparent text-sm font-bold text-slate-700 outline-none cursor-pointer"
             >
               <option value="English">English</option>
@@ -176,16 +108,16 @@ export default function JobResults({ matches, userSkills, onStartOver }) {
                 
                 <div className="flex justify-between items-start mb-6 gap-3">
                   <h3 className="text-xl font-extrabold text-slate-800 leading-tight">
-                    {getTranslatedTitle(job.title, language)}
+                    {getTranslatedTitle(job.title)}
                   </h3>
                   <span className="bg-gradient-to-r from-blue-100 to-indigo-100 text-blue-800 text-[10px] uppercase tracking-widest font-extrabold px-3 py-1.5 rounded-lg shrink-0 border border-blue-200/50 shadow-sm">
-                    {job.finalMatchScore}% {uiText[language].match}
+                    {job.finalMatchScore}% {t("match")}
                   </span>
                 </div>
 
                 <div className="mb-6 bg-slate-50/50 p-4 rounded-2xl border border-slate-100">
                   <div className="flex justify-between text-xs mb-2">
-                    <span className="font-bold text-slate-500 uppercase tracking-wider">{uiText[language].reqs}</span>
+                    <span className="font-bold text-slate-500 uppercase tracking-wider">{t("reqs")}</span>
                     <span className="font-extrabold text-slate-900">{job.matchPercentage}%</span>
                   </div>
                   <div className="w-full bg-slate-200/70 rounded-full h-2.5 overflow-hidden">
@@ -228,7 +160,7 @@ export default function JobResults({ matches, userSkills, onStartOver }) {
             onClick={onStartOver} 
             className="px-8 py-4 bg-slate-900 text-white font-extrabold text-lg rounded-2xl shadow-[0_10px_20px_rgb(0,0,0,0.1)] hover:shadow-[0_15px_30px_rgb(0,0,0,0.2)] hover:bg-black hover:-translate-y-1 transition-all duration-300 active:scale-[0.98]"
           >
-            {uiText[language].button}
+            {t("button")}
           </button>
         </div>
 
@@ -256,11 +188,25 @@ export default function JobResults({ matches, userSkills, onStartOver }) {
                   <div className="w-10 h-10 border-4 border-blue-100 border-t-blue-600 rounded-full animate-spin mb-4 shadow-sm"></div>
                   <p className="text-blue-600 font-bold tracking-wide animate-pulse">Generating your custom roadmap...</p>
                 </div>
-              ) : (
+              ) : roadmap.error ? (
                 <div className="prose prose-blue prose-sm sm:prose-base max-w-none mt-2 text-slate-700 leading-relaxed font-medium">
-                  <div className="whitespace-pre-wrap bg-slate-50 border border-slate-100 p-6 rounded-2xl shadow-inner">
-                    {roadmap.steps}
+                  <div className="whitespace-pre-wrap bg-red-50 text-red-600 border border-red-100 p-6 rounded-2xl shadow-inner">
+                    {roadmap.error}
                   </div>
+                </div>
+              ) : roadmap.steps && (
+                <div className="mt-4 flex flex-col gap-4">
+                  {roadmap.steps.map((step, idx) => (
+                    <div key={idx} className="flex gap-4 items-start bg-slate-50 border border-slate-100 p-4 rounded-2xl shadow-sm">
+                      <div className="flex-shrink-0 w-8 h-8 rounded-full bg-blue-100 text-blue-700 font-black flex items-center justify-center border border-blue-200">
+                        {idx + 1}
+                      </div>
+                      <div>
+                        <h4 className="font-extrabold text-slate-800 text-lg mb-1">{step.title}</h4>
+                        <p className="text-slate-600 text-sm leading-relaxed">{step.description}</p>
+                      </div>
+                    </div>
+                  ))}
                 </div>
               )}
             </div>

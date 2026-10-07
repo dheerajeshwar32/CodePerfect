@@ -3,27 +3,46 @@ import ProfileInput from './components/ProfileInput';
 import ProcessingScreen from './components/ProcessingScreen';
 import JobResults from './components/JobResults';
 import Login from './components/Login';
-import vectorizedJobsData from './vectorized_jobs.json';
 import { cosineSimilarity } from './matcher.js';
-import { signOut } from 'firebase/auth';
+import { signOut, onAuthStateChanged } from 'firebase/auth';
 import { auth } from './firebase'; 
+
+// Initialize worker outside to avoid recreation on re-renders (React StrictMode issue)
+const workerInstance = new Worker(new URL('./worker.js', import.meta.url), { type: 'module' });
+workerInstance.postMessage({ type: 'INIT' });
 
 function App() {
   const [user, setUser] = useState(null); 
   const [isGuest, setIsGuest] = useState(false);
+  const [isAuthLoaded, setIsAuthLoaded] = useState(false);
 
   const [currentScreen, setCurrentScreen] = useState('input');
   const [jobMatches, setJobMatches] = useState([]);
   const [isModelReady, setIsModelReady] = useState(false);
   const [userSkillsText, setUserSkillsText] = useState(''); 
+  const [vectorizedJobsData, setVectorizedJobsData] = useState([]);
   
-  const aiWorker = useRef(null);
+  const aiWorker = useRef(workerInstance);
 
   useEffect(() => {
-    aiWorker.current = new Worker(new URL('./worker.js', import.meta.url), { type: 'module' });
-    aiWorker.current.postMessage({ type: 'INIT' });
+    // Fetch the jobs data from the backend
+    fetch('/api/jobs')
+      .then(res => res.json())
+      .then(data => {
+        const jobsList = Array.isArray(data) ? data : (data.jobs || Object.values(data));
+        setVectorizedJobsData(jobsList);
+      })
+      .catch(err => console.error("Failed to fetch jobs data:", err));
 
-    aiWorker.current.onmessage = (event) => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+      setIsAuthLoaded(true);
+    });
+    return () => unsubscribe();
+  }, []);
+
+  useEffect(() => {
+    const handleMessage = (event) => {
       const { status, embedding, error } = event.data;
 
       if (status === 'READY') {
@@ -31,11 +50,7 @@ function App() {
       }
 
       if (status === 'SUCCESS' && embedding) {
-        const jobsList = Array.isArray(vectorizedJobsData) 
-          ? vectorizedJobsData 
-          : (vectorizedJobsData.jobs || Object.values(vectorizedJobsData));
-
-        const rankedJobs = jobsList.map((job) => {
+        const rankedJobs = vectorizedJobsData.map((job) => {
           let score = 0;
           if (job.embedding && job.embedding.length === embedding.length) {
             score = cosineSimilarity(embedding, job.embedding);
@@ -54,10 +69,15 @@ function App() {
       }
     };
 
-    return () => aiWorker.current?.terminate();
+    aiWorker.current.addEventListener('message', handleMessage);
+    return () => aiWorker.current.removeEventListener('message', handleMessage);
   }, []);
 
   const handleStartMatching = (userSkills) => {
+    if (!isModelReady) {
+      alert("Please wait for the AI model to finish loading.");
+      return;
+    }
     setUserSkillsText(userSkills); 
     setCurrentScreen('processing');
     
@@ -78,6 +98,10 @@ function App() {
       setCurrentScreen('input');
     }
   };
+
+  if (!isAuthLoaded) {
+    return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
+  }
 
   return (
     <div className="min-h-screen bg-slate-50 font-sans text-slate-900 flex flex-col selection:bg-blue-200 selection:text-blue-900 relative overflow-hidden">
@@ -150,7 +174,7 @@ function App() {
         ) : (
           <>
             {currentScreen === 'input' && (
-              <ProfileInput onNext={handleStartMatching} />
+              <ProfileInput onNext={handleStartMatching} isModelReady={isModelReady} />
             )}
             
             {currentScreen === 'processing' && (
