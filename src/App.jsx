@@ -50,6 +50,12 @@ function App() {
       }
 
       if (status === 'SUCCESS' && embedding) {
+        if (!vectorizedJobsData || vectorizedJobsData.length === 0) {
+          alert("Jobs data is still loading. Please try again in a few seconds.");
+          setCurrentScreen('input');
+          return;
+        }
+
         const rankedJobs = vectorizedJobsData.map((job) => {
           let score = 0;
           if (job.embedding && job.embedding.length === embedding.length) {
@@ -69,9 +75,10 @@ function App() {
       }
     };
 
-    aiWorker.current.addEventListener('message', handleMessage);
-    return () => aiWorker.current.removeEventListener('message', handleMessage);
-  }, []);
+    const worker = aiWorker.current;
+    worker.addEventListener('message', handleMessage);
+    return () => worker.removeEventListener('message', handleMessage);
+  }, [vectorizedJobsData]);
 
   const handleStartMatching = (userSkills) => {
     if (!isModelReady) {
