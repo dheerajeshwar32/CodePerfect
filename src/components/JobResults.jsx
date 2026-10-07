@@ -106,13 +106,13 @@ export default function JobResults({ matches, userSkills, onStartOver }) {
             return (
               <div key={index} className="bg-white/60 backdrop-blur-xl rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-white/80 p-8 flex flex-col transition-all duration-300 hover:shadow-[0_20px_40px_rgb(0,0,0,0.08)] hover:-translate-y-1">
                 
-                <div className="flex justify-between items-start mb-6 gap-3">
-                  <h3 className="text-xl font-extrabold text-slate-800 leading-tight">
-                    {getTranslatedTitle(job.title)}
-                  </h3>
-                  <span className="bg-gradient-to-r from-blue-100 to-indigo-100 text-blue-800 text-[10px] uppercase tracking-widest font-extrabold px-3 py-1.5 rounded-lg shrink-0 border border-blue-200/50 shadow-sm">
+                <div className="flex flex-col items-start mb-6 gap-2">
+                  <span className="bg-gradient-to-r from-blue-100 to-indigo-100 text-blue-800 text-[10px] uppercase tracking-widest font-extrabold px-3 py-1.5 rounded-lg shrink-0 border border-blue-200/50 shadow-sm inline-block">
                     {job.finalMatchScore}% {t("match")}
                   </span>
+                  <h3 className="text-xl font-extrabold text-slate-800 leading-tight break-words">
+                    {getTranslatedTitle(job.title)}
+                  </h3>
                 </div>
 
                 <div className="mb-6 bg-slate-50/50 p-4 rounded-2xl border border-slate-100">
