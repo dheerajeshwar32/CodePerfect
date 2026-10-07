@@ -16,7 +16,13 @@ const resources = {
         "Machine Learning Engineer": "Machine Learning Engineer",
         "Mobile App Developer": "Mobile App Developer",
         "Game Developer": "Game Developer",
-        "Graphic Designer": "Graphic Designer"
+        "Graphic Designer": "Graphic Designer",
+        "DevOps & Cloud Engineer": "DevOps & Cloud Engineer",
+        "Cloud Architect": "Cloud Architect",
+        "Data Analyst": "Data Analyst",
+        "UI/UX Designer": "UI/UX Designer",
+        "Cybersecurity Specialist": "Cybersecurity Specialist",
+        "Database Administrator": "Database Administrator"
       }
     }
   },
@@ -34,7 +40,13 @@ const resources = {
         "Machine Learning Engineer": "మెషిన్ లెర్నింగ్ ఇంజనీర్",
         "Mobile App Developer": "మొబైల్ యాప్ డెవలపర్",
         "Game Developer": "గేమ్ డెవలపర్",
-        "Graphic Designer": "గ్రాఫిక్ డిజైనర్"
+        "Graphic Designer": "గ్రాఫిక్ డిజైనర్",
+        "DevOps & Cloud Engineer": "డెవాప్స్ & క్లౌడ్ ఇంజనీర్",
+        "Cloud Architect": "క్లౌడ్ ఆర్కిటెక్ట్",
+        "Data Analyst": "డేటా అనలిస్ట్",
+        "UI/UX Designer": "UI/UX డిజైనర్",
+        "Cybersecurity Specialist": "సైబర్ సెక్యూరిటీ స్పెషలిస్ట్",
+        "Database Administrator": "డేటాబేస్ అడ్మినిస్ట్రేటర్"
       }
     }
   },
@@ -52,7 +64,13 @@ const resources = {
         "Machine Learning Engineer": "இயந்திர கற்றல் பொறியாளர்",
         "Mobile App Developer": "மொபைல் ஆப் டெவலப்பர்",
         "Game Developer": "விளையாட்டு டெவலப்பர்",
-        "Graphic Designer": "கிராஃபிக் டிசைனர்"
+        "Graphic Designer": "கிராஃபிக் டிசைனர்",
+        "DevOps & Cloud Engineer": "டெவஆப்ஸ் & கிளவுட் இன்ஜினியர்",
+        "Cloud Architect": "கிளவுட் ஆர்கிடெக்ட்",
+        "Data Analyst": "தரவு ஆய்வாளர்",
+        "UI/UX Designer": "UI/UX டிசைனர்",
+        "Cybersecurity Specialist": "சைபர் பாதுகாப்பு நிபுணர்",
+        "Database Administrator": "தரவுத்தள நிர்வாகி"
       }
     }
   },
@@ -70,7 +88,13 @@ const resources = {
         "Machine Learning Engineer": "मशीन लर्निंग इंजीनियर",
         "Mobile App Developer": "मोबाइल ऐप डेवलपर",
         "Game Developer": "गेम डेवलपर",
-        "Graphic Designer": "ग्राफिक डिजाइनर"
+        "Graphic Designer": "ग्राफिक डिजाइनर",
+        "DevOps & Cloud Engineer": "डेवऑप्स और क्लाउड इंजीनियर",
+        "Cloud Architect": "क्लाउड आर्किटेक्ट",
+        "Data Analyst": "डेटा एनालिस्ट",
+        "UI/UX Designer": "UI/UX डिजाइनर",
+        "Cybersecurity Specialist": "साइबर सुरक्षा विशेषज्ञ",
+        "Database Administrator": "डेटाबेस एडमिनिस्ट्रेटर"
       }
     }
   }
