@@ -1,76 +1,15 @@
-import { useState, useMemo } from 'react';
+import sys
 
-import { useTranslation } from 'react-i18next';
+with open('src/components/JobResults.jsx', 'r', encoding='utf-8') as f:
+    content = f.read()
 
-export default function JobResults({ matches, userSkills, onStartOver }) {
-  const [roadmap, setRoadmap] = useState(null); 
-  const { t, i18n } = useTranslation();
-  const language = i18n.language;
+split_str = '  return (\n    <div className="relative min-h-[calc(100vh-80px)]'
+parts = content.split(split_str)
+if len(parts) != 2:
+    print('Error: Could not split properly. Found', len(parts), 'parts')
+    sys.exit(1)
 
-  const handleLanguageChange = (e) => {
-    i18n.changeLanguage(e.target.value);
-  };
-
-  const getTranslatedTitle = (title) => {
-    return t(`jobs.${title}`, { defaultValue: title });
-  };
-
-  const hasSkill = (skill, text) => {
-    if (!text || !skill) return false;
-    const rawText = text.toLowerCase();
-    const targetSkill = skill.toLowerCase();
-
-    // Escape regex characters
-    const escapeRegExp = (string) => string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-    
-    // Strict word boundary check to prevent false positives (e.g., 'java' matching 'javascript')
-    const skillRegex = new RegExp(`\\b${escapeRegExp(targetSkill)}\\b`, 'i');
-    if (skillRegex.test(rawText)) return true;
-
-    // Special cases for common shorthand
-    if (targetSkill === 'tailwind css' && /\btailwind\b/i.test(rawText)) return true;
-    if (targetSkill === 'node.js' && /\bnode\b/i.test(rawText)) return true;
-    if (targetSkill === 'ui/ux' && (/\bui\b/i.test(rawText) || /\bux\b/i.test(rawText))) return true;
-
-    return false;
-  };
-
-  const generateRoadmap = async (skill, jobTitle) => {
-    setRoadmap({ skill, steps: null, error: null, loading: true });
-    
-    try {
-      const response = await fetch('/api/roadmap', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ skill, jobTitle, language })
-      });
-
-      if (!response.ok) {
-        throw new Error(`Server returned ${response.status}`);
-      }
-
-      const data = await response.json();
-      setRoadmap({ skill, steps: data.steps, error: null, loading: false });
-      
-    } catch (error) {
-      console.error("Roadmap generation failed completely:", error);
-      setRoadmap({ skill, steps: null, error: 'Failed to connect to AI Coach. Check your connection to the backend server.', loading: false });
-    }
-  };
-
-  const sortedJobs = useMemo(() => {
-    return [...matches].map(job => {
-      const matchedSkills = job.skills.filter(s => hasSkill(s, userSkills));
-      const matchPercentage = job.skills.length > 0 ? Math.round((matchedSkills.length / job.skills.length) * 100) : 0;
-      const finalMatchScore = Math.round(((job.score * 100) * 0.4) + (matchPercentage * 0.6));
-      
-      return { ...job, matchPercentage, finalMatchScore };
-    }).sort((a, b) => b.finalMatchScore - a.finalMatchScore);
-  }, [matches, userSkills]);
-
-  return (
+new_return = """  return (
     <div className="relative min-h-[calc(100vh-80px)] w-full overflow-visible font-sans py-8 animate-fade-in-up">
       <div className="relative z-10 max-w-7xl mx-auto">
         
@@ -223,3 +162,11 @@ export default function JobResults({ matches, userSkills, onStartOver }) {
     </div>
   );
 }
+"""
+
+new_content = parts[0] + new_return
+
+with open('src/components/JobResults.jsx', 'w', encoding='utf-8') as f:
+    f.write(new_content)
+
+print('Success')

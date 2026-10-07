@@ -111,42 +111,35 @@ function App() {
   }
 
   return (
-    <div className="min-h-screen bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-50 via-slate-100 to-slate-200 font-sans text-slate-900 flex flex-col relative overflow-x-hidden transition-colors duration-300">
+    <div className="min-h-screen bg-navy-950 font-sans text-slate-300 flex flex-col relative overflow-x-hidden transition-colors duration-300">
       
-      {/* Background Ambient Glows */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
-        <div className="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] rounded-full bg-blue-400/20 blur-[120px]"></div>
-        <div className="absolute bottom-[-20%] right-[-10%] w-[50%] h-[50%] rounded-full bg-purple-400/20 blur-[120px]"></div>
-        <div className="absolute top-1/2 left-1/4 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[600px] bg-emerald-500/10 blur-[120px] rounded-full"></div>
-      </div>
-      
-      <header className="sticky top-0 z-50 bg-white/40 backdrop-blur-3xl border-b border-white/60 px-5 sm:px-8 py-4 flex items-center justify-between shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
+      <header className="sticky top-0 z-50 bg-navy-950/80 backdrop-blur-3xl border-b border-white/5 px-5 sm:px-8 py-4 flex items-center justify-between">
         <div className="flex items-center gap-4">
-          <div className="w-10 h-10 rounded-xl border border-purple-500/30 bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shadow-lg shadow-indigo-500/30 shrink-0">
-            <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+          <div className="w-10 h-10 rounded-xl bg-blue-500/10 text-blue-400 flex items-center justify-center border border-white/5 shrink-0">
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
           </div>
           
           <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3">
-            <h1 className="text-xl font-black text-transparent bg-clip-text bg-gradient-to-r from-indigo-900 to-purple-800 tracking-tight">
-              CodePerfect KYC
+            <h1 className="text-xl font-bold text-white tracking-tight">
+              CodePerfect
             </h1>
-            <span className="hidden sm:flex bg-indigo-500/10 text-indigo-700 text-[10px] uppercase tracking-widest font-extrabold px-3 py-1 rounded-full border border-indigo-500/20">
-              AI Skill Matcher
+            <span className="hidden sm:flex bg-white/5 text-slate-400 text-[10px] uppercase tracking-widest font-bold px-3 py-1 rounded-full border border-white/5">
+              KYC AI
             </span>
           </div>
         </div>
         
         <div className="hidden sm:flex items-center gap-5">
           {(user || isGuest) && (
-            <div className="flex items-center gap-3 pr-5 border-r border-slate-300/50">
+            <div className="flex items-center gap-3 pr-5 border-r border-white/5">
               {user ? (
                 <img 
                   src={user.photoURL} 
                   alt="Profile" 
-                  className="w-8 h-8 rounded-full border-2 border-white shadow-sm" 
+                  className="w-8 h-8 rounded-full border border-white/10" 
                 />
               ) : (
-                <div className="w-8 h-8 rounded-full bg-slate-100/80 flex items-center justify-center border-2 border-white shadow-sm">
+                <div className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center border border-white/10">
                   <svg className="w-4 h-4 text-slate-400" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
                   </svg>
@@ -154,12 +147,12 @@ function App() {
               )}
               
               <div className="hidden md:flex flex-col">
-                <span className="text-xs font-bold text-slate-800 leading-tight">
+                <span className="text-xs font-bold text-white leading-tight">
                   {user ? user.displayName : 'Guest User'}
                 </span>
                 <button 
                   onClick={handleSignOut}
-                  className="text-[10px] text-slate-500 hover:text-red-500 text-left transition-colors font-medium"
+                  className="text-[10px] text-slate-500 hover:text-white text-left transition-colors font-medium tracking-wide uppercase mt-0.5"
                 >
                   {user ? 'Sign Out' : 'Sign In'}
                 </button>
@@ -167,13 +160,13 @@ function App() {
             </div>
           )}
           
-          <div className="flex items-center gap-2 bg-white/60 backdrop-blur-xl border border-white/80 px-3 py-1.5 rounded-2xl shadow-sm">
-            <span className="relative flex h-2.5 w-2.5">
-              <span className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${isModelReady ? 'bg-emerald-500' : 'bg-amber-500'}`}></span>
-              <span className={`relative inline-flex rounded-full h-2.5 w-2.5 ${isModelReady ? 'bg-emerald-500' : 'bg-amber-500'}`}></span>
+          <div className="flex items-center gap-2 bg-navy-900 border border-white/5 px-3 py-1.5 rounded-full">
+            <span className="relative flex h-2 w-2">
+              <span className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${isModelReady ? 'bg-blue-400' : 'bg-slate-500'}`}></span>
+              <span className={`relative inline-flex rounded-full h-2 w-2 ${isModelReady ? 'bg-blue-500' : 'bg-slate-500'}`}></span>
             </span>
-            <span className="text-xs font-bold text-slate-700 tracking-wide">
-              {isModelReady ? 'Engine Ready' : 'Initializing...'}
+            <span className="text-[10px] font-bold text-slate-300 tracking-widest uppercase">
+              {isModelReady ? 'Engine Ready' : 'Initializing'}
             </span>
           </div>
         </div>

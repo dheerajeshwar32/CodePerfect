@@ -1,26 +1,21 @@
 export default function ProcessingScreen({ onComplete }) {
   return (
-    <div className="max-w-2xl mx-auto mt-20 p-12 bg-white/50 backdrop-blur-3xl rounded-[2.5rem] shadow-[0_30px_60px_-15px_rgba(0,0,0,0.1)] border border-white/80 text-center flex flex-col items-center relative overflow-hidden">
+    <div className="max-w-2xl mx-auto mt-20 p-12 bg-navy-900/50 backdrop-blur-md rounded-3xl border border-white/5 text-center flex flex-col items-center relative overflow-hidden">
       
-      {/* Background glow */}
-      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-        <div className="w-[150%] h-[150%] bg-gradient-to-br from-indigo-500/10 via-purple-500/10 to-emerald-500/10 blur-[60px] animate-pulse"></div>
-      </div>
-
-      <div className="relative z-10 w-20 h-20 border-4 border-indigo-200 border-t-indigo-600 rounded-full animate-spin mb-8 shadow-[0_0_30px_rgba(79,70,229,0.3)]"></div>
+      <div className="relative z-10 w-16 h-16 border-2 border-slate-700 border-t-blue-500 rounded-full animate-spin mb-8"></div>
       
-      <h2 className="relative z-10 text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-indigo-900 via-purple-800 to-slate-900 mb-4 tracking-tighter">
-        Processing Profile
+      <h2 className="relative z-10 text-3xl font-bold text-white mb-4 tracking-tight">
+        Analyzing Profile
       </h2>
-      <p className="relative z-10 text-slate-600 text-lg mb-10 leading-relaxed font-medium max-w-md">
-        Running edge vector math to find your absolute best job matches...
+      <p className="relative z-10 text-slate-400 text-lg mb-10 leading-relaxed font-light max-w-md">
+        Running edge vector operations to find optimal career matches based on your skills...
       </p>
 
       <button 
         onClick={onComplete}
-        className="relative z-10 text-sm font-bold text-indigo-500 hover:text-indigo-700 transition-all bg-white/60 hover:bg-white backdrop-blur-md px-6 py-3 rounded-xl border border-white/50 shadow-sm hover:shadow-md"
+        className="relative z-10 text-[10px] font-bold text-slate-400 hover:text-white uppercase tracking-widest transition-colors bg-white/5 hover:bg-white/10 px-6 py-3 rounded-full border border-white/5"
       >
-        Skip to Results (Dev Mode)
+        Skip to Results
       </button>
     </div>
   );
