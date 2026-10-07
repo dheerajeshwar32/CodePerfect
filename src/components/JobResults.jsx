@@ -71,21 +71,21 @@ export default function JobResults({ matches, userSkills, onStartOver }) {
   }, [matches, userSkills]);
 
   return (
-    <div className="relative min-h-[calc(100vh-80px)] w-full overflow-hidden bg-[#F8FAFC] py-12 px-4 sm:px-8 font-sans">
-      <div className="relative z-10 max-w-6xl mx-auto">
+    <div className="relative min-h-[calc(100vh-80px)] w-full overflow-visible font-sans py-8">
+      <div className="relative z-10 max-w-7xl mx-auto">
         
         {/* Header Section */}
-        <div className="flex flex-col md:flex-row justify-between items-center mb-12 gap-6">
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+        <div className="flex flex-col md:flex-row justify-between items-center mb-16 gap-6">
+          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-indigo-900 via-purple-800 to-slate-900 tracking-tighter">
             {t("title")}
           </h2>
 
-          <div className="flex items-center gap-3 bg-white border border-slate-200 px-4 py-2 rounded-xl shadow-sm hover:shadow-md transition-shadow">
-            <svg className="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"></path></svg>
+          <div className="flex items-center gap-3 bg-white/60 backdrop-blur-3xl border border-white/80 px-6 py-3 rounded-2xl shadow-[0_8px_30px_rgba(0,0,0,0.04)]">
+            <svg className="w-6 h-6 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"></path></svg>
             <select 
               value={language} 
               onChange={handleLanguageChange}
-              className="bg-transparent text-sm font-semibold text-slate-700 outline-none cursor-pointer"
+              className="bg-transparent text-base font-black text-indigo-900 outline-none cursor-pointer"
             >
               <option value="English">English</option>
               <option value="Telugu">తెలుగు (Telugu)</option>
@@ -96,48 +96,51 @@ export default function JobResults({ matches, userSkills, onStartOver }) {
         </div>
         
         {/* Job Cards Grid */}
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
           {sortedJobs.map((job, index) => {
             return (
-              <div key={index} className="bg-white rounded-2xl shadow-[0_4px_20px_rgb(0,0,0,0.03)] border border-slate-200 p-8 flex flex-col transition-all duration-300 hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] hover:-translate-y-1">
+              <div key={index} className="bg-white/50 backdrop-blur-3xl rounded-[2.5rem] shadow-[0_30px_60px_-15px_rgba(0,0,0,0.05)] border border-white/80 p-8 flex flex-col transition-all duration-500 hover:shadow-[0_40px_80px_-20px_rgba(86,104,255,0.2)] hover:-translate-y-2 group overflow-hidden relative">
                 
-                <div className="flex flex-col items-start mb-6 gap-3">
-                  <span className="bg-slate-100 text-slate-700 text-[10px] uppercase tracking-widest font-bold px-3 py-1.5 rounded-md border border-slate-200">
+                {/* Glow effect on hover */}
+                <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-indigo-400/20 to-purple-400/20 blur-[40px] opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-full"></div>
+
+                <div className="flex flex-col items-start mb-8 gap-4 relative z-10">
+                  <span className="bg-gradient-to-r from-indigo-100 to-purple-100 text-indigo-800 text-xs uppercase tracking-[0.2em] font-black px-4 py-2 rounded-xl border border-indigo-200/50 shadow-sm">
                     {job.finalMatchScore}% {t("match")}
                   </span>
-                  <h3 className="text-xl font-bold text-slate-900 leading-tight break-words">
+                  <h3 className="text-2xl font-black text-slate-900 leading-tight break-words group-hover:text-indigo-700 transition-colors duration-300">
                     {getTranslatedTitle(job.title)}
                   </h3>
                 </div>
 
-                <div className="mb-6">
-                  <div className="flex justify-between items-center text-xs mb-2 gap-4 flex-wrap">
-                    <span className="font-semibold text-slate-500 uppercase tracking-wider">{t("reqs")}</span>
-                    <span className="font-bold text-slate-900">{job.matchPercentage}%</span>
+                <div className="mb-8 relative z-10">
+                  <div className="flex justify-between items-center text-xs mb-3 gap-4 flex-wrap">
+                    <span className="font-bold text-slate-500 uppercase tracking-widest">{t("reqs")}</span>
+                    <span className="font-black text-slate-900 text-sm">{job.matchPercentage}%</span>
                   </div>
-                  <div className="w-full bg-slate-100 rounded-full h-2 overflow-hidden">
-                    <div className="bg-slate-900 h-2 rounded-full transition-all duration-1000 ease-out" style={{ width: `${job.matchPercentage}%` }}></div>
+                  <div className="w-full bg-white/60 rounded-full h-3 overflow-hidden border border-white/80 shadow-inner">
+                    <div className="bg-gradient-to-r from-[#5668FF] to-purple-500 h-3 rounded-full transition-all duration-1000 ease-out shadow-[0_0_10px_rgba(86,104,255,0.5)]" style={{ width: `${job.matchPercentage}%` }}></div>
                   </div>
                 </div>
 
-                <div className="flex flex-wrap gap-2 mt-auto">
+                <div className="flex flex-wrap gap-2 mt-auto relative z-10">
                   {job.skills.map((skill, i) => {
                     const found = hasSkill(skill, userSkills);
                     return (
                       <span 
                         key={i} 
                         onClick={() => !found && generateRoadmap(skill, job.title)}
-                        className={`text-xs font-medium px-3 py-1.5 rounded-lg border flex items-center gap-1.5 transition-all duration-200 ${
+                        className={`text-xs font-bold px-4 py-2 rounded-xl border flex items-center gap-2 transition-all duration-300 ${
                           found 
-                            ? 'bg-emerald-50 text-emerald-700 border-emerald-200 cursor-default' 
-                            : 'bg-white text-slate-600 border-slate-200 cursor-pointer hover:bg-slate-50 hover:border-slate-300 hover:text-slate-900'
+                            ? 'bg-emerald-50 text-emerald-700 border-emerald-200/50 shadow-sm cursor-default' 
+                            : 'bg-white/80 text-indigo-900 border-white cursor-pointer hover:bg-gradient-to-r hover:from-indigo-50 hover:to-purple-50 hover:border-indigo-200 hover:shadow-md hover:-translate-y-1'
                         }`}
                         title={!found ? "Click to generate AI learning roadmap" : ""}
                       >
                         {found ? (
-                          <svg className="w-3.5 h-3.5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M5 13l4 4L19 7"></path></svg>
+                          <svg className="w-4 h-4 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M5 13l4 4L19 7"></path></svg>
                         ) : (
-                          <svg className="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
+                          <svg className="w-4 h-4 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
                         )}
                         {skill}
                       </span>
@@ -150,53 +153,56 @@ export default function JobResults({ matches, userSkills, onStartOver }) {
         </div>
 
         {/* Action Button */}
-        <div className="mt-16 text-center">
+        <div className="mt-20 text-center">
           <button 
             onClick={onStartOver} 
-            className="px-8 py-3.5 bg-white text-slate-900 border border-slate-200 font-semibold text-sm rounded-xl shadow-sm hover:bg-slate-50 hover:shadow-md transition-all duration-200"
+            className="px-10 py-5 bg-white/60 backdrop-blur-3xl text-indigo-950 border border-white font-black text-lg rounded-[2rem] shadow-[0_20px_40px_-10px_rgba(0,0,0,0.1)] hover:shadow-[0_30px_60px_-15px_rgba(86,104,255,0.2)] hover:bg-white hover:-translate-y-1 transition-all duration-300 active:scale-95 uppercase tracking-widest"
           >
             {t("button")}
           </button>
         </div>
 
-        {/* Minimal AI Roadmap Modal */}
+        {/* Ultra Glassmorphic AI Roadmap Modal */}
         {roadmap && (
-          <div className="fixed inset-0 bg-slate-900/30 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-            <div className="bg-white rounded-2xl shadow-2xl max-w-lg w-full p-8 sm:p-10 relative transform transition-all animate-fade-in-up">
+          <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-md flex items-center justify-center p-4 z-50">
+            <div className="bg-white/70 backdrop-blur-3xl rounded-[3rem] shadow-[0_40px_80px_-20px_rgba(0,0,0,0.3)] border border-white max-w-xl w-full p-8 sm:p-12 relative transform transition-all animate-fade-in-up">
               
+              {/* Modal Glow */}
+              <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-blue-400/20 blur-[80px] rounded-full pointer-events-none"></div>
+
               <button 
                 onClick={() => setRoadmap(null)}
-                className="absolute top-6 right-6 text-slate-400 hover:text-slate-900 transition-colors"
+                className="absolute top-8 right-8 text-slate-500 hover:text-indigo-700 transition-colors bg-white/80 p-3 rounded-full hover:shadow-md hover:scale-105 active:scale-95 z-20"
               >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
               </button>
               
-              <div className="mb-8">
-                <span className="inline-block px-2.5 py-1 bg-slate-100 text-slate-600 text-[10px] font-bold uppercase tracking-wider rounded-md mb-4 border border-slate-200">AI Coach</span>
-                <h3 className="text-2xl font-bold text-slate-900 leading-tight">
+              <div className="mb-10 relative z-10">
+                <span className="inline-block px-4 py-1.5 bg-gradient-to-r from-indigo-100 to-purple-100 text-indigo-800 text-[10px] font-black uppercase tracking-[0.2em] rounded-xl mb-4 border border-indigo-200/50 shadow-sm">AI Coach</span>
+                <h3 className="text-3xl sm:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-indigo-900 to-slate-900 leading-tight">
                   Mastering {roadmap.skill}
                 </h3>
               </div>
               
               {roadmap.loading ? (
-                <div className="flex flex-col items-center justify-center py-12">
-                  <div className="w-8 h-8 border-2 border-slate-200 border-t-slate-900 rounded-full animate-spin mb-4"></div>
-                  <p className="text-slate-500 text-sm font-medium">Generating roadmap...</p>
+                <div className="flex flex-col items-center justify-center py-16 relative z-10">
+                  <div className="w-12 h-12 border-4 border-indigo-200 border-t-indigo-600 rounded-full animate-spin mb-6 shadow-lg shadow-indigo-500/20"></div>
+                  <p className="text-indigo-800 text-lg font-bold tracking-widest animate-pulse">Generating custom roadmap...</p>
                 </div>
               ) : roadmap.error ? (
-                <div className="bg-red-50 text-red-600 border border-red-100 p-4 rounded-xl text-sm mt-4">
+                <div className="bg-red-50/80 backdrop-blur-md text-red-700 border border-red-200 p-6 rounded-2xl text-base mt-4 font-semibold shadow-sm relative z-10">
                   {roadmap.error}
                 </div>
               ) : roadmap.steps && (
-                <div className="mt-4 flex flex-col gap-3">
+                <div className="mt-4 flex flex-col gap-4 relative z-10 max-h-[50vh] overflow-y-auto pr-2 custom-scrollbar">
                   {roadmap.steps.map((step, idx) => (
-                    <div key={idx} className="flex gap-4 items-start p-4 rounded-xl hover:bg-slate-50 transition-colors border border-transparent hover:border-slate-100">
-                      <div className="flex-shrink-0 w-6 h-6 rounded-full bg-slate-100 text-slate-600 text-xs font-bold flex items-center justify-center mt-0.5">
+                    <div key={idx} className="flex gap-5 items-start p-6 rounded-3xl bg-white/60 hover:bg-white transition-all duration-300 border border-white shadow-sm hover:shadow-md group">
+                      <div className="flex-shrink-0 w-10 h-10 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 text-white text-sm font-black flex items-center justify-center shadow-lg shadow-indigo-500/20 group-hover:scale-110 transition-transform">
                         {idx + 1}
                       </div>
                       <div>
-                        <h4 className="font-bold text-slate-900 text-sm mb-1">{step.title}</h4>
-                        <p className="text-slate-500 text-sm leading-relaxed">{step.description}</p>
+                        <h4 className="font-black text-slate-900 text-lg mb-2">{step.title}</h4>
+                        <p className="text-slate-600 text-sm leading-relaxed font-medium">{step.description}</p>
                       </div>
                     </div>
                   ))}
