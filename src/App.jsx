@@ -115,16 +115,28 @@ function App() {
       
       <header className="sticky top-0 z-50 bg-navy-950/80 backdrop-blur-3xl border-b border-white/5 px-5 sm:px-8 py-4 flex items-center justify-between">
         <div className="flex items-center gap-4">
-          <div className="w-10 h-10 rounded-xl bg-blue-500/10 text-blue-400 flex items-center justify-center border border-white/5 shrink-0">
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500/20 to-indigo-500/20 text-blue-400 flex items-center justify-center border border-white/10 shrink-0 shadow-[0_0_15px_rgba(59,130,246,0.15)] relative overflow-hidden group">
+            <div className="absolute inset-0 bg-blue-500/10 mix-blend-overlay"></div>
+            <svg className="w-6 h-6 relative z-10 group-hover:scale-110 transition-transform duration-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+              <circle cx="12" cy="12" r="3" className="fill-blue-500/20 text-blue-400" />
+              <path d="M12 2v4" />
+              <path d="M12 18v4" />
+              <path d="M4.93 4.93l2.83 2.83" />
+              <path d="M16.24 16.24l2.83 2.83" />
+              <path d="M2 12h4" />
+              <path d="M18 12h4" />
+              <path d="M4.93 19.07l2.83-2.83" />
+              <path d="M16.24 7.76l2.83-2.83" />
+              <circle cx="12" cy="12" r="9" className="stroke-white/10" strokeDasharray="4 4" />
+            </svg>
           </div>
           
           <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3">
-            <h1 className="text-xl font-bold text-white tracking-tight">
-              CodePerfect
+            <h1 className="text-xl font-bold text-white tracking-tight flex items-center">
+              KYC
             </h1>
-            <span className="hidden sm:flex bg-white/5 text-slate-400 text-[10px] uppercase tracking-widest font-bold px-3 py-1 rounded-full border border-white/5">
-              KYC AI
+            <span className="hidden sm:flex bg-blue-500/10 text-blue-400 text-[10px] uppercase tracking-widest font-bold px-3 py-1 rounded-full border border-blue-500/20">
+              AI SKILL MATCHER
             </span>
           </div>
         </div>
