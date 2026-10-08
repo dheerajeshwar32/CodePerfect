@@ -15,6 +15,7 @@ workerInstance.postMessage({ type: 'INIT' });
 
 function App() {
   const [user, setUser] = useState(null); 
+  const [isGuest, setIsGuest] = useState(false);
   const [isAuthLoaded, setIsAuthLoaded] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(true);
 
@@ -114,6 +115,9 @@ function App() {
         setUser(null);
         setCurrentScreen('input'); 
       }).catch((error) => console.error("Sign out error", error));
+    } else if (isGuest) {
+      setIsGuest(false);
+      setCurrentScreen('input');
     }
   };
 
@@ -142,7 +146,7 @@ function App() {
         </div>
         
         <div className="hidden sm:flex items-center gap-8 mr-auto ml-12">
-          {user && (
+          {(user || isGuest) && (
             <div className="flex gap-4">
               <button 
                 onClick={() => setCurrentScreen(jobMatches.length > 0 ? 'results' : 'input')}
@@ -162,16 +166,16 @@ function App() {
         </div>
         
         <div className="hidden sm:flex items-center gap-5">
-          {user && (
+          {(user || isGuest) && (
             <div className="flex items-center gap-3 pr-5 border-r border-white/5">
               <img 
-                src={user.photoURL} 
+                src={user?.photoURL || 'https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y'} 
                 alt="Profile" 
                 className="w-8 h-8 rounded-full border border-white/10" 
               />
               <div className="hidden md:flex flex-col">
                 <span className="text-xs font-bold text-white leading-tight">
-                  {user.displayName || user.email?.split('@')[0] || 'Authenticated User'}
+                  {user ? (user.displayName || user.email?.split('@')[0] || 'Authenticated User') : 'Guest User'}
                 </span>
                 <button 
                   onClick={handleSignOut}
@@ -214,8 +218,8 @@ function App() {
       </header>
 
       <main className="flex-grow flex flex-col relative z-10 w-full h-full p-4 sm:p-8">
-        {!user ? (
-          <Login onSignIn={setUser} />
+        {!(user || isGuest) ? (
+          <Login onSignIn={setUser} onGuest={() => setIsGuest(true)} />
         ) : (
           <>
             {currentScreen === 'input' && (

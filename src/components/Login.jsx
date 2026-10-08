@@ -1,7 +1,7 @@
 import { signInWithPopup } from "firebase/auth";
 import { auth, googleProvider } from "../firebase";
 
-export default function Login({ onSignIn }) {
+export default function Login({ onSignIn, onGuest }) {
   const handleLogin = async () => {
     try {
       const result = await signInWithPopup(auth, googleProvider);
@@ -59,6 +59,13 @@ export default function Login({ onSignIn }) {
             <span className="relative z-10 tracking-wide">Enter with Google</span>
           </button>
         </div>
+
+        <button 
+          onClick={onGuest}
+          className="mt-6 text-slate-500 hover:text-white transition-colors text-sm font-medium tracking-wide uppercase"
+        >
+          Continue as Guest
+        </button>
         
       </div>
       
