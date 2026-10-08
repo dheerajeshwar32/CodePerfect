@@ -169,3 +169,4 @@ with open('src/components/JobResults.jsx', 'w', encoding='utf-8') as f:
     f.write(new_content)
 
 print('Success')
+

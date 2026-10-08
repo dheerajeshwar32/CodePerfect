@@ -1,5 +1,5 @@
 @import "tailwindcss";
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap');
 
 @theme {
   --color-navy-900: var(--theme-navy-900);
@@ -8,26 +8,62 @@
   --color-slate-300: var(--theme-slate-300);
   --color-slate-400: var(--theme-slate-400);
   --color-slate-500: var(--theme-slate-500);
+  
+  --shadow-apple: var(--theme-card-shadow);
+  --shadow-apple-hover: var(--theme-card-shadow-hover);
+  --color-apple-border: var(--theme-card-border);
 }
 
 :root {
-  /* DARK MODE - Estora style Deep indigo */
-  --theme-navy-950: #0a1128; 
-  --theme-navy-900: #101c3a;
+  /* DARK MODE - Ultra Premium Deep Space */
+  --theme-navy-950: #050507; 
+  --theme-navy-900: rgba(20, 20, 25, 0.6); 
   --theme-white: #ffffff;
-  --theme-slate-300: #cbd5e1;
+  --theme-slate-300: #e2e8f0;
   --theme-slate-400: #94a3b8;
   --theme-slate-500: #64748b;
+  
+  --theme-card-border: rgba(255, 255, 255, 0.06);
+  --theme-card-shadow: 0 10px 40px -10px rgba(0,0,0,0.8);
+  --theme-card-shadow-hover: 0 20px 40px -10px rgba(0,0,0,0.9);
+  
+  --bg-gradient: radial-gradient(circle at 15% 50%, rgba(59, 130, 246, 0.15), transparent 25%),
+                 radial-gradient(circle at 85% 30%, rgba(99, 102, 241, 0.15), transparent 25%);
+}
+
+:root.light {
+  /* LIGHT MODE - Apple macOS Level UI */
+  --theme-navy-950: #f5f5f7; 
+  --theme-navy-900: rgba(255, 255, 255, 0.7); 
+  --theme-white: #1d1d1f;    
+  --theme-slate-300: #424245; 
+  --theme-slate-400: #86868b; 
+  --theme-slate-500: #a1a1a6; 
+  
+  --theme-card-border: rgba(0, 0, 0, 0.05);
+  --theme-card-shadow: 0 8px 30px rgba(0,0,0,0.04);
+  --theme-card-shadow-hover: 0 20px 40px rgba(0,0,0,0.08);
+  
+  --bg-gradient: radial-gradient(circle at 15% 50%, rgba(59, 130, 246, 0.06), transparent 25%),
+                 radial-gradient(circle at 85% 30%, rgba(99, 102, 241, 0.06), transparent 25%);
 }
 
 body {
   font-family: 'Outfit', sans-serif;
   background-color: var(--theme-navy-950);
+  background-image: var(--bg-gradient);
+  background-attachment: fixed;
   color: var(--theme-white);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* Premium custom scrollbar */
-::-webkit-scrollbar { width: 8px; }
-::-webkit-scrollbar-track { background: var(--theme-navy-950); }
-::-webkit-scrollbar-thumb { background: #1E293B; border-radius: 4px; }
-::-webkit-scrollbar-thumb:hover { background: #334155; }
+/* Premium Apple-like custom scrollbar */
+::-webkit-scrollbar { width: 10px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { 
+  background: var(--theme-slate-500); 
+  border-radius: 10px; 
+  border: 3px solid var(--theme-navy-950); 
+}
+::-webkit-scrollbar-thumb:hover { background: var(--theme-slate-400); }

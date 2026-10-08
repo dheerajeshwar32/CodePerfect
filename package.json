@@ -15,10 +15,15 @@
     "dexie": "^4.4.5",
     "firebase": "^12.18.0",
     "i18next": "^26.4.2",
+    "lucide-react": "^1.52.0",
+    "multer": "^2.4.0",
+    "pdf-parse": "^2.4.5",
     "pdfjs-dist": "^6.2.108",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
-    "react-i18next": "^17.0.16"
+    "react-i18next": "^17.0.16",
+    "react-parallax-tilt": "^1.7.346",
+    "recharts": "^3.10.1"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.3.3",

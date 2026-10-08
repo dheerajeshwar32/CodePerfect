@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import ProfileInput from './components/ProfileInput';
 import ProcessingScreen from './components/ProcessingScreen';
 import JobResults from './components/JobResults';
+import Dashboard from './components/Dashboard';
 import Login from './components/Login';
 import { cosineSimilarity } from './matcher.js';
 import { signOut, onAuthStateChanged } from 'firebase/auth';
@@ -15,6 +16,7 @@ function App() {
   const [user, setUser] = useState(null); 
   const [isGuest, setIsGuest] = useState(false);
   const [isAuthLoaded, setIsAuthLoaded] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(true);
 
   const [currentScreen, setCurrentScreen] = useState('input');
   const [jobMatches, setJobMatches] = useState([]);
@@ -23,6 +25,15 @@ function App() {
   const [vectorizedJobsData, setVectorizedJobsData] = useState([]);
   
   const aiWorker = useRef(workerInstance);
+
+  
+  useEffect(() => {
+    if (isDarkMode) {
+      document.documentElement.classList.remove('light');
+    } else {
+      document.documentElement.classList.add('light');
+    }
+  }, [isDarkMode]);
 
   useEffect(() => {
     // Fetch the jobs data from the backend
@@ -65,7 +76,7 @@ function App() {
         });
 
         rankedJobs.sort((a, b) => b.score - a.score);
-        setJobMatches(rankedJobs.slice(0, 6));
+        setJobMatches(rankedJobs.slice(0, 9));
         setCurrentScreen('results');
       }
 
@@ -80,12 +91,15 @@ function App() {
     return () => worker.removeEventListener('message', handleMessage);
   }, [vectorizedJobsData]);
 
-  const handleStartMatching = (userSkills) => {
+  const handleStartMatching = (userSkills, profileData = null) => {
     if (!isModelReady) {
       alert("Please wait for the AI model to finish loading.");
       return;
     }
-    setUserSkillsText(userSkills); 
+    setUserSkillsText(userSkills);
+    if (profileData) {
+       setUserProfile(profileData);
+    }
     setCurrentScreen('processing');
     
     aiWorker.current.postMessage({ 
@@ -114,31 +128,46 @@ function App() {
     <div className="min-h-screen bg-navy-950 font-sans text-slate-300 flex flex-col relative overflow-x-hidden transition-colors duration-300">
       
       <header className="sticky top-0 z-50 bg-navy-950/80 backdrop-blur-3xl border-b border-white/5 px-5 sm:px-8 py-4 flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500/20 to-indigo-500/20 text-blue-400 flex items-center justify-center border border-white/10 shrink-0 shadow-[0_0_15px_rgba(59,130,246,0.15)] relative overflow-hidden group">
-            <div className="absolute inset-0 bg-blue-500/10 mix-blend-overlay"></div>
-            <svg className="w-6 h-6 relative z-10 group-hover:scale-110 transition-transform duration-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-              <circle cx="12" cy="12" r="3" className="fill-blue-500/20 text-blue-400" />
-              <path d="M12 2v4" />
-              <path d="M12 18v4" />
-              <path d="M4.93 4.93l2.83 2.83" />
-              <path d="M16.24 16.24l2.83 2.83" />
-              <path d="M2 12h4" />
-              <path d="M18 12h4" />
-              <path d="M4.93 19.07l2.83-2.83" />
-              <path d="M16.24 7.76l2.83-2.83" />
-              <circle cx="12" cy="12" r="9" className="stroke-white/10" strokeDasharray="4 4" />
-            </svg>
-          </div>
+        <div className="flex items-center gap-4 group cursor-pointer">
+          <svg viewBox="0 0 120 40" className="h-7 w-auto group-hover:scale-105 transition-transform duration-500 drop-shadow-2xl" fill="none">
+             <path d="M10 8 V32 M28 8 L14 20 L28 32" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" className="text-slate-900 dark:text-white transition-colors" />
+             <path d="M45 8 L55 20 L65 8 M55 20 V32" stroke="url(#electric-blue-header)" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" className="drop-shadow-[0_0_8px_rgba(59,130,246,0.5)]" />
+             <path d="M105 12 A12 12 0 1 0 105 28" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" className="text-slate-900 dark:text-white transition-colors" />
+             <defs>
+               <linearGradient id="electric-blue-header" x1="45" y1="8" x2="65" y2="32" gradientUnits="userSpaceOnUse">
+                 <stop stopColor="#3B82F6" />
+                 <stop offset="1" stopColor="#8B5CF6" />
+               </linearGradient>
+             </defs>
+          </svg>
           
-          <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3">
-            <h1 className="text-xl font-bold text-white tracking-tight flex items-center">
-              KYC
-            </h1>
-            <span className="hidden sm:flex bg-blue-500/10 text-blue-400 text-[10px] uppercase tracking-widest font-bold px-3 py-1 rounded-full border border-blue-500/20">
-              AI SKILL MATCHER
+          <div className="h-8 w-px bg-white/10 mx-1"></div>
+          
+          <div className="flex flex-col justify-center">
+            <span className="text-[9px] font-bold text-slate-400 tracking-[0.2em] uppercase leading-tight">
+              AI Skill<br/>Matcher
             </span>
           </div>
+        </div>
+        
+        <div className="hidden sm:flex items-center gap-8 mr-auto ml-12">
+          {user && (
+            <div className="flex gap-4">
+              <button 
+                onClick={() => setCurrentScreen(jobMatches.length > 0 ? 'results' : 'input')}
+                className={`text-xs font-bold uppercase tracking-widest px-4 py-2 rounded-full transition-all ${currentScreen !== 'dashboard' ? 'bg-white/10 text-white' : 'text-slate-400 hover:text-white hover:bg-white/5'}`}
+              >
+                Match
+              </button>
+              <button 
+                onClick={() => setCurrentScreen('dashboard')}
+                className={`text-xs font-bold uppercase tracking-widest px-4 py-2 rounded-full transition-all flex items-center gap-2 ${currentScreen === 'dashboard' ? 'bg-blue-500/10 text-blue-400 border border-blue-500/20' : 'text-slate-400 hover:text-white hover:bg-white/5'}`}
+              >
+                Dashboard
+                {userProfile && <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>}
+              </button>
+            </div>
+          )}
         </div>
         
         <div className="hidden sm:flex items-center gap-5">
@@ -181,6 +210,24 @@ function App() {
               {isModelReady ? 'Engine Ready' : 'Initializing'}
             </span>
           </div>
+          
+          <button 
+            onClick={() => setIsDarkMode(!isDarkMode)}
+            className="w-14 h-7 rounded-full bg-apple-border border border-apple-border relative flex items-center px-1 transition-all duration-500 focus:outline-none shadow-inner"
+            aria-label="Toggle theme"
+          >
+            <div className={`w-5 h-5 rounded-full bg-white flex items-center justify-center shadow-md transition-transform duration-500 ease-out ${!isDarkMode ? 'translate-x-7' : 'translate-x-0'}`}>
+              {isDarkMode ? (
+                <svg className="w-3 h-3 text-slate-800" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                </svg>
+              ) : (
+                <svg className="w-3 h-3 text-yellow-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                </svg>
+              )}
+            </div>
+          </button>
         </div>
       </header>
 
@@ -190,7 +237,7 @@ function App() {
         ) : (
           <>
             {currentScreen === 'input' && (
-              <ProfileInput onNext={handleStartMatching} isModelReady={isModelReady} />
+              <ProfileInput onNext={handleStartMatching} isModelReady={isModelReady} setUserProfile={setUserProfile} />
             )}
             
             {currentScreen === 'processing' && (
@@ -199,6 +246,10 @@ function App() {
             
             {currentScreen === 'results' && (
               <JobResults matches={jobMatches} userSkills={userSkillsText} onStartOver={() => setCurrentScreen('input')} />
+            )}
+            
+            {currentScreen === 'dashboard' && (
+              <Dashboard userProfile={userProfile} jobMatches={jobMatches} onBack={() => setCurrentScreen('results')} />
             )}
           </>
         )}

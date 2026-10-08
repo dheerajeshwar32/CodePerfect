@@ -13,13 +13,25 @@ export default function Login({ onSignIn, onGuestLogin }) {
 
   return (
     <div className="flex flex-col items-center justify-center h-full min-h-[80vh]">
-      <div className="bg-navy-900/50 backdrop-blur-md p-10 rounded-3xl border border-white/5 text-center max-w-md w-full relative overflow-hidden">
+      <div className="bg-navy-900 backdrop-blur-2xl p-10 rounded-[32px] border border-apple-border shadow-apple text-center max-w-md w-full relative overflow-hidden">
         
-        <div className="relative z-10 w-16 h-16 rounded-2xl bg-blue-500/10 text-blue-400 mx-auto mb-6 flex items-center justify-center border border-white/5">
-          <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+        <div className="relative z-10 flex flex-col items-center mb-10 group">
+          <svg viewBox="0 0 120 40" className="h-10 sm:h-12 w-auto mb-5 group-hover:scale-105 transition-transform duration-500 drop-shadow-2xl" fill="none">
+             {/* K */}
+             <path d="M10 8 V32 M28 8 L14 20 L28 32" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" className="text-slate-900 dark:text-white transition-colors" />
+             {/* Y */}
+             <path d="M45 8 L55 20 L65 8 M55 20 V32" stroke="url(#electric-blue)" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" className="drop-shadow-[0_0_12px_rgba(59,130,246,0.6)]" />
+             {/* C */}
+             <path d="M105 12 A12 12 0 1 0 105 28" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" className="text-slate-900 dark:text-white transition-colors" />
+             <defs>
+               <linearGradient id="electric-blue" x1="45" y1="8" x2="65" y2="32" gradientUnits="userSpaceOnUse">
+                 <stop stopColor="#3B82F6" />
+                 <stop offset="1" stopColor="#8B5CF6" />
+               </linearGradient>
+             </defs>
+          </svg>
+          <span className="block text-[11px] font-bold text-slate-400 tracking-[0.35em] uppercase">AI Skill Matcher</span>
         </div>
-        
-        <h2 className="relative z-10 text-3xl font-bold text-white mb-3 tracking-tight">CodePerfect</h2>
         <p className="relative z-10 text-slate-400 mb-10 text-sm px-4 font-light leading-relaxed">Sign in to save your career roadmaps or continue offline as a guest.</p>
         
         <div className="relative z-10 flex flex-col gap-4">

@@ -1,14 +1,22 @@
 import { GoogleGenerativeAI } from '@google/generative-ai';
 
+export const config = {
+  api: {
+    bodyParser: {
+      sizeLimit: '4mb',
+    },
+  },
+};
+
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: "Method not allowed" });
   }
 
-  const { skill, jobTitle, language } = req.body;
+  const { resumeText } = req.body;
 
-  if (!skill || !jobTitle || !language) {
-    return res.status(400).json({ error: "Missing required fields: skill, jobTitle, language" });
+  if (!resumeText) {
+    return res.status(400).json({ error: "No resume text provided" });
   }
 
   const apiKey = process.env.GEMINI_API_KEY;
@@ -18,7 +26,17 @@ export default async function handler(req, res) {
 
   try {
     const genAI = new GoogleGenerativeAI(apiKey);
-    const prompt = `You are an expert career coach. A user wants to land a ${jobTitle} job but is missing the skill: ${skill}. Provide a highly concise, 3-step actionable roadmap to learn this skill. Output strictly in ${language} language, formatted as JSON matching this schema: { "steps": [{ "title": "string", "description": "string" }] }`;
+    const prompt = `You are an expert ATS (Applicant Tracking System) parser. Extract the user's top technical skills, soft skills, years of experience, and a brief 2-sentence professional summary from the following resume text. Output strictly in JSON format matching this schema: 
+    { 
+      "skills": ["string"], 
+      "experienceYears": number,
+      "summary": "string" 
+    }
+    
+    Resume Text:
+    """
+    ${resumeText.substring(0, 5000)}
+    """`;
 
     const aiConfig = {
       generationConfig: {
@@ -35,7 +53,6 @@ export default async function handler(req, res) {
       try {
         jsonResponse = JSON.parse(text);
       } catch (e) {
-        // Handle markdown block wrapper
         const match = text.match(/```json\n([\s\S]*)\n```/);
         if (match) {
            jsonResponse = JSON.parse(match[1]);
@@ -44,7 +61,7 @@ export default async function handler(req, res) {
         }
       }
     } catch (primaryError) {
-      console.warn("gemini-flash-lite-latest endpoint failed. Attempting fallback to gemini-2.5-flash-lite...", primaryError);
+      console.warn("gemini-flash-lite-latest failed. Attempting fallback to gemini-2.5-flash-lite...", primaryError);
       const fallbackModel = genAI.getGenerativeModel({ model: "gemini-2.5-flash-lite", ...aiConfig });
       const fallbackResult = await fallbackModel.generateContent(prompt);
       
@@ -63,8 +80,8 @@ export default async function handler(req, res) {
 
     res.status(200).json(jsonResponse);
   } catch (error) {
-    console.error("Roadmap generation failed completely:", error);
-    res.status(500).json({ error: 'Failed to connect to AI Coach. Details: ' + (error.message || error.toString()) });
+    console.error("Resume parsing failed:", error);
+    res.status(500).json({ error: 'Failed to connect to AI Parser. Details: ' + (error.message || error.toString()) });
   }
 }
 

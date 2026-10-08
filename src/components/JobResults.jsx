@@ -114,15 +114,34 @@ export default function JobResults({ matches, userSkills, onStartOver }) {
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {sortedJobs.map((job, index) => {
             return (
-              <div key={index} className="bg-navy-900/50 backdrop-blur-md rounded-3xl border border-white/5 p-8 flex flex-col transition-all duration-300 hover:border-white/10 hover:bg-navy-900 group">
+              <div key={index} className="bg-navy-900 backdrop-blur-2xl rounded-[32px] border border-apple-border shadow-apple hover:shadow-apple-hover p-8 flex flex-col transition-all duration-500 hover:-translate-y-1 group">
                 
                 <div className="flex flex-col items-start mb-8 gap-4 relative z-10">
-                  <span className="bg-white/5 text-slate-300 text-[10px] uppercase tracking-widest font-bold px-3 py-1.5 rounded-md border border-white/5">
+                  <span className="bg-blue-500/10 text-blue-500 text-[10px] uppercase tracking-widest font-bold px-3 py-1.5 rounded-full border border-blue-500/20">
                     {job.finalMatchScore}% {t("match")}
                   </span>
-                  <h3 className="text-2xl font-bold text-white leading-tight break-words group-hover:text-blue-400 transition-colors duration-300">
+                  <h3 className="text-2xl font-bold text-white leading-tight break-words group-hover:text-blue-500 transition-colors duration-300">
                     {getTranslatedTitle(job.title)}
                   </h3>
+
+                  {job.company && (
+                    <div className="flex flex-col gap-3 mt-1 w-full border-t border-apple-border pt-4">
+                      <div className="flex items-center justify-between text-sm">
+                        <span className="font-semibold text-slate-300 flex items-center gap-1.5">
+                           <svg className="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
+                           {job.company}
+                        </span>
+                        <span className="text-slate-400 font-medium text-xs flex items-center gap-1">
+                          <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.243-4.243a8 8 0 1111.314 0z"></path><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                          {job.location}
+                        </span>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <span className="bg-navy-900 border border-apple-border text-slate-400 text-xs px-2.5 py-1 rounded-md shadow-sm">{job.level}</span>
+                        <span className="text-emerald-500 font-bold text-sm bg-emerald-500/10 px-2.5 py-1 rounded-md border border-emerald-500/20">{job.salary}</span>
+                      </div>
+                    </div>
+                  )}
                 </div>
 
                 <div className="mb-8 relative z-10">
@@ -130,8 +149,8 @@ export default function JobResults({ matches, userSkills, onStartOver }) {
                     <span className="font-bold text-slate-500 text-[10px] uppercase tracking-widest">{t("reqs")}</span>
                     <span className="font-bold text-white text-sm">{job.matchPercentage}%</span>
                   </div>
-                  <div className="w-full bg-white/5 rounded-full h-1.5 overflow-hidden">
-                    <div className="bg-blue-500 h-1.5 rounded-full transition-all duration-1000 ease-out" style={{ width: `${job.matchPercentage}%` }}></div>
+                  <div className="w-full bg-apple-border rounded-full h-1 overflow-hidden">
+                    <div className="bg-blue-500 h-1 rounded-full transition-all duration-1000 ease-out" style={{ width: `${job.matchPercentage}%` }}></div>
                   </div>
                 </div>
 
@@ -142,17 +161,17 @@ export default function JobResults({ matches, userSkills, onStartOver }) {
                       <span 
                         key={i} 
                         onClick={() => !found && generateRoadmap(skill, job.title)}
-                        className={`text-xs font-medium px-3 py-1.5 rounded-lg border flex items-center gap-1.5 transition-all duration-300 ${
+                        className={`text-xs font-medium px-4 py-2 rounded-full border flex items-center gap-1.5 transition-all duration-300 ${
                           found 
-                            ? 'bg-blue-500/10 text-blue-400 border-blue-500/20 cursor-default' 
-                            : 'bg-white/5 text-slate-400 border-white/5 cursor-pointer hover:bg-white/10 hover:text-white hover:border-white/10 hover:-translate-y-0.5'
+                            ? 'bg-blue-500/10 text-blue-500 border-blue-500/20 cursor-default' 
+                            : 'bg-navy-900/50 text-slate-500 border-apple-border cursor-pointer hover:bg-apple-border hover:text-white hover:-translate-y-0.5 shadow-sm'
                         }`}
                         title={!found ? "Click to generate AI learning roadmap" : ""}
                       >
                         {found ? (
-                          <svg className="w-3.5 h-3.5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path></svg>
+                          <svg className="w-3.5 h-3.5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path></svg>
                         ) : (
-                          <svg className="w-3.5 h-3.5 text-slate-500 group-hover:text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
+                          <svg className="w-3.5 h-3.5 text-slate-500 group-hover:text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
                         )}
                         {skill}
                       </span>

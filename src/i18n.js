@@ -5,6 +5,7 @@ const resources = {
   "English": {
     "translation": {
       "title": "Your Top Job Matches",
+      "subtitle": "Based on your skills, here are the roles you are most qualified for.",
       "match": "Overall Match",
       "reqs": "Requirements Met",
       "button": "Start New Search",
@@ -66,6 +67,7 @@ const resources = {
   "Telugu": {
     "translation": {
       "title": "మీ ఉత్తమ ఉద్యోగ సరిపోలికలు",
+      "subtitle": "మీ నైపుణ్యాల ఆధారంగా, మీకు బాగా సరిపోయే పాత్రలు ఇవి.",
       "match": "మొత్తం సరిపోలిక",
       "reqs": "అవసరాలు తీర్చబడ్డాయి",
       "button": "కొత్త శోధనను ప్రారంభించండి",
@@ -127,6 +129,7 @@ const resources = {
   "Tamil": {
     "translation": {
       "title": "உங்கள் சிறந்த வேலை பொருத்தங்கள்",
+      "subtitle": "உங்கள் திறன்களின் அடிப்படையில், நீங்கள் மிகவும் தகுதியான பாத்திரங்கள் இங்கே.",
       "match": "ஒட்டுமொத்த பொருத்தம்",
       "reqs": "தேவைகள் பூர்த்தி",
       "button": "புதிய தேடலைத் தொடங்கவும்",
@@ -188,6 +191,7 @@ const resources = {
   "Hindi": {
     "translation": {
       "title": "आपके शीर्ष नौकरी मैच",
+      "subtitle": "आपके कौशल के आधार पर, यहाँ वे भूमिकाएँ हैं जिनके लिए आप सबसे अधिक योग्य हैं।",
       "match": "कुल मिलान",
       "reqs": "आवश्यकताएं पूरी हुईं",
       "button": "नई खोज शुरू करें",

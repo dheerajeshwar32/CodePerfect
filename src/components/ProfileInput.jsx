@@ -5,6 +5,7 @@ export default function ProfileInput({ onNext, isModelReady }) {
   const [skills, setSkills] = useState('');
   const [isExtracting, setIsExtracting] = useState(false);
   const [uploadedFileName, setUploadedFileName] = useState('');
+  const [parsedProfile, setParsedProfile] = useState(null);
 
   const handleFileUpload = async (e) => {
     const file = e.target.files[0];
@@ -15,13 +16,43 @@ export default function ProfileInput({ onNext, isModelReady }) {
     setSkills('');
 
     try {
+      // 1. Extract raw text via browser PDF.js
       const text = await extractTextFromPDF(file);
       if (text.trim().length < 50) {
         throw new Error("No readable text found in this PDF (might be a scanned image).");
       }
-      setSkills(text); 
+      
+      // 2. Pass raw text to Vercel Gemini Parser
+      const res = await fetch('/api/parse-resume', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ resumeText: text })
+      });
+      
+      if (!res.ok) {
+         // Fallback to raw text matching if backend limits hit
+         setSkills(text);
+         setIsExtracting(false);
+         return;
+      }
+      
+      const parsedData = await res.json();
+      
+      // parsedData has { skills: [], experienceYears: num, summary: str }
+      if (parsedData.skills && parsedData.skills.length > 0) {
+         setSkills(parsedData.skills.join(', '));
+      } else {
+         setSkills(text); // Fallback
+      }
+      
+      // Wait for user to click "Analyze My Profile" but we can store this profile info 
+      // by passing it to onNext when clicked. For now we just keep it in a state.
+      // Wait, we need to pass it to App.jsx. Let's add local state.
+      setParsedProfile(parsedData);
+      
     } catch (error) {
-      alert("Could not read enough text from the PDF. Please try copying and pasting your skills manually.");
+      console.error(error);
+      alert("Could not read or parse the PDF perfectly. Please paste your skills manually.");
       setUploadedFileName(''); 
     }
     setIsExtracting(false);
@@ -37,7 +68,7 @@ export default function ProfileInput({ onNext, isModelReady }) {
   return (
     <div className="relative flex-grow w-full flex items-center justify-center p-4 sm:p-12 overflow-visible">
       
-      <div className="relative z-10 bg-navy-900/50 backdrop-blur-md rounded-3xl border border-white/5 w-full max-w-3xl p-8 sm:p-12 transition-all">
+      <div className="relative z-10 bg-navy-900 backdrop-blur-2xl rounded-[32px] border border-apple-border shadow-apple w-full max-w-3xl p-8 sm:p-12 transition-all">
         
         <div className="text-center mb-10">
           <div className="inline-flex items-center justify-center px-4 py-1.5 mb-6 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400">
@@ -96,13 +127,13 @@ export default function ProfileInput({ onNext, isModelReady }) {
         ) : (
           
           <>
-            <div className="group relative flex flex-col items-center justify-center w-full h-48 border border-dashed border-white/20 rounded-2xl bg-white/5 hover:bg-white/10 hover:border-blue-500/50 transition-all duration-300 cursor-pointer overflow-hidden backdrop-blur-sm">
-              <div className="w-14 h-14 flex items-center justify-center bg-white/5 rounded-2xl mb-4 group-hover:-translate-y-1 transition-all duration-300 border border-white/5 text-slate-300 group-hover:text-blue-400">
+            <div className="group relative flex flex-col items-center justify-center w-full h-48 border border-dashed border-apple-border rounded-[24px] bg-navy-900/50 hover:bg-navy-900 hover:border-blue-500/50 transition-all duration-300 cursor-pointer overflow-hidden backdrop-blur-sm shadow-sm">
+              <div className="w-14 h-14 flex items-center justify-center bg-apple-border/50 rounded-2xl mb-4 group-hover:-translate-y-1 transition-all duration-300 border border-apple-border text-slate-400 group-hover:text-blue-500">
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
                 </svg>
               </div>
-              <span className="text-slate-300 font-medium text-sm transition-colors tracking-wide">
+              <span className="text-slate-400 font-medium text-sm transition-colors tracking-wide group-hover:text-slate-300">
                 Click or drag PDF resume here
               </span>
               <input 
@@ -115,14 +146,14 @@ export default function ProfileInput({ onNext, isModelReady }) {
             </div>
 
             <div className="flex items-center my-8">
-              <div className="flex-1 border-t border-white/5"></div>
+              <div className="flex-1 border-t border-apple-border"></div>
               <span className="px-6 text-[10px] font-bold text-slate-500 uppercase tracking-widest">Or type manually</span>
-              <div className="flex-1 border-t border-white/5"></div>
+              <div className="flex-1 border-t border-apple-border"></div>
             </div>
 
             <div className="mb-10 relative group">
               <textarea
-                className="w-full h-40 p-6 bg-white/5 border border-white/10 rounded-2xl text-white placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all resize-none text-base font-light"
+                className="w-full h-40 p-6 bg-navy-900/50 border border-apple-border rounded-[24px] text-white placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all resize-none text-base font-light shadow-sm"
                 placeholder="e.g. JavaScript, React, Python, Data Analysis..."
                 value={skills}
                 onChange={(e) => setSkills(e.target.value)}
@@ -132,7 +163,7 @@ export default function ProfileInput({ onNext, isModelReady }) {
         )}
 
         <button 
-          onClick={() => onNext(skills)}
+          onClick={() => onNext(skills, parsedProfile)}
           disabled={!skills.trim() || isExtracting || !isModelReady}
           className="w-full relative flex items-center justify-center gap-3 bg-blue-600 text-white font-medium text-lg py-5 rounded-2xl hover:bg-blue-500 transition-all active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-blue-600 border border-blue-500/50"
         >
