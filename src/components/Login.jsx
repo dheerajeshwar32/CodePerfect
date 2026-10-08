@@ -21,7 +21,19 @@ export default function Login({ onSignIn }) {
       <div className="relative z-10 flex flex-col items-center text-center max-w-4xl px-6">
         
         <div className="mb-8">
-          <img src="/favicon.svg" alt="KYC Logo" className="h-20 sm:h-24 w-auto drop-shadow-[0_0_30px_rgba(255,255,255,0.3)] mx-auto" />
+          <svg viewBox="0 0 160 50" className="h-16 sm:h-20 w-auto drop-shadow-[0_0_30px_rgba(255,255,255,0.3)]" fill="none">
+             <path d="M25 10 V40 M50 10 L31 25 L50 40" stroke="url(#apple-siri)" strokeWidth="4.5" strokeLinecap="round" strokeLinejoin="round" />
+             <path d="M70 10 L85 25 L100 10 M85 25 V40" stroke="url(#apple-siri)" strokeWidth="4.5" strokeLinecap="round" strokeLinejoin="round" />
+             <path d="M137 14 A 15 15 0 1 0 137 36" stroke="url(#apple-siri)" strokeWidth="4.5" strokeLinecap="round" strokeLinejoin="round" />
+             <defs>
+               <linearGradient id="apple-siri" x1="25" y1="10" x2="137" y2="40" gradientUnits="userSpaceOnUse">
+                 <stop offset="0%" stopColor="#FF2A54" />
+                 <stop offset="33%" stopColor="#FF9B00" />
+                 <stop offset="66%" stopColor="#00F0FF" />
+                 <stop offset="100%" stopColor="#A800FF" />
+               </linearGradient>
+             </defs>
+          </svg>
         </div>
 
         <h1 className="text-5xl md:text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-white to-white/40 tracking-tight mb-6 drop-shadow-sm">
