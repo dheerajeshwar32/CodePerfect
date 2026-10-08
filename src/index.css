@@ -15,17 +15,17 @@
 }
 
 :root {
-  /* DARK MODE - Ultra Premium Deep Space */
-  --theme-navy-950: #050507; 
-  --theme-navy-900: rgba(20, 20, 25, 0.6); 
+  /* DARK MODE - Ultra Premium Deep Midnight Blue (No Black) */
+  --theme-navy-950: #0B1120; 
+  --theme-navy-900: rgba(11, 17, 32, 0.6); 
   --theme-white: #ffffff;
   --theme-slate-300: #e2e8f0;
   --theme-slate-400: #94a3b8;
   --theme-slate-500: #64748b;
   
-  --theme-card-border: rgba(255, 255, 255, 0.06);
-  --theme-card-shadow: 0 10px 40px -10px rgba(0,0,0,0.8);
-  --theme-card-shadow-hover: 0 20px 40px -10px rgba(0,0,0,0.9);
+  --theme-card-border: rgba(255, 255, 255, 0.08);
+  --theme-card-shadow: 0 10px 40px -10px rgba(11, 17, 32, 0.8);
+  --theme-card-shadow-hover: 0 20px 40px -10px rgba(11, 17, 32, 0.9);
   
   --bg-gradient: radial-gradient(circle at 15% 50%, rgba(59, 130, 246, 0.15), transparent 25%),
                  radial-gradient(circle at 85% 30%, rgba(99, 102, 241, 0.15), transparent 25%);

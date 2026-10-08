@@ -89,19 +89,19 @@ export default function Dashboard({ userProfile, jobMatches, onBack }) {
               </p>
 
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <div className="bg-black/20 rounded-2xl p-4 border border-white/5">
+                <div className="bg-navy-950/40 rounded-2xl p-4 border border-white/5">
                   <p className="text-[10px] text-slate-500 uppercase tracking-widest font-bold mb-1">Experience</p>
                   <p className="text-2xl font-bold text-white">{profile.experienceYears} <span className="text-sm text-slate-400 font-normal">Years</span></p>
                 </div>
-                <div className="bg-black/20 rounded-2xl p-4 border border-white/5">
+                <div className="bg-navy-950/40 rounded-2xl p-4 border border-white/5">
                   <p className="text-[10px] text-slate-500 uppercase tracking-widest font-bold mb-1">Top Skills</p>
                   <p className="text-2xl font-bold text-white">{profile.skills ? profile.skills.length : 0}</p>
                 </div>
-                <div className="bg-black/20 rounded-2xl p-4 border border-white/5">
+                <div className="bg-navy-950/40 rounded-2xl p-4 border border-white/5">
                   <p className="text-[10px] text-slate-500 uppercase tracking-widest font-bold mb-1">Market Fit</p>
                   <p className="text-2xl font-bold text-emerald-400">Top 15%</p>
                 </div>
-                <div className="bg-black/20 rounded-2xl p-4 border border-white/5">
+                <div className="bg-navy-950/40 rounded-2xl p-4 border border-white/5">
                   <p className="text-[10px] text-slate-500 uppercase tracking-widest font-bold mb-1">Matched Jobs</p>
                   <p className="text-2xl font-bold text-blue-400">{jobMatches?.length || 0}</p>
                 </div>
@@ -185,7 +185,7 @@ export default function Dashboard({ userProfile, jobMatches, onBack }) {
 
             <div className="space-y-4 relative z-10">
               
-              <div className="bg-black/30 border border-white/5 rounded-2xl p-5 flex items-center justify-between group hover:border-purple-500/50 transition-colors">
+              <div className="bg-navy-950/50 border border-white/5 rounded-2xl p-5 flex items-center justify-between group hover:border-purple-500/50 transition-colors">
                 <div className="flex items-center gap-4">
                   <div className="w-12 h-12 rounded-xl bg-purple-500/20 border border-purple-500/30 flex items-center justify-center text-purple-400 shadow-[0_0_15px_rgba(168,85,247,0.3)]">
                     <Code className="w-6 h-6" />

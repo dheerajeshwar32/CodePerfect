@@ -47,7 +47,7 @@ export default function Login({ onSignIn, onGuestLogin }) {
         <div className="flex flex-col sm:flex-row items-center gap-6 w-full max-w-lg">
           <button 
             onClick={handleLogin}
-            className="group relative w-full flex items-center justify-center gap-3 bg-white/5 backdrop-blur-xl border border-white/10 text-white font-semibold text-lg py-5 px-6 rounded-3xl hover:bg-white/10 hover:border-white/20 transition-all active:scale-95 shadow-[0_0_40px_rgba(0,0,0,0.5)] overflow-hidden"
+            className="group relative w-full flex items-center justify-center gap-3 bg-white/5 backdrop-blur-xl border border-white/10 text-white font-semibold text-lg py-5 px-6 rounded-3xl hover:bg-white/10 hover:border-white/20 transition-all active:scale-95 shadow-[0_0_40px_rgba(11,17,32,0.6)] overflow-hidden"
           >
             <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-purple-500/10 opacity-0 group-hover:opacity-100 transition-opacity"></div>
             <svg viewBox="0 0 24 24" className="w-6 h-6 relative z-10" fill="currentColor">
