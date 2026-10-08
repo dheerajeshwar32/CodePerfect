@@ -63,7 +63,7 @@ export default function Login({ onSignIn, onGuestLogin }) {
             onClick={onGuestLogin}
             className="w-full sm:w-auto text-slate-400 font-medium tracking-wide hover:text-white transition-colors py-4 px-6 border border-transparent rounded-3xl hover:bg-white/5"
           >
-            Enter the Arena &rarr;
+            Get Started &rarr;
           </button>
         </div>
         

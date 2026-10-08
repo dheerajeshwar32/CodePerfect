@@ -15,3 +15,4 @@ login = login.replace('rgba(0,0,0,0.5)', 'rgba(11,17,32,0.6)')
 
 with open('src/components/Login.jsx', 'w', encoding='utf-8') as f:
     f.write(login)
+
