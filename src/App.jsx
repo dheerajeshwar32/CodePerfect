@@ -7,6 +7,7 @@ import Login from './components/Login';
 import { cosineSimilarity } from './matcher.js';
 import { signOut, onAuthStateChanged } from 'firebase/auth';
 import { auth } from './firebase'; 
+import { jobsData } from '../api/jobsData.js';
 
 // Initialize worker outside to avoid recreation on re-renders (React StrictMode issue)
 const workerInstance = new Worker(new URL('./worker.js', import.meta.url), { type: 'module' });
@@ -36,14 +37,13 @@ function App() {
   }, [isDarkMode]);
 
   useEffect(() => {
-    // Fetch the jobs data from the backend
-    fetch('/api/jobs')
-      .then(res => res.json())
-      .then(data => {
-        const jobsList = Array.isArray(data) ? data : (data.jobs || Object.values(data));
-        setVectorizedJobsData(jobsList);
-      })
-      .catch(err => console.error("Failed to fetch jobs data:", err));
+    // Load jobs data directly instead of fetching from non-existent backend
+    try {
+      const jobsList = Array.isArray(jobsData) ? jobsData : (jobsData.jobs || Object.values(jobsData));
+      setVectorizedJobsData(jobsList);
+    } catch (err) {
+      console.error("Failed to load jobs data:", err);
+    }
 
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
