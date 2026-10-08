@@ -52,3 +52,4 @@ app_content = re.sub(old_app_logo_regex, new_app_logo, app_content, flags=re.DOT
 
 with open('src/App.jsx', 'w', encoding='utf-8') as f:
     f.write(app_content)
+
