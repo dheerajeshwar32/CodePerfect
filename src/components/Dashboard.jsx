@@ -1,12 +1,19 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 
 import { 
   LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer,
   RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar
 } from 'recharts';
-import { Briefcase, TrendingUp, Award, Zap, Code, Star } from 'lucide-react';
+import { Briefcase, TrendingUp, Award, Zap, Code, Star, Mic, LayoutGrid } from 'lucide-react';
+import CodeArena from './CodeArena';
+import VoiceInterview from './VoiceInterview';
+import RecruiterPortal from './RecruiterPortal';
 
 export default function Dashboard({ userProfile, jobMatches, onBack }) {
+  const [testingSkill, setTestingSkill] = useState(null);
+  const [verifiedSkills, setVerifiedSkills] = useState(['React Developer']);
+  const [showVoiceInterview, setShowVoiceInterview] = useState(false);
+  const [showRecruiterPortal, setShowRecruiterPortal] = useState(false);
   
   // Dummy data if real profile isn't generated yet
   const profile = userProfile || {
@@ -49,72 +56,132 @@ export default function Dashboard({ userProfile, jobMatches, onBack }) {
     ];
   }, [profile]);
 
+  const handleTestComplete = () => {
+    if (testingSkill) {
+      setVerifiedSkills([...verifiedSkills, testingSkill]);
+      setTestingSkill(null);
+    }
+  };
+
   return (
-    <div className="w-full max-w-7xl mx-auto animate-fade-in pb-20">
+    <div className="flex-grow w-full max-w-7xl mx-auto flex flex-col pt-4 sm:pt-8 relative z-10 animate-in fade-in duration-700">
       
-      {/* Header */}
-      <div className="mb-10 flex items-center justify-between">
+      {testingSkill && (
+        <CodeArena 
+          jobTitle={testingSkill} 
+          skillsToProve={testingSkill} 
+          onClose={() => setTestingSkill(null)} 
+          onComplete={handleTestComplete} 
+        />
+      )}
+
+      {showVoiceInterview && (
+        <VoiceInterview onClose={() => setShowVoiceInterview(false)} />
+      )}
+
+      {showRecruiterPortal && (
+        <RecruiterPortal onClose={() => setShowRecruiterPortal(false)} />
+      )}
+
+      {/* Header Actions */}
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-10 gap-6">
         <div>
-          <h2 className="text-4xl font-bold text-white tracking-tight mb-2">Your Career Hub</h2>
-          <p className="text-slate-400">AI-driven analytics and market demand for your profile.</p>
+          <button 
+            onClick={onBack}
+            className="group flex items-center gap-2 text-slate-400 hover:text-white transition-colors mb-4 text-xs font-bold uppercase tracking-widest"
+          >
+            <svg className="w-4 h-4 group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+            Back to Matches
+          </button>
+          <h2 className="text-4xl md:text-5xl font-bold text-white tracking-tight">Spatial Dashboard</h2>
+          <p className="text-slate-400 mt-2 text-lg font-light">Your cryptographic career matrix.</p>
         </div>
-        <button 
-          onClick={onBack}
-          className="bg-white/5 border border-white/10 text-white px-5 py-2.5 rounded-full text-sm font-bold tracking-widest uppercase hover:bg-white/10 transition-colors"
-        >
-          View Matches
-        </button>
+        
+        {/* God-Tier Features Bar */}
+        <div className="flex flex-wrap gap-3">
+          <button 
+            onClick={() => setShowRecruiterPortal(true)}
+            className="flex items-center gap-2 bg-purple-500/10 border border-purple-500/20 text-purple-400 hover:bg-purple-500 hover:text-white px-5 py-3 rounded-2xl transition-all shadow-sm"
+          >
+            <LayoutGrid className="w-5 h-5" />
+            <span className="font-bold text-sm">Recruiter Portal</span>
+          </button>
+          <button 
+            onClick={() => setShowVoiceInterview(true)}
+            className="flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 hover:bg-emerald-500 hover:text-white px-5 py-3 rounded-2xl transition-all shadow-sm"
+          >
+            <Mic className="w-5 h-5" />
+            <span className="font-bold text-sm">Voice Interview</span>
+          </button>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
         
         {/* Profile Card */}
-        <div className="transform transition-all duration-500 hover:scale-[1.02] h-full lg:col-span-2">
+        <div className="lg:col-span-1 transform transition-all duration-500 hover:scale-[1.02]">
           <div className="bg-navy-900 border border-apple-border rounded-[32px] p-8 h-full shadow-apple relative overflow-hidden group">
-            <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500/10 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/4 group-hover:bg-blue-500/20 transition-all duration-700"></div>
+            <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-purple-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
             
-            <div className="relative z-10">
-              <div className="flex items-center gap-3 mb-6">
-                <div className="w-12 h-12 rounded-2xl bg-blue-500/20 text-blue-400 flex items-center justify-center border border-blue-500/30">
-                  <Star className="w-6 h-6" />
-                </div>
-                <div>
-                  <h3 className="text-xl font-bold text-white">AI Profile Summary</h3>
-                  <p className="text-xs text-slate-400 uppercase tracking-widest font-bold">Extracted from Resume</p>
-                </div>
+            <div className="w-16 h-16 rounded-2xl bg-blue-500/10 flex items-center justify-center text-blue-400 mb-6 border border-blue-500/20 shadow-[0_0_20px_rgba(59,130,246,0.15)]">
+              <Star className="w-8 h-8" />
+            </div>
+            
+            <h3 className="text-2xl font-bold text-white mb-2">Profile Overview</h3>
+            <p className="text-slate-400 leading-relaxed font-light mb-6">
+              {profile.summary || "Your parsed resume summary will appear here. Our AI engine has analyzed your trajectory."}
+            </p>
+            
+            <div className="space-y-4 border-t border-white/5 pt-6">
+              <div>
+                <span className="block text-[10px] uppercase tracking-widest text-slate-500 font-bold mb-1">Experience Level</span>
+                <span className="text-white font-medium">{profile.experienceYears ? `${profile.experienceYears}+ Years` : 'Mid-Senior Level'}</span>
               </div>
-              
-              <p className="text-slate-300 text-lg leading-relaxed font-light mb-8">
-                "{profile.summary}"
-              </p>
-
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <div className="bg-navy-950/40 rounded-2xl p-4 border border-white/5">
-                  <p className="text-[10px] text-slate-500 uppercase tracking-widest font-bold mb-1">Experience</p>
-                  <p className="text-2xl font-bold text-white">{profile.experienceYears} <span className="text-sm text-slate-400 font-normal">Years</span></p>
-                </div>
-                <div className="bg-navy-950/40 rounded-2xl p-4 border border-white/5">
-                  <p className="text-[10px] text-slate-500 uppercase tracking-widest font-bold mb-1">Top Skills</p>
-                  <p className="text-2xl font-bold text-white">{profile.skills ? profile.skills.length : 0}</p>
-                </div>
-                <div className="bg-navy-950/40 rounded-2xl p-4 border border-white/5">
-                  <p className="text-[10px] text-slate-500 uppercase tracking-widest font-bold mb-1">Market Fit</p>
-                  <p className="text-2xl font-bold text-emerald-400">Top 15%</p>
-                </div>
-                <div className="bg-navy-950/40 rounded-2xl p-4 border border-white/5">
-                  <p className="text-[10px] text-slate-500 uppercase tracking-widest font-bold mb-1">Matched Jobs</p>
-                  <p className="text-2xl font-bold text-blue-400">{jobMatches?.length || 0}</p>
+              <div>
+                <span className="block text-[10px] uppercase tracking-widest text-slate-500 font-bold mb-1">Top Skills Extracted</span>
+                <div className="flex flex-wrap gap-2 mt-2">
+                  {profile.skills && profile.skills.map((skill, i) => (
+                    <span key={i} className="text-xs font-medium bg-white/5 border border-white/10 px-3 py-1.5 rounded-lg text-slate-300">
+                      {skill}
+                    </span>
+                  ))}
                 </div>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Skill Radar */}
-        <div className="transform transition-all duration-500 hover:scale-[1.02] h-full lg:col-span-1">
-          <div className="bg-navy-900 border border-apple-border rounded-[32px] p-6 h-full shadow-apple flex flex-col items-center justify-center relative">
-            <h3 className="absolute top-6 left-6 text-sm font-bold text-white uppercase tracking-widest">Skill Radar</h3>
-            <div className="w-full h-[250px] mt-4">
+        {/* Skill Matrix Radar */}
+        <div className="lg:col-span-2 transform transition-all duration-500 hover:scale-[1.02]">
+          <div className="bg-navy-900 border border-apple-border rounded-[32px] p-8 h-full shadow-apple flex flex-col md:flex-row items-center gap-8 relative overflow-hidden group">
+            <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500/10 blur-[80px] rounded-full pointer-events-none group-hover:bg-blue-500/20 transition-all duration-700"></div>
+            
+            <div className="flex-1 w-full relative z-10">
+              <div className="flex items-center gap-3 mb-2">
+                <h3 className="text-2xl font-bold text-white">Spatial Skill Matrix</h3>
+                <span className="px-2 py-0.5 rounded text-[9px] font-bold tracking-widest uppercase bg-blue-500/20 text-blue-400 border border-blue-500/30">Live Data</span>
+              </div>
+              <p className="text-slate-400 text-sm font-light mb-8 max-w-sm">
+                Real-time dimensional breakdown of your capabilities mapped against the current job market.
+              </p>
+              
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <span className="text-sm font-bold text-slate-400 uppercase tracking-widest">Frontend</span>
+                  <div className="w-48 h-1.5 bg-navy-950 rounded-full overflow-hidden border border-white/5"><div className="h-full bg-blue-500 w-[85%]"></div></div>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm font-bold text-slate-400 uppercase tracking-widest">System Design</span>
+                  <div className="w-48 h-1.5 bg-navy-950 rounded-full overflow-hidden border border-white/5"><div className="h-full bg-purple-500 w-[70%]"></div></div>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm font-bold text-slate-400 uppercase tracking-widest">Leadership</span>
+                  <div className="w-48 h-1.5 bg-navy-950 rounded-full overflow-hidden border border-white/5"><div className="h-full bg-emerald-500 w-[80%]"></div></div>
+                </div>
+              </div>
+            </div>
+
+            <div className="w-full md:w-[350px] h-[300px] relative z-10">
               <ResponsiveContainer width="100%" height="100%">
                 <RadarChart cx="50%" cy="50%" outerRadius="70%" data={skillData}>
                   <PolarGrid stroke="rgba(255,255,255,0.1)" />
@@ -168,15 +235,15 @@ export default function Dashboard({ userProfile, jobMatches, onBack }) {
           </div>
         </div>
 
-        {/* Verification Badges */}
+        {/* Proof of Work Integrations */}
         <div className="transform transition-all duration-500 hover:scale-[1.02] w-full">
-          <div className="bg-navy-900 border border-apple-border rounded-[32px] p-8 shadow-apple h-full relative overflow-hidden">
-            <div className="absolute -bottom-20 -right-20 w-64 h-64 bg-purple-500/10 rounded-full blur-[80px]"></div>
+          <div className="bg-navy-900 border border-apple-border rounded-[32px] p-8 shadow-apple relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-64 h-64 bg-purple-500/5 blur-[80px] rounded-full pointer-events-none"></div>
             
             <div className="flex items-center justify-between mb-8 relative z-10">
               <div>
-                <h3 className="text-xl font-bold text-white mb-1">Skill Verifications</h3>
-                <p className="text-xs text-slate-400 uppercase tracking-widest font-bold">Algorithm Boosters</p>
+                <h3 className="text-xl font-bold text-white mb-1">Proof of Work Matrix</h3>
+                <p className="text-xs text-slate-400 uppercase tracking-widest font-bold">Cryptographically Verified</p>
               </div>
               <div className="w-10 h-10 rounded-full bg-purple-500/10 flex items-center justify-center text-purple-400 border border-purple-500/20">
                 <Award className="w-5 h-5" />
@@ -185,25 +252,27 @@ export default function Dashboard({ userProfile, jobMatches, onBack }) {
 
             <div className="space-y-4 relative z-10">
               
-              <div className="bg-navy-950/50 border border-white/5 rounded-2xl p-5 flex items-center justify-between group hover:border-purple-500/50 transition-colors">
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-xl bg-purple-500/20 border border-purple-500/30 flex items-center justify-center text-purple-400 shadow-[0_0_15px_rgba(168,85,247,0.3)]">
-                    <Code className="w-6 h-6" />
+              {verifiedSkills.map((skill, i) => (
+                <div key={`v-${i}`} className="bg-navy-950/50 border border-white/5 rounded-2xl p-5 flex items-center justify-between group hover:border-purple-500/50 transition-colors">
+                  <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 rounded-xl bg-purple-500/20 border border-purple-500/30 flex items-center justify-center text-purple-400 shadow-[0_0_15px_rgba(168,85,247,0.3)]">
+                      <Code className="w-6 h-6" />
+                    </div>
+                    <div>
+                      <h4 className="font-bold text-white text-lg">{skill}</h4>
+                      <p className="text-xs text-emerald-400 font-bold uppercase tracking-widest mt-0.5 flex items-center gap-1">
+                        <Zap className="w-3 h-3" /> Verified via Arena
+                      </p>
+                    </div>
                   </div>
-                  <div>
-                    <h4 className="font-bold text-white text-lg">React Developer</h4>
-                    <p className="text-xs text-emerald-400 font-bold uppercase tracking-widest mt-0.5 flex items-center gap-1">
-                      <Zap className="w-3 h-3" /> Verified (Top 5%)
-                    </p>
-                  </div>
+                  <button className="text-slate-400 hover:text-white px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 transition-colors text-xs font-bold uppercase tracking-widest">
+                    View
+                  </button>
                 </div>
-                <button className="text-slate-400 hover:text-white px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 transition-colors text-xs font-bold uppercase tracking-widest">
-                  View
-                </button>
-              </div>
+              ))}
 
-              {profile.skills && profile.skills.slice(0, 2).map((skill, i) => (
-                <div key={i} className="bg-white/5 border border-white/5 rounded-2xl p-5 flex items-center justify-between group hover:border-blue-500/50 transition-colors">
+              {profile.skills && profile.skills.filter(s => !verifiedSkills.includes(s)).slice(0, 3).map((skill, i) => (
+                <div key={`uv-${i}`} className="bg-white/5 border border-white/5 rounded-2xl p-5 flex items-center justify-between group hover:border-blue-500/50 transition-colors">
                   <div className="flex items-center gap-4">
                     <div className="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-slate-400">
                       <Briefcase className="w-6 h-6" />
@@ -215,7 +284,10 @@ export default function Dashboard({ userProfile, jobMatches, onBack }) {
                       </p>
                     </div>
                   </div>
-                  <button className="text-blue-400 hover:text-white px-4 py-2 rounded-lg bg-blue-500/10 hover:bg-blue-500/20 border border-blue-500/20 transition-all text-xs font-bold uppercase tracking-widest">
+                  <button 
+                    onClick={() => setTestingSkill(skill)}
+                    className="text-blue-400 hover:text-white px-4 py-2 rounded-lg bg-blue-500/10 hover:bg-blue-500/20 border border-blue-500/20 transition-all text-xs font-bold uppercase tracking-widest"
+                  >
                     Take Test
                   </button>
                 </div>
@@ -231,4 +303,3 @@ export default function Dashboard({ userProfile, jobMatches, onBack }) {
     </div>
   );
 }
-

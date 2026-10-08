@@ -14,7 +14,6 @@ workerInstance.postMessage({ type: 'INIT' });
 
 function App() {
   const [user, setUser] = useState(null); 
-  const [isGuest, setIsGuest] = useState(false);
   const [isAuthLoaded, setIsAuthLoaded] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(true);
 
@@ -115,9 +114,6 @@ function App() {
         setUser(null);
         setCurrentScreen('input'); 
       }).catch((error) => console.error("Sign out error", error));
-    } else {
-      setIsGuest(false);
-      setCurrentScreen('input');
     }
   };
 
@@ -166,35 +162,24 @@ function App() {
         </div>
         
         <div className="hidden sm:flex items-center gap-5">
-          {(user || isGuest) && (
+          {user && (
             <div className="flex items-center gap-3 pr-5 border-r border-white/5">
-              {user ? (
-                <>
-                  <img 
-                    src={user.photoURL} 
-                    alt="Profile" 
-                    className="w-8 h-8 rounded-full border border-white/10" 
-                  />
-                  <div className="hidden md:flex flex-col">
-                    <span className="text-xs font-bold text-white leading-tight">
-                      {user.displayName}
-                    </span>
-                    <button 
-                      onClick={handleSignOut}
-                      className="text-[10px] text-slate-500 hover:text-white text-left transition-colors font-medium tracking-wide uppercase mt-0.5"
-                    >
-                      Sign Out
-                    </button>
-                  </div>
-                </>
-              ) : (
+              <img 
+                src={user.photoURL} 
+                alt="Profile" 
+                className="w-8 h-8 rounded-full border border-white/10" 
+              />
+              <div className="hidden md:flex flex-col">
+                <span className="text-xs font-bold text-white leading-tight">
+                  {user.displayName}
+                </span>
                 <button 
                   onClick={handleSignOut}
-                  className="text-xs font-bold text-white bg-white/5 border border-white/10 px-4 py-2 rounded-full hover:bg-white/10 transition-colors"
+                  className="text-[10px] text-slate-500 hover:text-white text-left transition-colors font-medium tracking-wide uppercase mt-0.5"
                 >
-                  Sign In
+                  Sign Out
                 </button>
-              )}
+              </div>
             </div>
           )}
           
@@ -229,8 +214,8 @@ function App() {
       </header>
 
       <main className="flex-grow flex flex-col relative z-10 w-full h-full p-4 sm:p-8">
-        {!user && !isGuest ? (
-          <Login onSignIn={setUser} onGuestLogin={() => setIsGuest(true)} />
+        {!user ? (
+          <Login onSignIn={setUser} />
         ) : (
           <>
             {currentScreen === 'input' && (

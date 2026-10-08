@@ -79,3 +79,4 @@ app = app.replace(old_user_block, new_user_block)
 
 with open('src/App.jsx', 'w', encoding='utf-8') as f:
     f.write(app)
+

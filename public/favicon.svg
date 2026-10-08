@@ -1,5 +1,5 @@
 <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" fill="none">
-    <rect width="120" height="120" rx="32" fill="#050507" stroke="url(#electric-blue)" stroke-width="2" />
+    <rect width="120" height="120" rx="32" fill="#0B1120" stroke="url(#electric-blue)" stroke-width="2" />
     <g transform="translate(0, 40)">
         <!-- K -->
         <path d="M14 8 V32 M28 8 L18 20 L28 32" stroke="#ffffff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" />
