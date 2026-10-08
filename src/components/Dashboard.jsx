@@ -107,7 +107,13 @@ export default function Dashboard({ userProfile, jobMatches, onBack }) {
             <span className="font-bold text-sm">Recruiter Portal</span>
           </button>
           <button 
-            onClick={() => setShowVoiceInterview(true)}
+            onClick={() => {
+              if ('speechSynthesis' in window) {
+                const unlockAudio = new SpeechSynthesisUtterance('');
+                window.speechSynthesis.speak(unlockAudio);
+              }
+              setShowVoiceInterview(true);
+            }}
             className="flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 hover:bg-emerald-500 hover:text-white px-5 py-3 rounded-2xl transition-all shadow-sm"
           >
             <Mic className="w-5 h-5" />

@@ -32,7 +32,7 @@ function solveChallenge() {
       <div className="bg-navy-900 w-full max-w-5xl h-full max-h-[800px] rounded-3xl border border-white/10 shadow-[0_0_50px_rgba(0,240,255,0.1)] flex flex-col overflow-hidden relative">
         
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-white/5 bg-black/20">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-white/5 bg-navy-900/50">
           <div className="flex items-center gap-3">
             <div className="w-3 h-3 rounded-full bg-red-500/80 cursor-pointer hover:bg-red-500" onClick={onClose}></div>
             <div className="w-3 h-3 rounded-full bg-yellow-500/80"></div>
@@ -46,7 +46,7 @@ function solveChallenge() {
 
         {/* Editor Area */}
         <div className="flex-grow flex relative">
-          <div className="w-12 border-r border-white/5 bg-black/10 flex flex-col items-center py-4 text-xs text-slate-600 select-none">
+          <div className="w-12 border-r border-white/5 bg-navy-900/30 flex flex-col items-center py-4 text-xs text-slate-600 select-none">
             {[...Array(20)].map((_, i) => <div key={i} className="mb-1">{i + 1}</div>)}
           </div>
           <textarea

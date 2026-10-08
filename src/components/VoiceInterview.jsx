@@ -1,34 +1,111 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Mic, MicOff, PhoneOff } from 'lucide-react';
 
 export default function VoiceInterview({ onClose, jobTitle = "Senior Software Engineer" }) {
   const [isListening, setIsListening] = useState(false);
   const [transcript, setTranscript] = useState("Initializing secure neural connection...");
+  const [userSpeech, setUserSpeech] = useState("");
   const [timer, setTimer] = useState(0);
+  const [hasStarted, setHasStarted] = useState(false);
+  const recognitionRef = useRef(null);
 
   useEffect(() => {
-    let interval;
-    interval = setInterval(() => {
+    if (!hasStarted) return;
+    let interval = setInterval(() => {
       setTimer(t => t + 1);
     }, 1000);
     return () => clearInterval(interval);
+  }, [hasStarted]);
+
+  useEffect(() => {
+    // Setup Speech Recognition
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (SpeechRecognition) {
+      const recognition = new SpeechRecognition();
+      recognition.continuous = true;
+      recognition.interimResults = true;
+      recognition.lang = 'en-US';
+
+      recognition.onresult = (event) => {
+        let interimTranscript = '';
+        let finalTranscript = '';
+        
+        for (let i = event.resultIndex; i < event.results.length; i++) {
+          const piece = event.results[i][0].transcript;
+          if (event.results[i].isFinal) {
+            finalTranscript += piece;
+          } else {
+            interimTranscript += piece;
+          }
+        }
+        
+        setUserSpeech(prev => {
+          // If there's final transcript, we might want to append it, but for simplicity
+          // let's just show the current phrase being spoken.
+          return finalTranscript || interimTranscript;
+        });
+      };
+
+      recognition.onerror = (event) => {
+        console.error('Speech recognition error', event.error);
+        if (event.error === 'not-allowed') {
+          setTranscript("Microphone access denied. Please allow microphone permissions.");
+          setIsListening(false);
+        }
+      };
+
+      recognition.onend = () => {
+        // If we are still supposed to be listening, restart it
+        if (isListening && recognitionRef.current) {
+          try {
+            recognitionRef.current.start();
+          } catch (e) {
+            // Already started or other error
+          }
+        }
+      };
+
+      recognitionRef.current = recognition;
+    }
+
+    return () => {
+      if (recognitionRef.current) {
+        recognitionRef.current.stop();
+      }
+    };
   }, []);
 
   useEffect(() => {
+    if (isListening && recognitionRef.current) {
+      try {
+        recognitionRef.current.start();
+        setTranscript("Listening...");
+        setUserSpeech("");
+      } catch (e) {
+        console.error("Failed to start recognition", e);
+      }
+    } else if (!isListening && recognitionRef.current) {
+      recognitionRef.current.stop();
+    }
+  }, [isListening]);
+
+  useEffect(() => {
+    if (!hasStarted) return;
+    
     const speak = (text) => {
       if ('speechSynthesis' in window) {
-        if (text === "(Waiting for your response...)" || text.startsWith("Initializing")) return;
+        if (text === "(Waiting for your response...)" || text.startsWith("Initializing") || text === "Listening...") return;
         const utterance = new SpeechSynthesisUtterance(text);
         utterance.rate = 1.0;
         utterance.pitch = 1.0;
         const voices = window.speechSynthesis.getVoices();
-        const aiVoice = voices.find(v => v.name.includes('Samantha') || v.name.includes('Google US English') || v.name.includes('UK English Female')) || voices[0];
+        const aiVoice = voices.find(v => v.name.includes('Samantha') || v.name.includes('Zira') || v.name.includes('Google US English') || v.name.includes('UK English Female')) || voices[0];
         if (aiVoice) utterance.voice = aiVoice;
         window.speechSynthesis.speak(utterance);
       }
     };
 
-    // Load voices early to avoid first-utterance bug
+    // Load voices early
     if ('speechSynthesis' in window) {
       window.speechSynthesis.getVoices();
     }
@@ -41,24 +118,44 @@ export default function VoiceInterview({ onClose, jobTitle = "Senior Software En
       "(Waiting for your response...)"
     ];
     let i = 0;
-    const seqInterval = setInterval(() => {
-      if (i < sequence.length) {
-        setTranscript(sequence[i]);
-        speak(sequence[i]);
-        i++;
-      } else {
-        setIsListening(true);
-        clearInterval(seqInterval);
-      }
-    }, 4000); // Increased to 4s to give enough time to speak
+    
+    // Initial speak delay
+    const startDelay = setTimeout(() => {
+      setTranscript(sequence[0]);
+      speak(sequence[0]);
+      i++;
+      
+      const seqInterval = setInterval(() => {
+        if (i < sequence.length) {
+          setTranscript(sequence[i]);
+          speak(sequence[i]);
+          i++;
+        } else {
+          setIsListening(true);
+          clearInterval(seqInterval);
+        }
+      }, 4000);
+      
+      return () => clearInterval(seqInterval);
+    }, 1000);
 
     return () => {
-      clearInterval(seqInterval);
+      clearTimeout(startDelay);
       if ('speechSynthesis' in window) {
         window.speechSynthesis.cancel();
       }
     };
-  }, [jobTitle]);
+  }, [jobTitle, hasStarted]);
+
+  const handleStart = () => {
+    if ('speechSynthesis' in window) {
+      // Unlock audio with a silent/empty utterance
+      const unlockAudio = new SpeechSynthesisUtterance('');
+      window.speechSynthesis.speak(unlockAudio);
+    }
+    setHasStarted(true);
+    setTranscript("Connection established. Waiting for AI...");
+  };
 
   const formatTime = (seconds) => {
     const m = Math.floor(seconds / 60).toString().padStart(2, '0');
@@ -96,36 +193,61 @@ export default function VoiceInterview({ onClose, jobTitle = "Senior Software En
                  boxShadow: 'inset -10px -10px 40px rgba(0,0,0,0.5)'
                }}>
             
-            {/* Visualizer bars if speaking */}
-            {!isListening && (
+            {/* Visualizer bars if AI speaking (when NOT listening to user) */}
+            {!isListening && hasStarted && (
               <div className="flex gap-1 items-center h-12">
                 {[1, 2, 3, 4, 5].map((bar) => (
                   <div key={bar} className="w-1.5 bg-white rounded-full animate-pulse" style={{ height: `${Math.random() * 100}%`, animationDuration: `${0.2 + Math.random()*0.3}s` }}></div>
                 ))}
               </div>
             )}
+            
+            {/* Listening indicator when listening to user */}
+            {isListening && (
+              <div className="absolute inset-0 rounded-full border-4 border-emerald-400 border-t-transparent animate-spin opacity-50"></div>
+            )}
           </div>
         </div>
 
         {/* Subtitles */}
-        <div className="h-24 flex items-center justify-center mb-12">
-          <p className="text-3xl md:text-4xl text-center font-light text-white tracking-wide leading-relaxed animate-in slide-in-from-bottom-4">
-            "{transcript}"
-          </p>
+        <div className="h-32 flex flex-col items-center justify-center mb-12 w-full max-w-3xl">
+          {!isListening ? (
+             <p className="text-3xl md:text-4xl text-center font-light text-white tracking-wide leading-relaxed animate-in slide-in-from-bottom-4 transition-all">
+               "{transcript}"
+             </p>
+          ) : (
+            <div className="w-full">
+              <p className="text-sm text-emerald-400 font-mono mb-2 text-center uppercase tracking-widest">You are speaking...</p>
+              <p className="text-2xl md:text-3xl text-center font-light text-white/90 tracking-wide leading-relaxed animate-in slide-in-from-bottom-2">
+                {userSpeech || "..."}
+              </p>
+            </div>
+          )}
         </div>
 
         {/* Controls */}
         <div className="flex items-center gap-8">
-          <button 
-            onClick={() => setIsListening(!isListening)}
-            className={`w-16 h-16 rounded-full flex items-center justify-center border transition-all ${isListening ? 'bg-white/10 border-white/20 text-white hover:bg-white/20' : 'bg-red-500/10 border-red-500/20 text-red-500 hover:bg-red-500/20'}`}
-          >
-            {isListening ? <Mic className="w-6 h-6" /> : <MicOff className="w-6 h-6" />}
-          </button>
+          {!hasStarted ? (
+            <button 
+              onClick={handleStart}
+              className="bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-4 px-10 rounded-full text-lg shadow-[0_0_30px_rgba(16,185,129,0.4)] transition-all active:scale-95 tracking-wide"
+            >
+              Start Interview
+            </button>
+          ) : (
+            <button 
+              onClick={() => setIsListening(!isListening)}
+              className={`w-16 h-16 rounded-full flex items-center justify-center border transition-all ${isListening ? 'bg-emerald-500/20 border-emerald-500/50 text-emerald-400 hover:bg-emerald-500/30 shadow-[0_0_20px_rgba(16,185,129,0.2)]' : 'bg-white/5 border-white/10 text-white/50 hover:bg-white/10'}`}
+              title={isListening ? "Mute Microphone" : "Unmute Microphone"}
+            >
+              {isListening ? <Mic className="w-6 h-6" /> : <MicOff className="w-6 h-6" />}
+            </button>
+          )}
           
           <button 
             onClick={onClose}
-            className="w-20 h-20 rounded-full bg-red-500 hover:bg-red-600 flex items-center justify-center text-white shadow-[0_0_30px_rgba(239,68,68,0.4)] transition-all active:scale-95"
+            className="w-20 h-20 rounded-full bg-red-500/90 hover:bg-red-600 flex items-center justify-center text-white shadow-[0_0_30px_rgba(239,68,68,0.4)] transition-all active:scale-95"
+            title="End Interview"
           >
             <PhoneOff className="w-8 h-8" />
           </button>

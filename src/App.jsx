@@ -126,19 +126,7 @@ function App() {
       
       <header className="sticky top-0 z-50 bg-navy-950/80 backdrop-blur-3xl border-b border-white/5 px-5 sm:px-8 py-4 flex items-center justify-between">
         <div className="flex items-center gap-4 group cursor-pointer">
-          <svg viewBox="0 0 160 50" className="h-8 w-auto group-hover:scale-105 transition-transform duration-500 drop-shadow-[0_0_12px_rgba(0,240,255,0.2)]" fill="none">
-             <path d="M25 10 V40 M50 10 L31 25 L50 40" stroke="url(#apple-siri-app)" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" />
-             <path d="M70 10 L85 25 L100 10 M85 25 V40" stroke="url(#apple-siri-app)" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" />
-             <path d="M137 14 A 15 15 0 1 0 137 36" stroke="url(#apple-siri-app)" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" />
-             <defs>
-               <linearGradient id="apple-siri-app" x1="25" y1="10" x2="137" y2="40" gradientUnits="userSpaceOnUse">
-                 <stop offset="0%" stopColor="#FF2A54" />
-                 <stop offset="33%" stopColor="#FF9B00" />
-                 <stop offset="66%" stopColor="#00F0FF" />
-                 <stop offset="100%" stopColor="#A800FF" />
-               </linearGradient>
-             </defs>
-          </svg>
+          <img src="/favicon.svg" alt="KYC Logo" className="h-10 w-auto group-hover:scale-105 transition-transform duration-500 drop-shadow-[0_0_12px_rgba(0,240,255,0.2)]" />
         </div>
         
         <div className="hidden sm:flex items-center gap-8 mr-auto ml-12">
