@@ -171,7 +171,7 @@ function App() {
               />
               <div className="hidden md:flex flex-col">
                 <span className="text-xs font-bold text-white leading-tight">
-                  {user.displayName}
+                  {user.displayName || user.email?.split('@')[0] || 'Authenticated User'}
                 </span>
                 <button 
                   onClick={handleSignOut}
@@ -231,7 +231,7 @@ function App() {
             )}
             
             {currentScreen === 'dashboard' && (
-              <Dashboard userProfile={userProfile} jobMatches={jobMatches} onBack={() => setCurrentScreen('results')} />
+              <Dashboard user={user} userProfile={userProfile} jobMatches={jobMatches} onBack={() => setCurrentScreen('results')} />
             )}
           </>
         )}

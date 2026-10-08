@@ -9,6 +9,11 @@ export default function VoiceInterview({ onClose, jobTitle = "Senior Software En
   const [hasStarted, setHasStarted] = useState(false);
   const recognitionRef = useRef(null);
 
+  const isListeningRef = useRef(isListening);
+  useEffect(() => {
+    isListeningRef.current = isListening;
+  }, [isListening]);
+
   useEffect(() => {
     if (!hasStarted) return;
     let interval = setInterval(() => {
@@ -40,9 +45,7 @@ export default function VoiceInterview({ onClose, jobTitle = "Senior Software En
         }
         
         setUserSpeech(prev => {
-          // If there's final transcript, we might want to append it, but for simplicity
-          // let's just show the current phrase being spoken.
-          return finalTranscript || interimTranscript;
+          return finalTranscript || interimTranscript || prev;
         });
       };
 
@@ -55,12 +58,10 @@ export default function VoiceInterview({ onClose, jobTitle = "Senior Software En
       };
 
       recognition.onend = () => {
-        // If we are still supposed to be listening, restart it
-        if (isListening && recognitionRef.current) {
+        if (isListeningRef.current && recognitionRef.current) {
           try {
             recognitionRef.current.start();
           } catch (e) {
-            // Already started or other error
           }
         }
       };
@@ -98,6 +99,7 @@ export default function VoiceInterview({ onClose, jobTitle = "Senior Software En
         const utterance = new SpeechSynthesisUtterance(text);
         utterance.rate = 1.0;
         utterance.pitch = 1.0;
+        utterance.volume = 1.0;
         const voices = window.speechSynthesis.getVoices();
         const aiVoice = voices.find(v => v.name.includes('Samantha') || v.name.includes('Zira') || v.name.includes('Google US English') || v.name.includes('UK English Female')) || voices[0];
         if (aiVoice) utterance.voice = aiVoice;
@@ -105,12 +107,10 @@ export default function VoiceInterview({ onClose, jobTitle = "Senior Software En
       }
     };
 
-    // Load voices early
     if ('speechSynthesis' in window) {
       window.speechSynthesis.getVoices();
     }
 
-    // Fake sequence of AI speaking
     const sequence = [
       "Hello. I'm your AI technical interviewer.",
       `Let's discuss your experience for the ${jobTitle} role.`,
@@ -119,7 +119,6 @@ export default function VoiceInterview({ onClose, jobTitle = "Senior Software En
     ];
     let i = 0;
     
-    // Initial speak delay
     const startDelay = setTimeout(() => {
       setTranscript(sequence[0]);
       speak(sequence[0]);
@@ -136,21 +135,17 @@ export default function VoiceInterview({ onClose, jobTitle = "Senior Software En
         }
       }, 4000);
       
-      return () => clearInterval(seqInterval);
     }, 1000);
 
     return () => {
       clearTimeout(startDelay);
-      if ('speechSynthesis' in window) {
-        window.speechSynthesis.cancel();
-      }
     };
   }, [jobTitle, hasStarted]);
 
   const handleStart = () => {
     if ('speechSynthesis' in window) {
-      // Unlock audio with a silent/empty utterance
-      const unlockAudio = new SpeechSynthesisUtterance('');
+      const unlockAudio = new SpeechSynthesisUtterance(' ');
+      unlockAudio.volume = 0;
       window.speechSynthesis.speak(unlockAudio);
     }
     setHasStarted(true);

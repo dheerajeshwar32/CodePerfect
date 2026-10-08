@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 
-export default function CodeArena({ jobTitle, skillsToProve, onClose, onComplete }) {
-  const [code, setCode] = useState(`// Welcome to the Live Code Arena
+export default function CodeArena({ jobTitle, skillsToProve, userName, onClose, onComplete }) {
+  const [code, setCode] = useState(`// Welcome to the Live Code Arena, ${userName}!
 // Prove your skills for: ${jobTitle}
 // Required Skills: ${skillsToProve}
 

@@ -9,7 +9,7 @@ import CodeArena from './CodeArena';
 import VoiceInterview from './VoiceInterview';
 import AICareerCoach from './AICareerCoach';
 
-export default function Dashboard({ userProfile, jobMatches, onBack }) {
+export default function Dashboard({ userProfile, jobMatches, onBack, user }) {
   const [testingSkill, setTestingSkill] = useState(null);
   const [verifiedSkills, setVerifiedSkills] = useState(['React Developer']);
   const [showVoiceInterview, setShowVoiceInterview] = useState(false);
@@ -70,6 +70,7 @@ export default function Dashboard({ userProfile, jobMatches, onBack }) {
         <CodeArena 
           jobTitle={testingSkill} 
           skillsToProve={testingSkill} 
+          userName={user?.displayName || user?.email?.split('@')[0] || 'Authenticated Candidate'}
           onClose={() => setTestingSkill(null)} 
           onComplete={handleTestComplete} 
         />

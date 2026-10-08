@@ -1,17 +1,18 @@
 <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" fill="none">
-    <rect width="120" height="120" rx="32" fill="#0B1120" stroke="url(#electric-blue)" stroke-width="2" />
-    <g transform="translate(0, 40)">
+    <g transform="translate(10, 30)">
         <!-- K -->
-        <path d="M14 8 V32 M28 8 L18 20 L28 32" stroke="#ffffff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" />
+        <path d="M14 8 V52 M36 8 L18 30 L36 52" stroke="url(#apple-siri-app)" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" />
         <!-- Y -->
-        <path d="M48 8 L58 20 L68 8 M58 20 V32" stroke="url(#electric-blue)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" />
+        <path d="M50 8 L64 30 L78 8 M64 30 V52" stroke="url(#apple-siri-app)" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" />
         <!-- C -->
-        <path d="M104 12 A12 12 0 1 0 104 28" stroke="#ffffff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" />
+        <path d="M110 14 A18 18 0 1 0 110 46" stroke="url(#apple-siri-app)" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" />
     </g>
     <defs>
-        <linearGradient id="electric-blue" x1="48" y1="8" x2="68" y2="32" gradientUnits="userSpaceOnUse">
-            <stop stop-color="#3B82F6" />
-            <stop offset="1" stop-color="#8B5CF6" />
+        <linearGradient id="apple-siri-app" x1="0" y1="0" x2="120" y2="60" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#FF2A54" />
+            <stop offset="33%" stop-color="#FF9B00" />
+            <stop offset="66%" stop-color="#00F0FF" />
+            <stop offset="100%" stop-color="#A800FF" />
         </linearGradient>
     </defs>
 </svg>
