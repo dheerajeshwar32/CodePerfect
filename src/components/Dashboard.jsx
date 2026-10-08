@@ -7,13 +7,13 @@ import {
 import { Briefcase, TrendingUp, Award, Zap, Code, Star, Mic, LayoutGrid } from 'lucide-react';
 import CodeArena from './CodeArena';
 import VoiceInterview from './VoiceInterview';
-import RecruiterPortal from './RecruiterPortal';
+import AICareerCoach from './AICareerCoach';
 
 export default function Dashboard({ userProfile, jobMatches, onBack }) {
   const [testingSkill, setTestingSkill] = useState(null);
   const [verifiedSkills, setVerifiedSkills] = useState(['React Developer']);
   const [showVoiceInterview, setShowVoiceInterview] = useState(false);
-  const [showRecruiterPortal, setShowRecruiterPortal] = useState(false);
+  const [showAICoach, setShowAICoach] = useState(false);
   
   // Dummy data if real profile isn't generated yet
   const profile = userProfile || {
@@ -79,8 +79,8 @@ export default function Dashboard({ userProfile, jobMatches, onBack }) {
         <VoiceInterview onClose={() => setShowVoiceInterview(false)} />
       )}
 
-      {showRecruiterPortal && (
-        <RecruiterPortal onClose={() => setShowRecruiterPortal(false)} />
+      {showAICoach && (
+        <AICareerCoach onClose={() => setShowAICoach(false)} userProfile={profile} />
       )}
 
       {/* Header Actions */}
@@ -100,11 +100,11 @@ export default function Dashboard({ userProfile, jobMatches, onBack }) {
         {/* God-Tier Features Bar */}
         <div className="flex flex-wrap gap-3">
           <button 
-            onClick={() => setShowRecruiterPortal(true)}
-            className="flex items-center gap-2 bg-purple-500/10 border border-purple-500/20 text-purple-400 hover:bg-purple-500 hover:text-white px-5 py-3 rounded-2xl transition-all shadow-sm"
+            onClick={() => setShowAICoach(true)}
+            className="flex items-center gap-2 bg-fuchsia-500/10 border border-fuchsia-500/20 text-fuchsia-400 hover:bg-fuchsia-500 hover:text-white px-5 py-3 rounded-2xl transition-all shadow-sm"
           >
-            <LayoutGrid className="w-5 h-5" />
-            <span className="font-bold text-sm">Recruiter Portal</span>
+            <Star className="w-5 h-5" />
+            <span className="font-bold text-sm">AI Career Coach</span>
           </button>
           <button 
             onClick={() => {
