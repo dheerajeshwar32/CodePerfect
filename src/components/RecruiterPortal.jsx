@@ -117,3 +117,4 @@ export default function RecruiterPortal({ onClose }) {
     </div>
   );
 }
+
