@@ -39,21 +39,15 @@ export default function JobResults({ matches, userSkills, onStartOver }) {
     setRoadmap({ skill, steps: null, error: null, loading: true });
     
     try {
-      const response = await fetch('/api/roadmap', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ skill, jobTitle, language })
-      });
-
-      if (!response.ok) {
-        throw new Error(`Server returned ${response.status}`);
-      }
-
-      const data = await response.json();
-      setRoadmap({ skill, steps: data.steps, error: null, loading: false });
-      
+      // Mocking the backend API call for roadmap generation
+      setTimeout(() => {
+        const mockSteps = [
+          { title: `Master ${skill} Basics`, description: `Learn the core concepts and syntax of ${skill}.`, duration: "1 Week" },
+          { title: `Advanced ${skill} Techniques`, description: `Deep dive into advanced patterns for ${jobTitle} roles.`, duration: "2 Weeks" },
+          { title: `Build a Portfolio Project`, description: `Create a real-world project demonstrating your ${skill} expertise.`, duration: "3 Weeks" }
+        ];
+        setRoadmap({ skill, steps: mockSteps, error: null, loading: false });
+      }, 2000);
     } catch (error) {
       console.error("Roadmap generation failed completely:", error);
       setRoadmap({ skill, steps: null, error: 'Failed to connect to AI Coach. Check your connection to the backend server.', loading: false });

@@ -70,7 +70,7 @@ export default function Dashboard({ userProfile, jobMatches, onBack, user }) {
         <CodeArena 
           jobTitle={testingSkill} 
           skillsToProve={testingSkill} 
-          userName={user?.displayName || user?.email?.split('@')[0] || 'Authenticated Candidate'}
+          userName={user ? (user.displayName || user.email?.split('@')[0] || 'Authenticated User') : 'Guest User'}
           onClose={() => setTestingSkill(null)} 
           onComplete={handleTestComplete} 
         />
