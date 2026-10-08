@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Mic, MicOff, PhoneOff, Waveform } from 'lucide-react';
+import { Mic, MicOff, PhoneOff } from 'lucide-react';
 
 export default function VoiceInterview({ onClose, jobTitle = "Senior Software Engineer" }) {
   const [isListening, setIsListening] = useState(false);
