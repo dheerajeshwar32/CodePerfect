@@ -52,7 +52,7 @@ export default function VoiceInterview({ onClose, jobTitle = "Senior Software En
       recognition.onerror = (event) => {
         console.error('Speech recognition error', event.error);
         if (event.error === 'not-allowed') {
-          setTranscript("Microphone access denied. Please allow microphone permissions.");
+          setTranscript("Microphone access denied. Please check permissions.");
           setIsListening(false);
         }
       };
@@ -72,6 +72,9 @@ export default function VoiceInterview({ onClose, jobTitle = "Senior Software En
     return () => {
       if (recognitionRef.current) {
         recognitionRef.current.stop();
+      }
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
       }
     };
   }, []);
@@ -142,10 +145,19 @@ export default function VoiceInterview({ onClose, jobTitle = "Senior Software En
     };
   }, [jobTitle, hasStarted]);
 
-  const handleStart = () => {
+  const handleStart = async () => {
+    try {
+      if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+        await navigator.mediaDevices.getUserMedia({ audio: true });
+      }
+    } catch (err) {
+      console.warn("Audio permission delayed or denied", err);
+    }
+
     if ('speechSynthesis' in window) {
-      const unlockAudio = new SpeechSynthesisUtterance(' ');
-      unlockAudio.volume = 0;
+      window.speechSynthesis.cancel();
+      const unlockAudio = new SpeechSynthesisUtterance('Hello');
+      unlockAudio.volume = 0.01;
       window.speechSynthesis.speak(unlockAudio);
     }
     setHasStarted(true);
