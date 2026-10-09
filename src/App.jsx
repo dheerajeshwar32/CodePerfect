@@ -130,14 +130,16 @@ function App() {
       
       <header className="sticky top-0 z-50 bg-navy-950/80 backdrop-blur-3xl border-b border-white/5 px-5 sm:px-8 py-4 flex items-center justify-between">
         <div className="flex items-center gap-4 group cursor-pointer">
-          <svg viewBox="0 0 120 40" className="h-7 w-auto group-hover:scale-105 transition-transform duration-500 drop-shadow-2xl" fill="none">
-             <path d="M10 8 V32 M28 8 L14 20 L28 32" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" className="text-white transition-colors" />
-             <path d="M45 8 L55 20 L65 8 M55 20 V32" stroke="url(#electric-blue-header)" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" className="drop-shadow-[0_0_8px_rgba(59,130,246,0.5)]" />
-             <path d="M105 12 A12 12 0 1 0 105 28" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" className="text-white transition-colors" />
+          <svg viewBox="0 0 160 50" className="h-8 w-auto group-hover:scale-105 transition-transform duration-500 drop-shadow-[0_0_12px_rgba(0,240,255,0.2)]" fill="none">
+             <path d="M25 10 V40 M50 10 L31 25 L50 40" stroke="url(#apple-siri-app)" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" />
+             <path d="M70 10 L85 25 L100 10 M85 25 V40" stroke="url(#apple-siri-app)" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" />
+             <path d="M137 14 A 15 15 0 1 0 137 36" stroke="url(#apple-siri-app)" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" />
              <defs>
-               <linearGradient id="electric-blue-header" x1="45" y1="8" x2="65" y2="32" gradientUnits="userSpaceOnUse">
-                 <stop stopColor="#3B82F6" />
-                 <stop offset="1" stopColor="#8B5CF6" />
+               <linearGradient id="apple-siri-app" x1="25" y1="10" x2="137" y2="40" gradientUnits="userSpaceOnUse">
+                 <stop offset="0%" stopColor="#FF2A54" />
+                 <stop offset="33%" stopColor="#FF9B00" />
+                 <stop offset="66%" stopColor="#00F0FF" />
+                 <stop offset="100%" stopColor="#A800FF" />
                </linearGradient>
              </defs>
           </svg>
