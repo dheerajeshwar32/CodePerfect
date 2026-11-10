@@ -37,7 +37,7 @@ const apiMiddleware = () => {
               if (body) {
                 try {
                   req.body = JSON.parse(body);
-                } catch(e) {
+                } catch {
                   req.body = body;
                 }
               }

@@ -32,7 +32,13 @@ function App() {
   const [jobMatches, setJobMatches] = useState([]);
   const [isModelReady, setIsModelReady] = useState(false);
   const [userSkillsText, setUserSkillsText] = useState(''); 
-  const [vectorizedJobsData, setVectorizedJobsData] = useState([]);
+  const [vectorizedJobsData] = useState(() => {
+    try {
+      return Array.isArray(jobsData) ? jobsData : (jobsData.jobs || Object.values(jobsData) || []);
+    } catch {
+      return [];
+    }
+  });
   const [userProfile, setUserProfile] = useState(null);
   
   const aiWorker = useRef(workerInstance);
@@ -50,14 +56,6 @@ function App() {
   }, [isDarkMode]);
 
   useEffect(() => {
-    // Load jobs data directly instead of fetching from non-existent backend
-    try {
-      const jobsList = Array.isArray(jobsData) ? jobsData : (jobsData.jobs || Object.values(jobsData));
-      setVectorizedJobsData(jobsList);
-    } catch (err) {
-      console.error("Failed to load jobs data:", err);
-    }
-
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
       setIsAuthLoaded(true);

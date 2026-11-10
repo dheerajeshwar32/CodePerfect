@@ -52,7 +52,7 @@ export default async function handler(req, res) {
       const text = primaryResult.response.text();
       try {
         jsonResponse = JSON.parse(text);
-      } catch (e) {
+      } catch {
         const match = text.match(/```json\n([\s\S]*)\n```/);
         if (match) {
            jsonResponse = JSON.parse(match[1]);
@@ -68,7 +68,7 @@ export default async function handler(req, res) {
       const text = fallbackResult.response.text();
       try {
         jsonResponse = JSON.parse(text);
-      } catch (e) {
+      } catch {
         const match = text.match(/```json\n([\s\S]*)\n```/);
         if (match) {
            jsonResponse = JSON.parse(match[1]);

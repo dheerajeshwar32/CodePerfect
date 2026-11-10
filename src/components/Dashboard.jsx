@@ -10,18 +10,20 @@ const CodeArena = lazy(() => import('./CodeArena'));
 const VoiceInterview = lazy(() => import('./VoiceInterview'));
 const AICareerCoach = lazy(() => import('./AICareerCoach'));
 
+const DEFAULT_PROFILE = {
+  summary: "Experienced professional seeking new opportunities in tech.",
+  experienceYears: 3,
+  skills: ["React", "JavaScript", "Problem Solving"]
+};
+
 export default function Dashboard({ userProfile, jobMatches, onBack, user }) {
   const [testingSkill, setTestingSkill] = useState(null);
   const [verifiedSkills, setVerifiedSkills] = useState(['React Developer']);
   const [showVoiceInterview, setShowVoiceInterview] = useState(false);
   const [showAICoach, setShowAICoach] = useState(false);
   
-  // Dummy data if real profile isn't generated yet
-  const profile = userProfile || {
-    summary: "Experienced professional seeking new opportunities in tech.",
-    experienceYears: 3,
-    skills: ["React", "JavaScript", "Problem Solving"]
-  };
+  // Stable reference fallback if profile is not generated
+  const profile = userProfile || DEFAULT_PROFILE;
 
   const hasMatches = jobMatches && jobMatches.length > 0;
 
@@ -30,7 +32,7 @@ export default function Dashboard({ userProfile, jobMatches, onBack, user }) {
     let baseSalary = 80000;
     if (hasMatches) {
        const salaries = jobMatches.map(j => {
-          const match = j.salary?.match(/\\$(\d+)[kK]/);
+          const match = j.salary?.match(/\$(\d+)[kK]/);
           return match ? parseInt(match[1]) * 1000 : null;
        }).filter(Boolean);
        if (salaries.length > 0) {

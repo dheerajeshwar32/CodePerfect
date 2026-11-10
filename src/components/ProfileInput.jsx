@@ -145,10 +145,10 @@ export default function ProfileInput({ onNext, isModelReady }) {
         {isExtracting ? (
           <div className="mb-10 flex flex-col items-center justify-center w-full h-56 border border-dashed border-[#E2E8F8] dark:border-[#252D58] rounded-[24px] bg-[#F4F7FF] dark:bg-[#11152B]">
             <div className="w-12 h-12 border-2 border-[#E2E8F8] dark:border-[#252D58] border-t-[#5268FF] rounded-full animate-spin mb-4"></div>
-            <span className="text-[#2D325A] dark:text-[#F0F4FF] font-medium tracking-wide">
+            <span className="text-[#1D1D1F] dark:text-white font-medium tracking-wide">
               {activeTab === 'github' ? 'Scanning Public Repositories...' : 'Processing Document...'}
             </span>
-            <span className="text-xs text-[#848DB3] dark:text-[#6E78A3] mt-2 truncate max-w-xs">{uploadedFileName || githubUsername}</span>
+            <span className="text-xs text-[#6E6E73] dark:text-[#94A3B8] mt-2 truncate max-w-xs">{uploadedFileName || githubUsername}</span>
           </div>
         ) : uploadedFileName ? (
           <div className="mb-10 flex flex-col sm:flex-row items-center justify-between border border-[#059669]/30 rounded-[24px] p-6 bg-[#ECFDF5] dark:bg-[#064E3B]/20">
@@ -159,7 +159,7 @@ export default function ProfileInput({ onNext, isModelReady }) {
                 </svg>
               </div>
               <div>
-                <p className="font-bold text-[#2D325A] dark:text-[#F0F4FF] text-lg mb-1">Verification Successful</p>
+                <p className="font-bold text-[#1D1D1F] dark:text-white text-lg mb-1">Verification Successful</p>
                 <p className="text-sm text-[#059669] truncate max-w-[200px] sm:max-w-sm mb-1.5 font-normal">
                   {uploadedFileName}
                 </p>
@@ -170,7 +170,7 @@ export default function ProfileInput({ onNext, isModelReady }) {
             </div>
             <button 
               onClick={handleClear} 
-              className="mt-4 sm:mt-0 text-[#848DB3] hover:text-red-400 p-3 transition-colors bg-[#F4F7FF] dark:bg-[#11152B] rounded-xl hover:bg-[#EEF2FF] dark:hover:bg-[#1E264D] border border-[#E2E8F8] dark:border-[#252D58] active:scale-95"
+              className="mt-4 sm:mt-0 text-[#86868B] hover:text-red-500 p-3 transition-colors bg-white dark:bg-[#11152B] rounded-xl hover:bg-red-50 dark:hover:bg-red-950/20 border border-slate-200/80 dark:border-white/[0.08] active:scale-95 cursor-pointer"
               title="Remove"
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -187,7 +187,7 @@ export default function ProfileInput({ onNext, isModelReady }) {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
                   </svg>
                 </div>
-                <span className="text-[#5A628A] dark:text-[#9BA6D1] font-medium text-sm transition-colors tracking-wide hover:text-[#2D325A] dark:hover:text-[#F0F4FF]">
+                <span className="text-slate-600 dark:text-slate-300 font-medium text-sm transition-colors tracking-wide hover:text-[#5268FF]">
                   Click or drag PDF resume here
                 </span>
                 <input 

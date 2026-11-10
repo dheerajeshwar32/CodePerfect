@@ -61,7 +61,8 @@ export default function VoiceInterview({ onClose, jobTitle = "Senior Software En
         if (isListeningRef.current && recognitionRef.current) {
           try {
             recognitionRef.current.start();
-          } catch (e) {
+          } catch {
+            // Safe ignore duplicate start attempt
           }
         }
       };
