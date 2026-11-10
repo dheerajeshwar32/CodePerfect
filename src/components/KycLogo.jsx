@@ -1,46 +1,47 @@
-export const KycLogo = ({ width = 100, height = 32, className = "" }) => {
-  const gradientId = "kyc-electric-blue";
+import React from 'react';
+
+export const KycLogo = ({ className = "h-8 w-auto", idPrefix = "kyc" }) => {
+  const gradientId = `${idPrefix}-siri-gradient`;
+  
   return (
     <svg 
-      width={width} 
-      height={height} 
-      viewBox="0 0 120 40" 
+      viewBox="0 0 160 50" 
+      className={`select-none shrink-0 ${className}`} 
       fill="none" 
-      xmlns="http://www.w3.org/2000/svg" 
-      className={`select-none shrink-0 text-[#1D1D1F] dark:text-white transition-colors duration-200 ${className}`}
+      xmlns="http://www.w3.org/2000/svg"
     >
       <defs>
-        <linearGradient id={gradientId} x1="45" y1="8" x2="65" y2="32" gradientUnits="userSpaceOnUse">
-          <stop offset="0%" stopColor="#3B82F6" />
-          <stop offset="100%" stopColor="#8B5CF6" />
+        <linearGradient id={gradientId} x1="25" y1="10" x2="137" y2="40" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stopColor="#FF2A54" />
+          <stop offset="33%" stopColor="#FF9B00" />
+          <stop offset="66%" stopColor="#00F0FF" />
+          <stop offset="100%" stopColor="#A800FF" />
         </linearGradient>
-        <filter id="kyc-blue-glow" x="35" y="0" width="40" height="40" filterUnits="userSpaceOnUse">
-          <feDropShadow dx="0" dy="0" stdDeviation="3.5" floodColor="#3B82F6" floodOpacity="0.75" />
-        </filter>
       </defs>
+      
       {/* K */}
       <path 
-        d="M10 8 V32 M28 8 L14 20 L28 32" 
-        stroke="currentColor" 
-        strokeWidth="4" 
-        strokeLinecap="round" 
-        strokeLinejoin="round" 
-      />
-      {/* Y - Electric Blue with Ambient Glow */}
-      <path 
-        d="M45 8 L55 20 L65 8 M55 20 V32" 
+        d="M25 10 V40 M50 10 L31 25 L50 40" 
         stroke={`url(#${gradientId})`} 
-        strokeWidth="4" 
+        strokeWidth="4.5" 
         strokeLinecap="round" 
         strokeLinejoin="round" 
-        filter="url(#kyc-blue-glow)"
-        className="drop-shadow-[0_0_8px_rgba(59,130,246,0.7)]"
       />
+      
+      {/* Y */}
+      <path 
+        d="M70 10 L85 25 L100 10 M85 25 V40" 
+        stroke={`url(#${gradientId})`} 
+        strokeWidth="4.5" 
+        strokeLinecap="round" 
+        strokeLinejoin="round" 
+      />
+      
       {/* C */}
       <path 
-        d="M105 12 A12 12 0 1 0 105 28" 
-        stroke="currentColor" 
-        strokeWidth="4" 
+        d="M137 14 A 15 15 0 1 0 137 36" 
+        stroke={`url(#${gradientId})`} 
+        strokeWidth="4.5" 
         strokeLinecap="round" 
         strokeLinejoin="round" 
       />

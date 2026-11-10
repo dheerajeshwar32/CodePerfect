@@ -1,17 +1,19 @@
-<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" fill="none">
-    <rect width="120" height="120" rx="28" fill="#0B0F19" />
-    <g transform="translate(10, 30)">
+<svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" fill="none">
+    <rect width="160" height="160" rx="36" fill="#0B0F19" />
+    <g transform="translate(0, 55)">
         <!-- K -->
-        <path d="M14 8 V52 M36 8 L18 30 L36 52" stroke="#FFFFFF" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" />
+        <path d="M25 10 V40 M50 10 L31 25 L50 40" stroke="url(#apple-siri-icon)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" />
         <!-- Y -->
-        <path d="M50 8 L64 30 L78 8 M64 30 V52" stroke="url(#kyc-electric-blue-icon)" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" filter="drop-shadow(0 0 6px rgba(59,130,246,0.8))" />
+        <path d="M70 10 L85 25 L100 10 M85 25 V40" stroke="url(#apple-siri-icon)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" />
         <!-- C -->
-        <path d="M110 14 A18 18 0 1 0 110 46" stroke="#FFFFFF" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" />
+        <path d="M137 14 A 15 15 0 1 0 137 36" stroke="url(#apple-siri-icon)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" />
     </g>
     <defs>
-        <linearGradient id="kyc-electric-blue-icon" x1="50" y1="8" x2="78" y2="52" gradientUnits="userSpaceOnUse">
-            <stop offset="0%" stop-color="#3B82F6" />
-            <stop offset="100%" stop-color="#8B5CF6" />
+        <linearGradient id="apple-siri-icon" x1="25" y1="10" x2="137" y2="40" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#FF2A54" />
+            <stop offset="33%" stop-color="#FF9B00" />
+            <stop offset="66%" stop-color="#00F0FF" />
+            <stop offset="100%" stop-color="#A800FF" />
         </linearGradient>
     </defs>
 </svg>

@@ -3,61 +3,47 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-  --color-navy-900: var(--theme-navy-900);
-  --color-navy-950: var(--theme-navy-950);
-  --color-white: var(--theme-white);
-  --color-slate-300: var(--theme-slate-300);
-  --color-slate-400: var(--theme-slate-400);
-  --color-slate-500: var(--theme-slate-500);
-  
-  --shadow-apple: var(--theme-card-shadow);
-  --shadow-apple-hover: var(--theme-card-shadow-hover);
-  --color-apple-border: var(--theme-card-border);
+  --color-navy-950: var(--theme-canvas-bg);
+  --color-navy-900: var(--theme-surface-bg);
 }
 
 :root {
-  /* LIGHT MODE (DEFAULT) - Clean Apple-grade Canvas */
-  --theme-navy-950: #F5F7FA;
-  --theme-navy-900: rgba(255, 255, 255, 0.95);
-  --theme-white: #1D1D1F;
-  --theme-slate-300: #5A628A;
-  --theme-slate-400: #848DB3;
-  --theme-slate-500: #6E78A3;
+  /* LIGHT MODE (DEFAULT) - Clean Apple-grade Luminous Canvas */
+  --theme-canvas-bg: #FFFFFF;
+  --theme-surface-bg: rgba(255, 255, 255, 0.95);
+  --theme-text-primary: #111827;
+  --theme-text-secondary: #4B5563;
+  --theme-text-muted: #9CA3AF;
   
-  --theme-card-border: rgba(226, 232, 248, 0.8);
-  --theme-card-shadow: 0 10px 35px -10px rgba(45,50,90,0.06);
-  --theme-card-shadow-hover: 0 16px 40px -10px rgba(45,50,90,0.1);
+  --theme-border: rgba(0, 0, 0, 0.08);
+  --theme-card-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.06);
+  --theme-card-shadow-hover: 0 16px 35px -10px rgba(0, 0, 0, 0.1);
   
-  --bg-gradient: radial-gradient(circle at 15% 50%, rgba(82,104,255,0.04), transparent 25%),
-                 radial-gradient(circle at 85% 30%, rgba(82,104,255,0.03), transparent 25%);
+  --bg-gradient: radial-gradient(circle at 15% 50%, rgba(82, 104, 255, 0.03), transparent 25%),
+                 radial-gradient(circle at 85% 30%, rgba(59, 130, 246, 0.03), transparent 25%);
 }
 
 html.dark, :root.dark {
-  /* DARK MODE - Deep Midnight Space */
-  --theme-navy-950: #0B0F19;
-  --theme-navy-900: rgba(19, 24, 43, 0.95);
-  --theme-white: #F0F4FF;
-  --theme-slate-300: #9BA6D1;
-  --theme-slate-400: #6E78A3;
-  --theme-slate-500: #848DB3;
+  /* DARK MODE - Deep Midnight Blue */
+  --theme-canvas-bg: #0B0F19;
+  --theme-surface-bg: #13182B;
+  --theme-text-primary: #FFFFFF;
+  --theme-text-secondary: #94A3B8;
+  --theme-text-muted: #64748B;
   
-  --theme-card-border: rgba(255, 255, 255, 0.08);
-  --theme-card-shadow: 0 10px 35px -10px rgba(0,0,0,0.4);
-  --theme-card-shadow-hover: 0 16px 40px -10px rgba(0,0,0,0.6);
+  --theme-border: rgba(255, 255, 255, 0.08);
+  --theme-card-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.5);
+  --theme-card-shadow-hover: 0 16px 45px -10px rgba(0, 0, 0, 0.7);
   
-  --bg-gradient: radial-gradient(circle at 15% 50%, rgba(82,104,255,0.08), transparent 25%),
-                 radial-gradient(circle at 85% 30%, rgba(82,104,255,0.06), transparent 25%);
+  --bg-gradient: radial-gradient(circle at 15% 50%, rgba(82, 104, 255, 0.08), transparent 25%),
+                 radial-gradient(circle at 85% 30%, rgba(99, 102, 241, 0.06), transparent 25%);
 }
 
 html, body, #root {
-  background-color: #F5F7FA;
-  color: #1D1D1F;
+  min-height: 100vh;
+  background-color: var(--theme-canvas-bg);
+  color: var(--theme-text-primary);
   transition: background-color 0.25s ease, color 0.25s ease;
-}
-
-html.dark, html.dark body, html.dark #root {
-  background-color: #0B0F19;
-  color: #F0F4FF;
 }
 
 body {
@@ -70,15 +56,24 @@ body {
 
 .chromatic-accent {
   color: #5268FF;
-  text-shadow: -1.2px 0px 0px rgba(0,229,255,0.75), 1.2px 0px 0px rgba(255,46,147,0.65);
+  text-shadow: -1.2px 0px 0px rgba(0, 229, 255, 0.75), 1.2px 0px 0px rgba(255, 46, 147, 0.65);
 }
 
-/* Premium custom scrollbar */
-::-webkit-scrollbar { width: 10px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { 
-  background: var(--theme-slate-500); 
-  border-radius: 10px; 
-  border: 3px solid var(--theme-navy-950); 
+/* Apple-style Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
 }
-::-webkit-scrollbar-thumb:hover { background: var(--theme-slate-400); }
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.3);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(148, 163, 184, 0.5);
+}

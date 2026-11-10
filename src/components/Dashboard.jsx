@@ -247,8 +247,16 @@ export default function Dashboard({ userProfile, jobMatches, onBack, user }) {
                     tickLine={false}
                   />
                   <RechartsTooltip 
-                    contentStyle={{ backgroundColor: '#13182B', borderColor: 'rgba(255,255,255,0.1)', borderRadius: '12px' }}
-                    itemStyle={{ color: '#fff', fontWeight: 'bold' }}
+                    contentStyle={{ 
+                      backgroundColor: typeof document !== 'undefined' && document.documentElement.classList.contains('dark') ? '#13182B' : '#FFFFFF', 
+                      borderColor: typeof document !== 'undefined' && document.documentElement.classList.contains('dark') ? 'rgba(255,255,255,0.1)' : '#E2E8F0', 
+                      borderRadius: '12px',
+                      boxShadow: '0 8px 24px rgba(0,0,0,0.12)'
+                    }}
+                    itemStyle={{ 
+                      color: typeof document !== 'undefined' && document.documentElement.classList.contains('dark') ? '#FFFFFF' : '#111827', 
+                      fontWeight: 'bold' 
+                    }}
                     formatter={(value) => [`$${value.toLocaleString()}`, 'Expected']}
                   />
                   <Line type="monotone" dataKey="expected" stroke="#10B981" strokeWidth={3.5} dot={{ r: 5, fill: '#10B981', stroke: '#13182B', strokeWidth: 2 }} activeDot={{ r: 7 }} />

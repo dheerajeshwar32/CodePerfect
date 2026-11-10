@@ -103,10 +103,10 @@ export default function JobResults({ matches, userSkills, onStartOver }) {
                 onChange={handleLanguageChange}
                 className="appearance-none w-full bg-white dark:bg-[#13182B] border border-slate-200/80 dark:border-white/[0.08] text-[#1D1D1F] dark:text-white py-3 pl-5 pr-10 rounded-2xl focus:outline-none focus:ring-1 focus:ring-[#5268FF]/50 font-medium text-base md:text-sm cursor-pointer shadow-sm"
               >
-                <option value="English">English</option>
-                <option value="Telugu">తెలుగు (Telugu)</option>
-                <option value="Tamil">தமிழ் (Tamil)</option>
-                <option value="Hindi">हिंदी (Hindi)</option>
+                <option value="English" className="bg-white dark:bg-[#13182B] text-slate-900 dark:text-white">English</option>
+                <option value="Telugu" className="bg-white dark:bg-[#13182B] text-slate-900 dark:text-white">తెలుగు (Telugu)</option>
+                <option value="Tamil" className="bg-white dark:bg-[#13182B] text-slate-900 dark:text-white">தமிழ் (Tamil)</option>
+                <option value="Hindi" className="bg-white dark:bg-[#13182B] text-slate-900 dark:text-white">हिंदी (Hindi)</option>
               </select>
               <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-[#86868B]">
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
