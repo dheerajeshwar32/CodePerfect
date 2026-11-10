@@ -1,0 +1,13 @@
+{
+  "name": "CodePerfect",
+  "description": "AI Career Compass & Private Skill Matcher — 100% on-device AI skill matching with Transformers.js",
+  "url": "https://code-perfect-innohack.vercel.app/",
+  "features": [
+    "On-device skill matching via cosine similarity",
+    "PDF resume parsing",
+    "GitHub repository language extraction",
+    "AI-powered career roadmap generation",
+    "Voice interview practice with speech recognition",
+    "Multi-language support (English, Hindi, Telugu, Tamil)"
+  ]
+}

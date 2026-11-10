@@ -15,37 +15,37 @@
 }
 
 :root {
-  /* DARK MODE - Ultra Premium Deep Midnight Blue (No Black) */
-  --theme-navy-950: #0B1120; 
-  --theme-navy-900: rgba(11, 17, 32, 0.6); 
-  --theme-white: #ffffff;
-  --theme-slate-300: #e2e8f0;
-  --theme-slate-400: #94a3b8;
-  --theme-slate-500: #64748b;
+  /* DARK MODE - Deep Navy Design System */
+  --theme-navy-950: #0E1229;
+  --theme-navy-900: rgba(21, 26, 54, 0.95);
+  --theme-white: #F0F4FF;
+  --theme-slate-300: #9BA6D1;
+  --theme-slate-400: #6E78A3;
+  --theme-slate-500: #848DB3;
   
-  --theme-card-border: rgba(255, 255, 255, 0.08);
-  --theme-card-shadow: 0 10px 40px -10px rgba(11, 17, 32, 0.8);
-  --theme-card-shadow-hover: 0 20px 40px -10px rgba(11, 17, 32, 0.9);
+  --theme-card-border: rgba(37, 45, 88, 0.8);
+  --theme-card-shadow: 0 10px 35px -10px rgba(45,50,90,0.06);
+  --theme-card-shadow-hover: 0 16px 40px -10px rgba(45,50,90,0.1);
   
-  --bg-gradient: radial-gradient(circle at 15% 50%, rgba(59, 130, 246, 0.15), transparent 25%),
-                 radial-gradient(circle at 85% 30%, rgba(99, 102, 241, 0.15), transparent 25%);
+  --bg-gradient: radial-gradient(circle at 15% 50%, rgba(82,104,255,0.08), transparent 25%),
+                 radial-gradient(circle at 85% 30%, rgba(82,104,255,0.06), transparent 25%);
 }
 
 :root.light {
-  /* LIGHT MODE - Apple macOS Level UI */
-  --theme-navy-950: #f5f5f7; 
-  --theme-navy-900: rgba(255, 255, 255, 0.7); 
-  --theme-white: #1d1d1f;    
-  --theme-slate-300: #424245; 
-  --theme-slate-400: #86868b; 
-  --theme-slate-500: #a1a1a6; 
+  /* LIGHT MODE - Periwinkle Frost Design System */
+  --theme-navy-950: #F6F8FC;
+  --theme-navy-900: rgba(255, 255, 255, 0.95);
+  --theme-white: #2D325A;
+  --theme-slate-300: #5A628A;
+  --theme-slate-400: #848DB3;
+  --theme-slate-500: #6E78A3;
   
-  --theme-card-border: rgba(0, 0, 0, 0.05);
-  --theme-card-shadow: 0 8px 30px rgba(0,0,0,0.04);
-  --theme-card-shadow-hover: 0 20px 40px rgba(0,0,0,0.08);
+  --theme-card-border: rgba(226, 232, 248, 0.8);
+  --theme-card-shadow: 0 10px 35px -10px rgba(45,50,90,0.06);
+  --theme-card-shadow-hover: 0 16px 40px -10px rgba(45,50,90,0.1);
   
-  --bg-gradient: radial-gradient(circle at 15% 50%, rgba(59, 130, 246, 0.06), transparent 25%),
-                 radial-gradient(circle at 85% 30%, rgba(99, 102, 241, 0.06), transparent 25%);
+  --bg-gradient: radial-gradient(circle at 15% 50%, rgba(82,104,255,0.04), transparent 25%),
+                 radial-gradient(circle at 85% 30%, rgba(82,104,255,0.03), transparent 25%);
 }
 
 body {
@@ -58,7 +58,12 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Premium Apple-like custom scrollbar */
+.chromatic-accent {
+  color: #5268FF;
+  text-shadow: -1.2px 0px 0px rgba(0,229,255,0.75), 1.2px 0px 0px rgba(255,46,147,0.65);
+}
+
+/* Premium custom scrollbar */
 ::-webkit-scrollbar { width: 10px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { 

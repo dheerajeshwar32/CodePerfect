@@ -1,5 +1,15 @@
 import { useState } from 'react';
 import { extractTextFromPDF } from '../pdfParser.js';
+import { FileText, Keyboard } from 'lucide-react';
+
+function Github({ className = "w-4 h-4" }) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4" />
+      <path d="M9 18c-4.51 2-5-2-7-2" />
+    </svg>
+  );
+}
 
 export default function ProfileInput({ onNext, isModelReady }) {
   const [skills, setSkills] = useState('');
@@ -99,68 +109,68 @@ export default function ProfileInput({ onNext, isModelReady }) {
 
   return (
     <div className="relative flex-grow w-full flex items-center justify-center p-4 sm:p-12 overflow-visible z-10">
-      <div className="relative z-10 bg-navy-900/60 backdrop-blur-2xl rounded-[32px] border border-apple-border shadow-[0_20px_50px_rgba(0,0,0,0.5)] w-full max-w-3xl p-8 sm:p-12 transition-all">
+      <div className="relative z-10 bg-white/95 dark:bg-[#151A36]/95 backdrop-blur-xl rounded-[32px] border border-[#E2E8F8] dark:border-[#252D58] shadow-[0_12px_36px_-12px_rgba(45,50,90,0.07)] w-full max-w-3xl p-8 sm:p-12">
         
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center px-4 py-1.5 mb-6 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400">
+          <div className="inline-flex items-center justify-center px-4 py-1.5 mb-6 rounded-full bg-[#EEF2FF] dark:bg-[#151A36] border border-[#C7D4FF] dark:border-[#2B3566] text-[#5268FF]">
             <span className="relative flex h-2 w-2 mr-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#5268FF] opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-[#5268FF]"></span>
             </span>
             <span className="text-[10px] font-bold tracking-widest uppercase">AI Profiler Active</span>
           </div>
-          <h2 className="text-4xl md:text-5xl font-bold text-white tracking-tight mb-4">
+          <h2 className="text-4xl md:text-5xl font-extrabold text-[#2D325A] dark:text-[#F0F4FF] tracking-tight mb-4">
             Verify Your Skills
           </h2>
-          <p className="text-slate-400 font-light text-lg max-w-lg mx-auto leading-relaxed">
-            Provide your data to mathematically match with the universe of top-tier opportunities.
+          <p className="text-[#5A628A] dark:text-[#9BA6D1] font-normal text-lg max-w-lg mx-auto leading-relaxed">
+            Provide your data to match with top-tier career opportunities.
           </p>
         </div>
 
         {/* Custom Tabs */}
         {!uploadedFileName && !isExtracting && (
-          <div className="flex bg-navy-950/50 p-1.5 rounded-2xl border border-white/5 mb-8">
-            <button onClick={() => setActiveTab('pdf')} className={`flex-1 py-3 text-sm font-medium rounded-xl transition-all ${activeTab === 'pdf' ? 'bg-white/10 text-white shadow-lg' : 'text-slate-500 hover:text-slate-300'}`}>
-              📄 Upload PDF
+          <div className="flex bg-[#EEF2FF] dark:bg-[#0E1229] p-1.5 rounded-2xl border border-[#DCE6FA] dark:border-[#252D58] mb-8">
+            <button onClick={() => setActiveTab('pdf')} className={`flex-1 flex items-center justify-center gap-2 py-3 text-sm font-medium rounded-xl transition-colors ${activeTab === 'pdf' ? 'bg-white dark:bg-[#1B2244] text-[#2D325A] dark:text-[#F0F4FF] font-semibold shadow-sm border border-[#5268FF]/15' : 'text-[#5A628A] dark:text-[#9BA6D1]'}`}>
+              <FileText className="w-4 h-4" /> Upload PDF
             </button>
-            <button onClick={() => setActiveTab('github')} className={`flex-1 py-3 text-sm font-medium rounded-xl transition-all ${activeTab === 'github' ? 'bg-white/10 text-white shadow-lg' : 'text-slate-500 hover:text-slate-300'}`}>
-              🐙 GitHub Proof
+            <button onClick={() => setActiveTab('github')} className={`flex-1 flex items-center justify-center gap-2 py-3 text-sm font-medium rounded-xl transition-colors ${activeTab === 'github' ? 'bg-white dark:bg-[#1B2244] text-[#2D325A] dark:text-[#F0F4FF] font-semibold shadow-sm border border-[#5268FF]/15' : 'text-[#5A628A] dark:text-[#9BA6D1]'}`}>
+              <Github className="w-4 h-4" /> GitHub Proof
             </button>
-            <button onClick={() => setActiveTab('manual')} className={`flex-1 py-3 text-sm font-medium rounded-xl transition-all ${activeTab === 'manual' ? 'bg-white/10 text-white shadow-lg' : 'text-slate-500 hover:text-slate-300'}`}>
-              ⌨️ Type Manually
+            <button onClick={() => setActiveTab('manual')} className={`flex-1 flex items-center justify-center gap-2 py-3 text-sm font-medium rounded-xl transition-colors ${activeTab === 'manual' ? 'bg-white dark:bg-[#1B2244] text-[#2D325A] dark:text-[#F0F4FF] font-semibold shadow-sm border border-[#5268FF]/15' : 'text-[#5A628A] dark:text-[#9BA6D1]'}`}>
+              <Keyboard className="w-4 h-4" /> Type Manually
             </button>
           </div>
         )}
 
         {isExtracting ? (
-          <div className="mb-10 flex flex-col items-center justify-center w-full h-56 border border-dashed border-white/10 rounded-[24px] bg-white/5 backdrop-blur-sm">
-            <div className="w-12 h-12 border-2 border-slate-700 border-t-blue-500 rounded-full animate-spin mb-4"></div>
-            <span className="text-white font-medium tracking-wide">
+          <div className="mb-10 flex flex-col items-center justify-center w-full h-56 border border-dashed border-[#E2E8F8] dark:border-[#252D58] rounded-[24px] bg-[#F4F7FF] dark:bg-[#11152B]">
+            <div className="w-12 h-12 border-2 border-[#E2E8F8] dark:border-[#252D58] border-t-[#5268FF] rounded-full animate-spin mb-4"></div>
+            <span className="text-[#2D325A] dark:text-[#F0F4FF] font-medium tracking-wide">
               {activeTab === 'github' ? 'Scanning Public Repositories...' : 'Processing Document...'}
             </span>
-            <span className="text-xs text-slate-400 mt-2 truncate max-w-xs">{uploadedFileName || githubUsername}</span>
+            <span className="text-xs text-[#848DB3] dark:text-[#6E78A3] mt-2 truncate max-w-xs">{uploadedFileName || githubUsername}</span>
           </div>
         ) : uploadedFileName ? (
-          <div className="mb-10 flex flex-col sm:flex-row items-center justify-between border border-emerald-500/30 rounded-[24px] p-6 bg-emerald-500/5 backdrop-blur-sm shadow-[0_0_20px_rgba(16,185,129,0.1)]">
+          <div className="mb-10 flex flex-col sm:flex-row items-center justify-between border border-[#059669]/30 rounded-[24px] p-6 bg-[#ECFDF5] dark:bg-[#064E3B]/20">
             <div className="flex items-center gap-5">
-              <div className="w-12 h-12 flex items-center justify-center bg-emerald-500/20 text-emerald-400 rounded-xl border border-emerald-500/30">
+              <div className="w-12 h-12 flex items-center justify-center bg-[#059669]/20 text-[#059669] rounded-xl border border-[#059669]/30">
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
                 </svg>
               </div>
               <div>
-                <p className="font-bold text-white text-lg mb-1">Verification Successful</p>
-                <p className="text-sm text-emerald-400 truncate max-w-[200px] sm:max-w-sm mb-1.5 font-light">
+                <p className="font-bold text-[#2D325A] dark:text-[#F0F4FF] text-lg mb-1">Verification Successful</p>
+                <p className="text-sm text-[#059669] truncate max-w-[200px] sm:max-w-sm mb-1.5 font-normal">
                   {uploadedFileName}
                 </p>
-                <span className="text-[10px] uppercase tracking-widest text-emerald-500 font-bold bg-emerald-500/10 px-2.5 py-1 rounded">
+                <span className="text-[10px] uppercase tracking-widest text-[#059669] font-bold bg-[#059669]/10 px-2.5 py-1 rounded">
                   Ready for Spatial Match
                 </span>
               </div>
             </div>
             <button 
               onClick={handleClear} 
-              className="mt-4 sm:mt-0 text-slate-400 hover:text-red-400 p-3 transition-colors bg-white/5 rounded-xl hover:bg-white/10 border border-white/5 active:scale-95"
+              className="mt-4 sm:mt-0 text-[#848DB3] hover:text-red-400 p-3 transition-colors bg-[#F4F7FF] dark:bg-[#11152B] rounded-xl hover:bg-[#EEF2FF] dark:hover:bg-[#1E264D] border border-[#E2E8F8] dark:border-[#252D58] active:scale-95"
               title="Remove"
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -171,13 +181,13 @@ export default function ProfileInput({ onNext, isModelReady }) {
         ) : (
           <div className="mb-10 relative">
             {activeTab === 'pdf' && (
-              <div className="group relative flex flex-col items-center justify-center w-full h-48 border border-dashed border-apple-border rounded-[24px] bg-navy-900/50 hover:bg-navy-900 hover:border-blue-500/50 transition-all duration-300 cursor-pointer overflow-hidden shadow-sm">
-                <div className="w-14 h-14 flex items-center justify-center bg-white/5 rounded-2xl mb-4 group-hover:-translate-y-1 transition-all duration-300 border border-white/10 text-slate-400 group-hover:text-blue-500">
+              <div className="group relative flex flex-col items-center justify-center w-full h-48 border-2 border-dashed border-[#C7D4FF] dark:border-[#334185] hover:border-[#5268FF] rounded-2xl transition-colors cursor-pointer overflow-hidden bg-[radial-gradient(circle_at_50%_45%,#EBF0FF_0%,#F6F8FC_55%,#FFFFFF_100%)] dark:bg-[radial-gradient(circle_at_50%_45%,#1D254E_0%,#131836_60%,#0E1229_100%)]">
+                <div className="w-14 h-14 rounded-2xl bg-white dark:bg-[#1A2142] border border-[#E2E8F8] dark:border-[#2E3A72] shadow-[0_8px_24px_rgba(82,104,255,0.18)] flex items-center justify-center text-[#5268FF] mx-auto mb-3 group-hover:-translate-y-1 transition-transform duration-300">
                   <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
                   </svg>
                 </div>
-                <span className="text-slate-400 font-medium text-sm transition-colors tracking-wide group-hover:text-white">
+                <span className="text-[#5A628A] dark:text-[#9BA6D1] font-medium text-sm transition-colors tracking-wide hover:text-[#2D325A] dark:hover:text-[#F0F4FF]">
                   Click or drag PDF resume here
                 </span>
                 <input 
@@ -191,14 +201,14 @@ export default function ProfileInput({ onNext, isModelReady }) {
             )}
 
             {activeTab === 'github' && (
-              <div className="w-full flex flex-col h-48 border border-apple-border rounded-[24px] bg-navy-900/50 p-8 shadow-sm">
-                <label className="text-slate-300 font-medium mb-3">GitHub Username</label>
+              <div className="w-full flex flex-col h-48 border border-[#E2E8F8] dark:border-[#252D58] rounded-[24px] bg-[#F4F7FF] dark:bg-[#11152B] p-8">
+                <label className="text-[#2D325A] dark:text-[#F0F4FF] font-medium mb-3">GitHub Username</label>
                 <div className="flex gap-3">
                   <div className="relative flex-1">
-                    <span className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500">github.com/</span>
+                    <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[#848DB3]">github.com/</span>
                     <input 
                       type="text"
-                      className="w-full bg-navy-950 border border-white/10 rounded-xl py-4 pl-[100px] pr-4 text-white focus:outline-none focus:border-blue-500/50"
+                      className="w-full bg-[#F6F8FC] dark:bg-[#0E1229] border border-[#E2E8F8] dark:border-[#252D58] rounded-xl py-4 pl-[100px] pr-4 text-[#2D325A] dark:text-[#F0F4FF] text-base md:text-sm focus:outline-none focus:border-[#5268FF]/50"
                       placeholder="username"
                       value={githubUsername}
                       onChange={(e) => setGithubUsername(e.target.value)}
@@ -208,13 +218,13 @@ export default function ProfileInput({ onNext, isModelReady }) {
                   <button 
                     onClick={handleScanGithub}
                     disabled={!githubUsername}
-                    className="bg-white/10 hover:bg-white/20 text-white font-medium px-6 rounded-xl border border-white/5 transition-colors disabled:opacity-50"
+                    className="bg-[#EEF2FF] dark:bg-[#1E264D] hover:bg-[#E0E7FF] text-[#5268FF] border border-[#C7D4FF] dark:border-[#334185] font-medium px-6 rounded-xl transition-colors disabled:opacity-50"
                   >
                     Scan
                   </button>
                 </div>
                 {githubError && <p className="text-red-400 text-sm mt-4">{githubError}</p>}
-                <p className="text-slate-500 text-sm mt-4 font-light">
+                <p className="text-[#848DB3] text-sm mt-4 font-normal">
                   We instantly scan your public repositories to build a mathematically backed Proof-of-Work profile.
                 </p>
               </div>
@@ -222,7 +232,7 @@ export default function ProfileInput({ onNext, isModelReady }) {
 
             {activeTab === 'manual' && (
               <textarea
-                className="w-full h-48 p-6 bg-navy-900/50 border border-apple-border rounded-[24px] text-white placeholder-slate-500 focus:outline-none focus:border-blue-500/50 transition-all resize-none text-base font-light shadow-sm"
+                className="w-full h-48 p-6 bg-[#F4F7FF] dark:bg-[#11152B] border border-[#E2E8F8] dark:border-[#252D58] rounded-[24px] text-[#2D325A] dark:text-[#F0F4FF] placeholder-[#848DB3] focus:outline-none focus:border-[#5268FF]/50 transition-colors resize-none text-base font-normal shadow-sm"
                 placeholder="e.g. JavaScript, React, Python, Data Analysis..."
                 value={skills}
                 onChange={(e) => setSkills(e.target.value)}
@@ -234,10 +244,10 @@ export default function ProfileInput({ onNext, isModelReady }) {
         <button 
           onClick={() => onNext(skills, parsedProfile)}
           disabled={!skills.trim() || isExtracting || !isModelReady}
-          className="w-full relative flex items-center justify-center gap-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-medium text-lg py-5 rounded-2xl hover:brightness-110 transition-all active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed shadow-[0_0_30px_rgba(59,130,246,0.3)] border border-white/10"
+          className="w-full relative flex items-center justify-center gap-3 bg-[#5268FF] hover:bg-[#4256E8] text-white font-semibold text-lg py-5 rounded-2xl transition-transform active:scale-[0.98] shadow-[0_6px_20px_rgba(82,104,255,0.3)] border-none disabled:bg-[#E8EEFF] dark:disabled:bg-[#1E264D] disabled:text-[#5268FF]/70 dark:disabled:text-[#7C8EE8] disabled:cursor-not-allowed disabled:shadow-none"
         >
           <span className="tracking-wide">
-            {isModelReady ? "Enter Spatial Dashboard" : "Initializing Deep Engine..."}
+            {isModelReady ? "Enter Spatial Dashboard" : "Preparing AI Engine..."}
           </span>
           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
         </button>

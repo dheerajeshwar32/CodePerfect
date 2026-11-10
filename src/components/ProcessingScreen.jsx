@@ -1,19 +1,19 @@
 export default function ProcessingScreen({ onComplete }) {
   return (
-    <div className="max-w-2xl mx-auto mt-20 p-12 bg-navy-900 backdrop-blur-2xl rounded-[32px] border border-apple-border shadow-apple text-center flex flex-col items-center relative overflow-hidden">
+    <div className="max-w-2xl mx-auto mt-20 p-12 bg-white/95 dark:bg-[#151A36]/95 backdrop-blur-xl rounded-3xl border border-[#E2E8F8] dark:border-[#252D58] shadow-[0_10px_35px_-10px_rgba(45,50,90,0.06)] text-center flex flex-col items-center relative overflow-hidden">
       
-      <div className="relative z-10 w-16 h-16 border-2 border-slate-700 border-t-blue-500 rounded-full animate-spin mb-8 shadow-sm"></div>
+      <div className="relative z-10 w-16 h-16 border-2 border-[#E2E8F8] dark:border-[#252D58] border-t-[#5268FF] rounded-full animate-spin mb-8 shadow-sm"></div>
       
-      <h2 className="relative z-10 text-3xl font-bold text-white mb-4 tracking-tight">
+      <h2 className="relative z-10 text-3xl font-extrabold text-[#2D325A] dark:text-[#F0F4FF] mb-4 tracking-tight">
         Analyzing Profile
       </h2>
-      <p className="relative z-10 text-slate-400 text-lg mb-10 leading-relaxed font-light max-w-md">
-        Running edge vector operations to find optimal career matches based on your skills...
+      <p className="relative z-10 text-[#5A628A] dark:text-[#9BA6D1] text-lg mb-10 leading-relaxed font-normal max-w-md">
+        Analyzing your skills with our private on-device AI to find your best career matches...
       </p>
 
       <button 
         onClick={onComplete}
-        className="relative z-10 text-[10px] font-bold text-slate-400 hover:text-slate-300 uppercase tracking-widest transition-colors bg-navy-900/50 hover:bg-navy-900 px-6 py-3 rounded-full border border-apple-border shadow-sm"
+        className="relative z-10 text-[10px] font-bold text-[#848DB3] hover:text-[#5268FF] uppercase tracking-widest transition-colors bg-[#F4F7FF] dark:bg-[#1B2244] px-6 py-3 rounded-full border border-[#DCE6FA] dark:border-[#2B3566] shadow-sm"
       >
         Skip to Results
       </button>

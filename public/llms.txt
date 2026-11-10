@@ -1,0 +1,15 @@
+# CodePerfect
+
+> AI Career Compass & Private Skill Matcher
+
+## Overview
+CodePerfect (KYC) is a privacy-first career intelligence platform. All AI processing runs 100% locally in your browser using Transformers.js — no data ever leaves the device.
+
+## Features
+- **On-Device Skill Matching**: Upload your resume (PDF) or connect GitHub to extract skills, then match against engineering roles using cosine similarity on local WASM embeddings.
+- **AI Career Roadmap**: Generate personalized learning paths for missing skills using the Gemini API.
+- **Voice Interview Studio**: Practice technical interviews with AI-generated questions and real-time speech recognition.
+- **Spatial Dashboard**: Visualize your career trajectory with radar charts, salary projections, and enterprise compatibility scores.
+
+## Links
+- [App](https://code-perfect-innohack.vercel.app/)

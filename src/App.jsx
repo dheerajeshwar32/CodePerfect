@@ -1,13 +1,15 @@
-import { useState, useEffect, useRef } from 'react';
-import ProfileInput from './components/ProfileInput';
-import ProcessingScreen from './components/ProcessingScreen';
-import JobResults from './components/JobResults';
-import Dashboard from './components/Dashboard';
+import { useState, useEffect, useRef, lazy, Suspense } from 'react';
+import { Sun, Moon, Compass } from 'lucide-react';
 import Login from './components/Login';
 import { cosineSimilarity } from './matcher.js';
 import { signOut, onAuthStateChanged } from 'firebase/auth';
 import { auth } from './firebase'; 
 import { jobsData } from '../api/jobsData.js';
+
+const ProfileInput = lazy(() => import('./components/ProfileInput'));
+const ProcessingScreen = lazy(() => import('./components/ProcessingScreen'));
+const JobResults = lazy(() => import('./components/JobResults'));
+const Dashboard = lazy(() => import('./components/Dashboard'));
 
 // Initialize worker outside to avoid recreation on re-renders (React StrictMode issue)
 const workerInstance = new Worker(new URL('./worker.js', import.meta.url), { type: 'module' });
@@ -77,7 +79,18 @@ function App() {
         });
 
         rankedJobs.sort((a, b) => b.score - a.score);
-        setJobMatches(rankedJobs.slice(0, 9));
+        
+        // Deduplicate by job title so distinct engineering roles are displayed
+        const seenTitles = new Set();
+        const distinctJobs = [];
+        for (const job of rankedJobs) {
+          if (!seenTitles.has(job.title)) {
+            seenTitles.add(job.title);
+            distinctJobs.push(job);
+            if (distinctJobs.length >= 9) break;
+          }
+        }
+        setJobMatches(distinctJobs);
         setCurrentScreen('results');
       }
 
@@ -122,44 +135,44 @@ function App() {
   };
 
   if (!isAuthLoaded) {
-    return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
+    return <div className="min-h-screen flex items-center justify-center bg-[#F6F8FC] dark:bg-[#0E1229] text-[#2D325A] dark:text-[#F0F4FF]">Loading...</div>;
   }
 
   return (
-    <div className="min-h-screen bg-navy-950 font-sans text-slate-300 flex flex-col relative overflow-x-hidden transition-colors duration-300">
+    <div className="min-h-screen bg-[#F6F8FC] dark:bg-[#0E1229] font-sans text-[#2D325A] dark:text-[#F0F4FF] flex flex-col relative overflow-x-hidden w-full max-w-[100vw] box-border transition-colors duration-300 pb-24 md:pb-10">
       
-      <header className="sticky top-0 z-50 bg-navy-950/80 backdrop-blur-3xl border-b border-white/5 px-5 sm:px-8 py-4 flex items-center justify-between">
-        <div className="flex items-center gap-4 group cursor-pointer">
-          <svg viewBox="0 0 160 50" className="h-8 w-auto group-hover:scale-105 transition-transform duration-500 drop-shadow-[0_0_12px_rgba(0,240,255,0.2)]" fill="none">
-             <path d="M25 10 V40 M50 10 L31 25 L50 40" stroke="url(#apple-siri-app)" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" />
-             <path d="M70 10 L85 25 L100 10 M85 25 V40" stroke="url(#apple-siri-app)" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" />
-             <path d="M137 14 A 15 15 0 1 0 137 36" stroke="url(#apple-siri-app)" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" />
-             <defs>
-               <linearGradient id="apple-siri-app" x1="25" y1="10" x2="137" y2="40" gradientUnits="userSpaceOnUse">
-                 <stop offset="0%" stopColor="#FF2A54" />
-                 <stop offset="33%" stopColor="#FF9B00" />
-                 <stop offset="66%" stopColor="#00F0FF" />
-                 <stop offset="100%" stopColor="#A800FF" />
-               </linearGradient>
-             </defs>
-          </svg>
+      <header className="sticky top-0 z-50 bg-white/80 dark:bg-[#0E1229]/80 backdrop-blur-2xl border-b border-[#E2E8F8] dark:border-[#252D58] px-5 sm:px-8 py-4 flex items-center justify-between">
+        {/* Brand Lockup */}
+        <div className="flex items-center gap-2.5 select-none cursor-pointer">
+          <div className="relative flex items-center justify-center w-8 h-8 rounded-[9px] bg-gradient-to-br from-[#5268FF] via-[#4355E8] to-[#2D325A] shadow-[0_3px_10px_rgba(82,104,255,0.32),inset_0_1px_0_rgba(255,255,255,0.35)] border border-[#4338CA]/50 shrink-0 overflow-hidden">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 3L14.8 9.2L21 12L14.8 14.8L12 21L9.2 14.8L3 12L9.2 9.2L12 3Z" stroke="#FFFFFF" strokeWidth="2" strokeLinejoin="round" fill="rgba(255,255,255,0.18)" />
+              <circle cx="12" cy="12" r="2.2" fill="#FFFFFF" />
+            </svg>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="text-[16px] font-extrabold tracking-[-0.03em] text-[#2D325A] dark:text-[#F0F4FF]">KYC</span>
+            <span className="hidden sm:inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-semibold bg-[#EEF2FF] dark:bg-[#1E264D] text-[#5268FF] border border-[#C7D4FF] dark:border-[#334185]">
+              Career AI
+            </span>
+          </div>
         </div>
         
-        <div className="hidden sm:flex items-center gap-8 mr-auto ml-12">
+        <div className="hidden md:flex items-center gap-4 mr-auto ml-12">
           {(user || isGuest) && (
-            <div className="flex gap-4">
+            <div className="flex gap-3">
               <button 
                 onClick={() => setCurrentScreen(jobMatches.length > 0 ? 'results' : 'input')}
-                className={`text-xs font-bold uppercase tracking-widest px-4 py-2 rounded-full transition-all ${currentScreen !== 'dashboard' ? 'bg-white/10 text-white' : 'text-slate-400 hover:text-white hover:bg-white/5'}`}
+                className={`text-xs font-bold uppercase tracking-widest px-4 py-1.5 rounded-full transition-colors ${currentScreen !== 'dashboard' ? 'bg-[#EEF2FF] dark:bg-[#1E264D] text-[#5268FF] border border-[#C7D4FF] dark:border-[#334185]' : 'text-[#5A628A] dark:text-[#9BA6D1] hover:text-[#5268FF] hover:bg-[#EEF2FF] dark:hover:bg-[#1E264D]'}`}
               >
                 Match
               </button>
               <button 
                 onClick={() => setCurrentScreen('dashboard')}
-                className={`text-xs font-bold uppercase tracking-widest px-4 py-2 rounded-full transition-all flex items-center gap-2 ${currentScreen === 'dashboard' ? 'bg-blue-500/10 text-blue-400 border border-blue-500/20' : 'text-slate-400 hover:text-white hover:bg-white/5'}`}
+                className={`text-xs font-bold uppercase tracking-widest px-4 py-1.5 rounded-full transition-colors flex items-center gap-2 ${currentScreen === 'dashboard' ? 'bg-[#EEF2FF] dark:bg-[#1E264D] text-[#5268FF] border border-[#C7D4FF] dark:border-[#334185]' : 'text-[#5A628A] dark:text-[#9BA6D1] hover:text-[#5268FF] hover:bg-[#EEF2FF] dark:hover:bg-[#1E264D]'}`}
               >
                 Dashboard
-                {userProfile && <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>}
+                {userProfile && <span className="w-2 h-2 rounded-full bg-[#059669] animate-pulse"></span>}
               </button>
             </div>
           )}
@@ -167,19 +180,19 @@ function App() {
         
         <div className="hidden sm:flex items-center gap-5">
           {(user || isGuest) && (
-            <div className="flex items-center gap-3 pr-5 border-r border-white/5">
+            <div className="flex items-center gap-3 pr-5 border-r border-[#E2E8F8] dark:border-[#252D58]">
               <img 
                 src={user?.photoURL || 'https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y'} 
                 alt="Profile" 
-                className="w-8 h-8 rounded-full border border-white/10" 
+                className="w-8 h-8 rounded-full border border-[#E2E8F8] dark:border-[#252D58]" 
               />
               <div className="hidden md:flex flex-col">
-                <span className="text-xs font-bold text-white leading-tight">
+                <span className="text-xs font-bold text-[#2D325A] dark:text-[#F0F4FF] leading-tight">
                   {user ? (user.displayName || user.email?.split('@')[0] || 'Authenticated User') : 'Guest User'}
                 </span>
                 <button 
                   onClick={handleSignOut}
-                  className="text-[10px] text-slate-500 hover:text-white text-left transition-colors font-medium tracking-wide uppercase mt-0.5"
+                  className="text-[10px] text-[#848DB3] hover:text-[#5268FF] text-left transition-colors font-medium tracking-wide uppercase mt-0.5"
                 >
                   Sign Out
                 </button>
@@ -187,41 +200,63 @@ function App() {
             </div>
           )}
           
-          <div className="flex items-center gap-2 bg-navy-900 border border-white/5 px-3 py-1.5 rounded-full">
+          <div className="flex items-center gap-2 bg-[#EEF2FF] dark:bg-[#151A36] border border-[#C7D4FF] dark:border-[#2B3566] px-3 py-1.5 rounded-full">
             <span className="relative flex h-2 w-2">
-              <span className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${isModelReady ? 'bg-blue-400' : 'bg-slate-500'}`}></span>
-              <span className={`relative inline-flex rounded-full h-2 w-2 ${isModelReady ? 'bg-blue-500' : 'bg-slate-500'}`}></span>
+              <span className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${isModelReady ? 'bg-[#5268FF]' : 'bg-[#848DB3]'}`}></span>
+              <span className={`relative inline-flex rounded-full h-2 w-2 ${isModelReady ? 'bg-[#5268FF]' : 'bg-[#848DB3]'}`}></span>
             </span>
-            <span className="text-[10px] font-bold text-slate-300 tracking-widest uppercase">
+            <span className="text-[10px] font-bold text-[#2D325A] dark:text-[#F0F4FF] tracking-widest uppercase">
               {isModelReady ? 'Engine Ready' : 'Initializing'}
             </span>
           </div>
           
-          <button 
+          <button
             onClick={() => setIsDarkMode(!isDarkMode)}
-            className="w-14 h-7 rounded-full bg-apple-border border border-apple-border relative flex items-center px-1 transition-all duration-500 focus:outline-none shadow-inner"
+            className="w-8 h-8 rounded-full bg-white dark:bg-[#151A36] border border-[#DCE6FA] dark:border-[#2B3566] flex items-center justify-center text-[#2D325A] dark:text-[#F0F4FF] hover:border-[#5268FF] transition-colors"
             aria-label="Toggle theme"
           >
-            <div className={`w-5 h-5 rounded-full bg-white flex items-center justify-center shadow-md transition-transform duration-500 ease-out ${!isDarkMode ? 'translate-x-7' : 'translate-x-0'}`}>
-              {isDarkMode ? (
-                <svg className="w-3 h-3 text-slate-800" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-                </svg>
-              ) : (
-                <svg className="w-3 h-3 text-yellow-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
-                </svg>
-              )}
-            </div>
+            {isDarkMode ? <Moon className="w-4 h-4" /> : <Sun className="w-4 h-4" />}
           </button>
         </div>
       </header>
+
+      {/* Mobile Bottom Tab Dock */}
+      {(user || isGuest) && (
+        <nav className="fixed bottom-0 inset-x-0 z-50 flex md:hidden items-center justify-around bg-white/90 dark:bg-[#11152B]/92 backdrop-blur-2xl border-t border-[#DCE6FA] dark:border-[#252D58] pb-[calc(0.5rem+env(safe-area-inset-bottom))] pt-1.5 px-2">
+          <button
+            onClick={() => setCurrentScreen(jobMatches.length > 0 ? 'results' : 'input')}
+            className={`flex flex-col items-center gap-0.5 px-3 py-1 rounded-xl min-h-[36px] ${currentScreen !== 'dashboard' ? 'text-[#5268FF]' : 'text-[#848DB3]'}`}
+          >
+            <Compass className="w-5 h-5" />
+            <span className="text-[10px] font-semibold">Match</span>
+          </button>
+          <button
+            onClick={() => setCurrentScreen('dashboard')}
+            className={`flex flex-col items-center gap-0.5 px-3 py-1 rounded-xl min-h-[36px] ${currentScreen === 'dashboard' ? 'text-[#5268FF]' : 'text-[#848DB3]'}`}
+          >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" /></svg>
+            <span className="text-[10px] font-semibold">Dashboard</span>
+          </button>
+          <button
+            onClick={() => setIsDarkMode(!isDarkMode)}
+            className={`flex flex-col items-center gap-0.5 px-3 py-1 rounded-xl min-h-[36px] text-[#848DB3]`}
+          >
+            {isDarkMode ? <Moon className="w-5 h-5" /> : <Sun className="w-5 h-5" />}
+            <span className="text-[10px] font-semibold">Theme</span>
+          </button>
+        </nav>
+      )}
 
       <main className="flex-grow flex flex-col relative z-10 w-full h-full p-4 sm:p-8">
         {!(user || isGuest) ? (
           <Login onSignIn={setUser} onGuest={() => setIsGuest(true)} />
         ) : (
-          <>
+          <Suspense fallback={
+            <div className="flex-grow flex flex-col items-center justify-center p-12">
+              <div className="w-10 h-10 border-2 border-[#E2E8F8] dark:border-[#252D58] border-t-[#5268FF] rounded-full animate-spin mb-4"></div>
+              <span className="text-xs font-semibold text-[#848DB3] dark:text-[#6E78A3] tracking-widest uppercase">Loading View...</span>
+            </div>
+          }>
             {currentScreen === 'input' && (
               <ProfileInput onNext={handleStartMatching} isModelReady={isModelReady} setUserProfile={setUserProfile} />
             )}
@@ -237,7 +272,7 @@ function App() {
             {currentScreen === 'dashboard' && (
               <Dashboard user={user} userProfile={userProfile} jobMatches={jobMatches} onBack={() => setCurrentScreen('results')} />
             )}
-          </>
+          </Suspense>
         )}
       </main>
     </div>
