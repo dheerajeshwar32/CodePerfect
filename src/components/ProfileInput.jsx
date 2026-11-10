@@ -109,34 +109,34 @@ export default function ProfileInput({ onNext, isModelReady }) {
 
   return (
     <div className="relative flex-grow w-full flex items-center justify-center p-4 sm:p-12 overflow-visible z-10">
-      <div className="relative z-10 bg-white/95 dark:bg-[#151A36]/95 backdrop-blur-xl rounded-[32px] border border-[#E2E8F8] dark:border-[#252D58] shadow-[0_12px_36px_-12px_rgba(45,50,90,0.07)] w-full max-w-3xl p-8 sm:p-12">
+      <div className="relative z-10 bg-white dark:bg-[#13182B] rounded-3xl border border-slate-200/80 dark:border-white/[0.08] shadow-sm w-full max-w-3xl p-8 sm:p-12">
         
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center px-4 py-1.5 mb-6 rounded-full bg-[#EEF2FF] dark:bg-[#151A36] border border-[#C7D4FF] dark:border-[#2B3566] text-[#5268FF]">
+          <div className="inline-flex items-center justify-center px-4 py-1.5 mb-6 rounded-full bg-[#EEF2FF] dark:bg-[#1E264D] border border-[#C7D4FF] dark:border-[#334185] text-[#5268FF]">
             <span className="relative flex h-2 w-2 mr-2">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#5268FF] opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2 w-2 bg-[#5268FF]"></span>
             </span>
             <span className="text-[10px] font-bold tracking-widest uppercase">AI Profiler Active</span>
           </div>
-          <h2 className="text-4xl md:text-5xl font-extrabold text-[#2D325A] dark:text-[#F0F4FF] tracking-tight mb-4">
+          <h2 className="text-4xl md:text-5xl font-extrabold text-[#1D1D1F] dark:text-white tracking-tight mb-4">
             Verify Your Skills
           </h2>
-          <p className="text-[#5A628A] dark:text-[#9BA6D1] font-normal text-lg max-w-lg mx-auto leading-relaxed">
+          <p className="text-[#6E6E73] dark:text-[#94A3B8] font-normal text-lg max-w-lg mx-auto leading-relaxed">
             Provide your data to match with top-tier career opportunities.
           </p>
         </div>
 
         {/* Custom Tabs */}
         {!uploadedFileName && !isExtracting && (
-          <div className="flex bg-[#EEF2FF] dark:bg-[#0E1229] p-1.5 rounded-2xl border border-[#DCE6FA] dark:border-[#252D58] mb-8">
-            <button onClick={() => setActiveTab('pdf')} className={`flex-1 flex items-center justify-center gap-2 py-3 text-sm font-medium rounded-xl transition-colors ${activeTab === 'pdf' ? 'bg-white dark:bg-[#1B2244] text-[#2D325A] dark:text-[#F0F4FF] font-semibold shadow-sm border border-[#5268FF]/15' : 'text-[#5A628A] dark:text-[#9BA6D1]'}`}>
+          <div className="flex bg-slate-100 dark:bg-[#0B0F19] p-1.5 rounded-2xl border border-slate-200/80 dark:border-white/[0.08] mb-8">
+            <button onClick={() => setActiveTab('pdf')} className={`flex-1 flex items-center justify-center gap-2 py-3 text-sm font-medium rounded-xl transition-colors cursor-pointer ${activeTab === 'pdf' ? 'bg-white dark:bg-[#151A30] text-[#1D1D1F] dark:text-white font-semibold shadow-xs border border-slate-200/60 dark:border-white/[0.08]' : 'text-[#6E6E73] dark:text-[#94A3B8] hover:text-[#1D1D1F] dark:hover:text-white'}`}>
               <FileText className="w-4 h-4" /> Upload PDF
             </button>
-            <button onClick={() => setActiveTab('github')} className={`flex-1 flex items-center justify-center gap-2 py-3 text-sm font-medium rounded-xl transition-colors ${activeTab === 'github' ? 'bg-white dark:bg-[#1B2244] text-[#2D325A] dark:text-[#F0F4FF] font-semibold shadow-sm border border-[#5268FF]/15' : 'text-[#5A628A] dark:text-[#9BA6D1]'}`}>
+            <button onClick={() => setActiveTab('github')} className={`flex-1 flex items-center justify-center gap-2 py-3 text-sm font-medium rounded-xl transition-colors cursor-pointer ${activeTab === 'github' ? 'bg-white dark:bg-[#151A30] text-[#1D1D1F] dark:text-white font-semibold shadow-xs border border-slate-200/60 dark:border-white/[0.08]' : 'text-[#6E6E73] dark:text-[#94A3B8] hover:text-[#1D1D1F] dark:hover:text-white'}`}>
               <Github className="w-4 h-4" /> GitHub Proof
             </button>
-            <button onClick={() => setActiveTab('manual')} className={`flex-1 flex items-center justify-center gap-2 py-3 text-sm font-medium rounded-xl transition-colors ${activeTab === 'manual' ? 'bg-white dark:bg-[#1B2244] text-[#2D325A] dark:text-[#F0F4FF] font-semibold shadow-sm border border-[#5268FF]/15' : 'text-[#5A628A] dark:text-[#9BA6D1]'}`}>
+            <button onClick={() => setActiveTab('manual')} className={`flex-1 flex items-center justify-center gap-2 py-3 text-sm font-medium rounded-xl transition-colors cursor-pointer ${activeTab === 'manual' ? 'bg-white dark:bg-[#151A30] text-[#1D1D1F] dark:text-white font-semibold shadow-xs border border-slate-200/60 dark:border-white/[0.08]' : 'text-[#6E6E73] dark:text-[#94A3B8] hover:text-[#1D1D1F] dark:hover:text-white'}`}>
               <Keyboard className="w-4 h-4" /> Type Manually
             </button>
           </div>
@@ -201,14 +201,14 @@ export default function ProfileInput({ onNext, isModelReady }) {
             )}
 
             {activeTab === 'github' && (
-              <div className="w-full flex flex-col h-48 border border-[#E2E8F8] dark:border-[#252D58] rounded-[24px] bg-[#F4F7FF] dark:bg-[#11152B] p-8">
-                <label className="text-[#2D325A] dark:text-[#F0F4FF] font-medium mb-3">GitHub Username</label>
+              <div className="w-full flex flex-col h-48 border border-slate-200/80 dark:border-white/[0.08] rounded-2xl bg-slate-50 dark:bg-[#0B0F19] p-6 sm:p-8">
+                <label className="text-[#1D1D1F] dark:text-white font-medium mb-3">GitHub Username</label>
                 <div className="flex gap-3">
                   <div className="relative flex-1">
-                    <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[#848DB3]">github.com/</span>
+                    <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[#86868B] dark:text-[#94A3B8]">github.com/</span>
                     <input 
                       type="text"
-                      className="w-full bg-[#F6F8FC] dark:bg-[#0E1229] border border-[#E2E8F8] dark:border-[#252D58] rounded-xl py-4 pl-[100px] pr-4 text-[#2D325A] dark:text-[#F0F4FF] text-base md:text-sm focus:outline-none focus:border-[#5268FF]/50"
+                      className="w-full bg-white dark:bg-[#13182B] border border-slate-200/80 dark:border-white/[0.08] rounded-xl py-3.5 pl-[105px] pr-4 text-[#1D1D1F] dark:text-white text-base md:text-sm focus:outline-none focus:border-[#5268FF]/50"
                       placeholder="username"
                       value={githubUsername}
                       onChange={(e) => setGithubUsername(e.target.value)}
@@ -218,13 +218,13 @@ export default function ProfileInput({ onNext, isModelReady }) {
                   <button 
                     onClick={handleScanGithub}
                     disabled={!githubUsername}
-                    className="bg-[#EEF2FF] dark:bg-[#1E264D] hover:bg-[#E0E7FF] text-[#5268FF] border border-[#C7D4FF] dark:border-[#334185] font-medium px-6 rounded-xl transition-colors disabled:opacity-50"
+                    className="bg-[#EEF2FF] dark:bg-[#1E264D] hover:bg-[#E0E7FF] text-[#5268FF] border border-[#C7D4FF] dark:border-[#334185] font-semibold px-6 rounded-xl transition-colors disabled:opacity-50 cursor-pointer text-sm"
                   >
                     Scan
                   </button>
                 </div>
-                {githubError && <p className="text-red-400 text-sm mt-4">{githubError}</p>}
-                <p className="text-[#848DB3] text-sm mt-4 font-normal">
+                {githubError && <p className="text-red-500 text-sm mt-3">{githubError}</p>}
+                <p className="text-[#86868B] dark:text-[#94A3B8] text-xs mt-3 font-normal">
                   We instantly scan your public repositories to build a mathematically backed Proof-of-Work profile.
                 </p>
               </div>
@@ -232,7 +232,7 @@ export default function ProfileInput({ onNext, isModelReady }) {
 
             {activeTab === 'manual' && (
               <textarea
-                className="w-full h-48 p-6 bg-[#F4F7FF] dark:bg-[#11152B] border border-[#E2E8F8] dark:border-[#252D58] rounded-[24px] text-[#2D325A] dark:text-[#F0F4FF] placeholder-[#848DB3] focus:outline-none focus:border-[#5268FF]/50 transition-colors resize-none text-base font-normal shadow-sm"
+                className="w-full h-48 p-6 bg-slate-50 dark:bg-[#0B0F19] border border-slate-200/80 dark:border-white/[0.08] rounded-2xl text-[#1D1D1F] dark:text-white placeholder-[#86868B] dark:placeholder-[#94A3B8] focus:outline-none focus:border-[#5268FF]/50 transition-colors resize-none text-base md:text-sm font-normal shadow-xs"
                 placeholder="e.g. JavaScript, React, Python, Data Analysis..."
                 value={skills}
                 onChange={(e) => setSkills(e.target.value)}

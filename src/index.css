@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap');
+@custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
   --color-navy-900: var(--theme-navy-900);
@@ -15,27 +16,10 @@
 }
 
 :root {
-  /* DARK MODE - Deep Navy Design System */
-  --theme-navy-950: #0E1229;
-  --theme-navy-900: rgba(21, 26, 54, 0.95);
-  --theme-white: #F0F4FF;
-  --theme-slate-300: #9BA6D1;
-  --theme-slate-400: #6E78A3;
-  --theme-slate-500: #848DB3;
-  
-  --theme-card-border: rgba(37, 45, 88, 0.8);
-  --theme-card-shadow: 0 10px 35px -10px rgba(45,50,90,0.06);
-  --theme-card-shadow-hover: 0 16px 40px -10px rgba(45,50,90,0.1);
-  
-  --bg-gradient: radial-gradient(circle at 15% 50%, rgba(82,104,255,0.08), transparent 25%),
-                 radial-gradient(circle at 85% 30%, rgba(82,104,255,0.06), transparent 25%);
-}
-
-:root.light {
-  /* LIGHT MODE - Periwinkle Frost Design System */
-  --theme-navy-950: #F6F8FC;
+  /* LIGHT MODE (DEFAULT) - Clean Apple-grade Canvas */
+  --theme-navy-950: #F5F7FA;
   --theme-navy-900: rgba(255, 255, 255, 0.95);
-  --theme-white: #2D325A;
+  --theme-white: #1D1D1F;
   --theme-slate-300: #5A628A;
   --theme-slate-400: #848DB3;
   --theme-slate-500: #6E78A3;
@@ -48,12 +32,38 @@
                  radial-gradient(circle at 85% 30%, rgba(82,104,255,0.03), transparent 25%);
 }
 
+html.dark, :root.dark {
+  /* DARK MODE - Deep Midnight Space */
+  --theme-navy-950: #0B0F19;
+  --theme-navy-900: rgba(19, 24, 43, 0.95);
+  --theme-white: #F0F4FF;
+  --theme-slate-300: #9BA6D1;
+  --theme-slate-400: #6E78A3;
+  --theme-slate-500: #848DB3;
+  
+  --theme-card-border: rgba(255, 255, 255, 0.08);
+  --theme-card-shadow: 0 10px 35px -10px rgba(0,0,0,0.4);
+  --theme-card-shadow-hover: 0 16px 40px -10px rgba(0,0,0,0.6);
+  
+  --bg-gradient: radial-gradient(circle at 15% 50%, rgba(82,104,255,0.08), transparent 25%),
+                 radial-gradient(circle at 85% 30%, rgba(82,104,255,0.06), transparent 25%);
+}
+
+html, body, #root {
+  background-color: #F5F7FA;
+  color: #1D1D1F;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+html.dark, html.dark body, html.dark #root {
+  background-color: #0B0F19;
+  color: #F0F4FF;
+}
+
 body {
   font-family: 'Outfit', sans-serif;
-  background-color: var(--theme-navy-950);
   background-image: var(--bg-gradient);
   background-attachment: fixed;
-  color: var(--theme-white);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
